@@ -1,4 +1,4 @@
-package br.com.cursojsf.servlet;
+package br.com.grrecurso.servlet;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.ejb.login.LoginBean;
-import br.com.cursojsf.entities.UserBean;
-import br.com.cursojsf.entities.Usuario;
-import br.com.cursojsf.util.WebUtil;
+import br.com.grrecurso.ejb.login.LoginBean;
+import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.util.WebUtil;
 
 @WebServlet(urlPatterns="/autenticar")
 public class ServletAutenticacao extends HttpServlet {
@@ -37,7 +37,7 @@ public class ServletAutenticacao extends HttpServlet {
 				 HttpSession session = req.getSession(true);
 				 UserBean userBean = new UserBean(usuario);				 
 				 WebUtil.cacheSession(userBean, session, true);
-				 resp.sendRedirect(req.getContextPath() + "/home.curso");
+				 resp.sendRedirect(req.getContextPath() + "/home.jsf");
 			} else {				
 				resp.sendRedirect(req.getContextPath() + "/index.jsp?mensagem=" + URLEncoder.encode("E-mail ou senha inválida!", "UTF-8"));
 			}

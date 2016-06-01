@@ -1,20 +1,31 @@
-package br.com.cursojsf.entities;
+package br.com.grrecurso.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
+
+import br.com.grrecurso.enumerator.DominioAtivoInativo;
 
 @Entity
 @Table(name="usuario")
@@ -34,6 +45,8 @@ public class Usuario implements Serializable {
 	private String email;
 	private String senha;
 	private Date dataLogin;
+	private DominioAtivoInativo status;
+	private List<PerfilUsuario> perfis;
 	
 	public Usuario(){
 		
@@ -86,6 +99,29 @@ public class Usuario implements Serializable {
 
 	public void setDataLogin(Date dataLogin) {
 		this.dataLogin = dataLogin;
+	}
+
+	@Column(name="status")
+	@Enumerated(EnumType.ORDINAL)
+	public DominioAtivoInativo getStatus() {
+		return status;
+	}
+
+	public void setStatus(DominioAtivoInativo status) {
+		this.status = status;
+	}
+
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="usuario_perfil_usuario", 
+		joinColumns= {@JoinColumn(name="id_usuario")},
+		inverseJoinColumns= {@JoinColumn(name="id_perfil_usuario")}
+	)
+	public List<PerfilUsuario> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<PerfilUsuario> perfis) {
+		this.perfis = perfis;
 	}
 
 	@Override

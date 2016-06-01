@@ -1,4 +1,4 @@
-package br.com.cursojsf.ejb.login;
+package br.com.grrecurso.ejb.login;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.cursojsf.entities.Usuario;
+import br.com.grrecurso.entities.Usuario;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
@@ -24,7 +24,7 @@ public class UsuarioBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4344896204368371422L;
-	@PersistenceContext(unitName="inventario")
+	@PersistenceContext(unitName="grrecurso")
 	private EntityManager em;
 	
 	@SuppressWarnings("unchecked")

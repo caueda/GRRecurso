@@ -1,4 +1,4 @@
-package br.com.cursojsf.managed;
+package br.com.grrecurso.managed;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 
-import br.com.cursojsf.ejb.login.UsuarioBean;
-import br.com.cursojsf.entities.Usuario;
+import br.com.grrecurso.ejb.login.UsuarioBean;
+import br.com.grrecurso.entities.Usuario;
 
 @Named
 @javax.enterprise.context.RequestScoped
-@URLMapping(id="user", pattern="/app/usuario", viewId="/application/user/usuario.curso")
+@URLMapping(id="user", pattern="/app/usuario", viewId="/application/user/usuario.jsf")
 public class UsuarioAction extends AbstractManagedBean {	
 	private Usuario usuario;
 	private List<Usuario> listaUsuarios;

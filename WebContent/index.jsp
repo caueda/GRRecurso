@@ -13,7 +13,7 @@
   <script src="resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
   <script src="resources/jQuery/validate-1.1.2/jquery.validate.min.js"></script>
   
-  <title>Login Inventário</title>
+  <title>GRRecurso</title>
   <link rel="stylesheet" href="resources/login/css/style.css">
   <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.css">
   <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css">

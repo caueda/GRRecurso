@@ -36,6 +36,9 @@
 					<p:column headerText="E-mail">
 						<h:outputText value="#{user.email}"/>
 					</p:column>
+					<p:column headerText="Status">
+						<h:outputText value="#{user.status.desc}"/>
+					</p:column>
 				</p:dataTable>
 			</p:panel>				
 			

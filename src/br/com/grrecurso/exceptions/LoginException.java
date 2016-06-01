@@ -1,4 +1,4 @@
-package br.com.cursojsf.exceptions;
+package br.com.grrecurso.exceptions;
 
 import javax.servlet.ServletException;
 

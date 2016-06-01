@@ -1,4 +1,4 @@
-package br.com.cursojsf.managed;
+package br.com.grrecurso.managed;
 
 
 import java.io.Serializable;
@@ -10,9 +10,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.ejb.login.LoginBean;
-import br.com.cursojsf.entities.UserBean;
-import br.com.cursojsf.entities.Usuario;
+import br.com.grrecurso.ejb.login.LoginBean;
+import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.entities.Usuario;
 
 @Named("loginAction")
 @ViewScoped

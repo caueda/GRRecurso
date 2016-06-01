@@ -1,4 +1,4 @@
-package br.com.cursojsf.servlet;
+package br.com.grrecurso.servlet;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.entities.UserBean;
-import br.com.cursojsf.util.WebUtil;
+import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.util.WebUtil;
 
 @WebServlet(urlPatterns="/deslogar")
 public class ServletDeslogar extends HttpServlet {

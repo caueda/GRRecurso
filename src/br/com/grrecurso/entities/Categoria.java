@@ -1,4 +1,4 @@
-package br.com.cursojsf.entities;
+package br.com.grrecurso.entities;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public class Categoria implements Serializable {
 	public Categoria(){}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_categoria")
 	public Long getIdCategoria() {
 		return idCategoria;

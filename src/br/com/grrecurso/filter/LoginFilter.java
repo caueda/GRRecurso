@@ -1,4 +1,4 @@
-package br.com.cursojsf.filter;
+package br.com.grrecurso.filter;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.entities.UserBean;
+import br.com.grrecurso.entities.UserBean;
 
 /**
  * Servlet Filter implementation class LoginFilter
@@ -73,14 +73,14 @@ public class LoginFilter implements Filter {
 	    	res.sendRedirect(req.getContextPath() + "/index.jsp");
 	    } else if(path.contains("autenticar") || path.contains("index.jsp")){
 	    	if(login != null){
-	    		res.sendRedirect(req.getContextPath() + "/home.curso");
+	    		res.sendRedirect(req.getContextPath() + "/home.jsf");
 	    	} else
 	    		chain.doFilter(request, response);
 	    } else {
 	    	if(login != null && path.contains("deslogar"))
 	    		chain.doFilter(request, response);
 	    	else if(login != null && path.equals("/")){
-	    		res.sendRedirect(req.getContextPath() + "/home.curso");
+	    		res.sendRedirect(req.getContextPath() + "/home.jsf");
 	    	} else {
 	    		chain.doFilter(request, response);
 	    	}

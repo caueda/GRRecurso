@@ -1,4 +1,4 @@
-package br.com.cursojsf.util;
+package br.com.grrecurso.util;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.entities.UserBean;
+import br.com.grrecurso.entities.UserBean;
 
 public class WebUtil {
 	public static void cacheSession(UserBean userBean, HttpSession session, boolean onlyOneSessionPerUser) {

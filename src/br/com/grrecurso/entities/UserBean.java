@@ -1,4 +1,4 @@
-package br.com.cursojsf.entities;
+package br.com.grrecurso.entities;
 
 import java.io.Serializable;
 import java.util.Date;

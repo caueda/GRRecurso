@@ -1,4 +1,4 @@
-package br.com.cursojsf.managed;
+package br.com.grrecurso.managed;
 
 import java.io.Serializable;
 

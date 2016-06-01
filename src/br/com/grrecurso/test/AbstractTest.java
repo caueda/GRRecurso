@@ -1,4 +1,4 @@
-package br.com.cursojsf.test;
+package br.com.grrecurso.test;
 
 import java.io.File;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 
-import br.com.cursojsf.ejb.login.LoginBean;
-import br.com.cursojsf.entities.Usuario;
+import br.com.grrecurso.ejb.login.LoginBean;
+import br.com.grrecurso.entities.Usuario;
 
 
 public class AbstractTest {

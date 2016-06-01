@@ -1,4 +1,4 @@
-package br.com.cursojsf.managed;
+package br.com.grrecurso.managed;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.cursojsf.entities.UserBean;
+import br.com.grrecurso.entities.UserBean;
 
 @SuppressWarnings("unchecked")
 public class AbstractManagedBean {	
