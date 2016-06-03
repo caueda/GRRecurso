@@ -15,12 +15,12 @@
 				
 				<comp:inputText id="nome" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
-				<comp:inputText id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" requiredMessage="A senha é obrigatória." placeholder="******"/>
+				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" requiredMessage="A senha é obrigatória." placeholder="******"/>
 				<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
 					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemDescription="#{item.desc}"/>
 				</comp:inputSelectOneMenu>				
 				<br/>
-				<p:commandButton value="Incluir" action="#{usuarioAction.incluir}" process="panelUser" update="table"/>
+				<p:commandButton value="Incluir" action="#{usuarioAction.incluir}" process="panelUser" update="panelUser,table"/>
 			</p:panel>		    
 			
 			<p:panel id="table" header="Filtro de Pesquisa">

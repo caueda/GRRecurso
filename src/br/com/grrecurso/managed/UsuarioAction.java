@@ -52,8 +52,7 @@ public class UsuarioAction extends AbstractManagedBean {
 	}
 	
 	public void incluir() {
-		try {
-			usuario.setStatus(DominioAtivoInativo.ATIVO);
+		try {			
 			usuarioBean.saveOrUpdate(this.usuario);			
 			incluirInfo("Usuário incluído com sucesso.");
 			setUsuario(new Usuario());
