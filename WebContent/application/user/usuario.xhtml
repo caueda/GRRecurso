@@ -17,7 +17,7 @@
 				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
 				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" requiredMessage="A senha é obrigatória." placeholder="******"/>
 				<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
-					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemDescription="#{item.desc}"/>
+					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
 				</comp:inputSelectOneMenu>				
 				<br/>
 				<p:commandButton value="Incluir" action="#{usuarioAction.incluir}" process="panelUser" update="panelUser,table"/>
@@ -32,10 +32,10 @@
 					<p:column headerText="ID" width="10%">
 						<h:outputText value="#{user.idUsuario}"/>
 					</p:column>
-					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains">
+					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains" footerText="contains">
 						<h:outputText value="#{user.nome}"/>
 					</p:column>
-					<p:column headerText="E-mail">
+					<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">
 						<h:outputText value="#{user.email}"/>
 					</p:column>
 					<p:column headerText="Status">
