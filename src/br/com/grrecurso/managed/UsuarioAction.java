@@ -9,6 +9,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 
 import br.com.grrecurso.ejb.login.UsuarioBean;
 import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.enumerator.DominioAtivoInativo;
 
 @Named
 @javax.enterprise.context.RequestScoped
@@ -48,6 +49,7 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	public void incluir() {
 		try {
+			usuario.setStatus(DominioAtivoInativo.ATIVO);
 			usuarioBean.saveOrUpdate(this.usuario);			
 			incluirInfo("Usuário incluído com sucesso.");
 			setUsuario(new Usuario());

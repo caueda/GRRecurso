@@ -24,8 +24,8 @@ public class ServletAutenticacao extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -1997026148543236463L;
 
-	@Inject
-	private LoginBean loginBean;
+	@Inject private LoginBean loginBean;
+	@Inject private UserBean userBean;
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class ServletAutenticacao extends HttpServlet {
 			Usuario usuario = loginBean.autenticar(login, senha);
 			if(usuario != null){				
 				 HttpSession session = req.getSession(true);
-				 UserBean userBean = new UserBean(usuario);				 
+				 userBean.setUsuario(usuario);				 
 				 WebUtil.cacheSession(userBean, session, true);
 				 resp.sendRedirect(req.getContextPath() + "/home.jsf");
 			} else {				

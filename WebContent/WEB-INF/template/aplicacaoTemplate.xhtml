@@ -34,14 +34,17 @@
 	     		<p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messageMonitor" />
 		    </p:idleMonitor>	
 		    
-		    <p:menubar>
+		    <p:menubar>		    	
 		        <p:submenu label="Usuário">
 		            <p:menuitem value="Manter" outcome="pretty:user"  ajax="true" icon="ui-icon-close"/>
 		        </p:submenu>
 		        <p:submenu label="Sistema">
 		        	<p:menuitem value="Logout" url="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/deslogar"/>
 		        </p:submenu>
-		    </p:menubar>
+		        <f:facet name="options">
+		        	<h:outputLabel value="#{userBean.userBeanInfo}"/>
+		        </f:facet>		        
+		    </p:menubar>		    
 		</h:form>
 				
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>

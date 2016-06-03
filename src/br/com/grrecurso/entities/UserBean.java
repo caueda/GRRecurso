@@ -1,10 +1,16 @@
 package br.com.grrecurso.entities;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
+@Named
+@SessionScoped
 public class UserBean implements Serializable {
 	
 	/**
@@ -13,13 +19,27 @@ public class UserBean implements Serializable {
 	private static final long serialVersionUID = 6578024700988412636L;
 	
 	public static final String USER_LOGGED = "userLogged";
-	
 	private Long idUsuario;
+	private String nome;
 	private String email;
 	private Date dataLogin;
 	
+	public UserBean() {
+		super();
+	}
+	
 	public UserBean(Usuario usuario) {
 		this.idUsuario = usuario.getIdUsuario();
+		this.email = usuario.getEmail();
+		this.dataLogin = usuario.getDataLogin();
+	}
+	
+	public void setUsuario(Usuario usuario) throws IllegalArgumentException {
+		if(usuario == null) {
+			throw new IllegalArgumentException("O Parâmetro usuário não pode ser null.");
+		}
+		this.idUsuario = usuario.getIdUsuario();
+		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
 		this.dataLogin = usuario.getDataLogin();
 	}
@@ -30,6 +50,14 @@ public class UserBean implements Serializable {
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getEmail() {
@@ -52,6 +80,11 @@ public class UserBean implements Serializable {
 		return StringUtils.leftPad(getIdUsuario().toString(),10,'0') + "-" + getEmail();
 	}
 
+	public String getUserBeanInfo() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		return getNome() + " - logado " + sdf.format(getDataLogin());
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
