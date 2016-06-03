@@ -77,6 +77,7 @@ public class AbstractManagedBean {
 		return "http://" + req.getLocalAddr() + ":" + req.getLocalPort() + req.getContextPath() + "/";
 	}
 	
+	@SuppressWarnings("unused")
 	public String isUsuarioLogado(HttpSession session) {
 		String loginPage = "login";
 		if(session == null) {

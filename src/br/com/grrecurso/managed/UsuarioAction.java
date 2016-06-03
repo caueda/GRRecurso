@@ -45,8 +45,12 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	public void setListaUsuariosFiltrados(List<Usuario> listaUsuariosFiltrados) {
 		this.listaUsuariosFiltrados = listaUsuariosFiltrados;
+	}	
+	
+	public DominioAtivoInativo[] getListaStatus() {
+		return DominioAtivoInativo.values();
 	}
-
+	
 	public void incluir() {
 		try {
 			usuario.setStatus(DominioAtivoInativo.ATIVO);
