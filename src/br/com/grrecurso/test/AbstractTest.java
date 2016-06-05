@@ -11,6 +11,7 @@ import br.com.grrecurso.ejb.login.LoginBean;
 import br.com.grrecurso.entities.Usuario;
 
 
+@SuppressWarnings(value="all")
 public class AbstractTest {
 	/**
 	 * 

@@ -37,7 +37,7 @@ public class UsuarioBean implements Serializable {
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Usuario saveOrUpdate(Usuario usuario) {
-		em.persist(usuario);
+		em.merge(usuario);
 		return usuario;
 	}	
 	

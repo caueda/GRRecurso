@@ -15,11 +15,13 @@
 		<cc:attribute name="required"/>
 		<cc:attribute name="placeholder"/>
 		<cc:attribute name="requiredMessage"/>
+		<cc:attribute name="readonly"/>
 	</cc:interface>
 	
 	<cc:implementation>
-		<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}"/>		
-		<p:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" 
+		<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}"/>
+				
+		<p:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" readonly="#{readonly}" 
 			requiredMessage="#{cc.attrs.requiredMessage}" placeholder="#{cc.attrs.placeholder}"/>				
 	</cc:implementation>
 </html>

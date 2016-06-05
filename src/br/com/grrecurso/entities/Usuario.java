@@ -45,6 +45,7 @@ public class Usuario implements Serializable {
 	private Date dataLogin;
 	private DominioAtivoInativo status;
 	private List<PerfilUsuario> perfis;
+	private boolean edicao;
 	
 	public Usuario(){
 		
@@ -120,6 +121,14 @@ public class Usuario implements Serializable {
 
 	public void setPerfis(List<PerfilUsuario> perfis) {
 		this.perfis = perfis;
+	}
+
+	public boolean isEdicao() {
+		return edicao;
+	}
+
+	public void setEdicao(boolean edicao) {
+		this.edicao = edicao;
 	}
 
 	@Override
