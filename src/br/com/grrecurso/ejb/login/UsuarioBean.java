@@ -13,6 +13,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.grrecurso.entities.Usuario;
 
@@ -45,24 +48,26 @@ public class UsuarioBean implements Serializable {
 		return (Usuario)query.getSingleResult();
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void alterarSenha(Long idUsuario, String novaSenha){
+		Usuario usuario = loadById(idUsuario);
+		usuario.setSenha(novaSenha);
+	}
+	
+	@SuppressWarnings("unchecked")
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Usuario> list(Usuario usuarioPesquisa){
-		StringBuilder sql = new StringBuilder("select vo from " + Usuario.class.getName() + " vo where 1=1 ");
+		Session session = (Session)em.getDelegate();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		
 		if(StringUtils.isNotBlank(usuarioPesquisa.getNome())) {
-			sql.append(" and lower(vo.nome) like lower(:nome) ");
+			criteria.add(Restrictions.like("nome", usuarioPesquisa.getNome()));
 		} 
 		if(StringUtils.isNotBlank(usuarioPesquisa.getEmail())) {
-			sql.append(" and lower(vo.email) = lower(:email) ");
-		}
-		Query query = em.createQuery(sql.toString());
-		if(StringUtils.isNotBlank(usuarioPesquisa.getNome())) {
-			query.setParameter("nome", usuarioPesquisa.getNome());
-		} 
-		if(StringUtils.isNotBlank(usuarioPesquisa.getEmail())) {
-			query.setParameter("email", usuarioPesquisa.getEmail());
+			criteria.add(Restrictions.like("email", usuarioPesquisa.getEmail()));
 		}
 		
-		return (List<Usuario>)query.getResultList();
+		return (List<Usuario>)criteria.list();
 	}
 }
 

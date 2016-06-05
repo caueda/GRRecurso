@@ -13,11 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 @SessionScoped
 public class UserBean implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6578024700988412636L;
-	
+	private static final long serialVersionUID = -112805847748847144L;
 	public static final String USER_LOGGED = "userLogged";
 	private Long idUsuario;
 	private String nome;

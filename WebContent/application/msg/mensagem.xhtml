@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
+				
+		<ui:define name="titulo">GRRecurso</ui:define>
+		
+		<ui:define name="aplicacao">
+			<p:panel id="panelMessage" menuTitle="Mensagem">	
+				<h:outputText value="Ação concluída com sucesso!" />
+				<br/>
+				<p:commandButton action="/home.jsf" value="OK"/>				
+			</p:panel>		    
+			
+		</ui:define>
+		
+</ui:composition>
+</html>
