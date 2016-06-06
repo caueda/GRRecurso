@@ -3,14 +3,12 @@ package br.com.grrecurso.util;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.ocpsoft.logging.Logger;
 
 import br.com.grrecurso.entities.UserBean;
 
@@ -31,6 +29,10 @@ public class WebUtil {
 		}
 		
 		cacheSessions.add(session);
+	}
+	
+	public static Logger getLogger(Class clazz){
+		return Logger.getLogger(clazz);
 	}
 	
 	public static void logout(UserBean userBean, HttpSession session, boolean allSessions) throws IOException {	

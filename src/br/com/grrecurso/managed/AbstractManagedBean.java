@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +18,8 @@ import javax.servlet.http.HttpSession;
 import br.com.grrecurso.entities.UserBean;
 
 @SuppressWarnings("unchecked")
-public class AbstractManagedBean {	
+public class AbstractManagedBean {
+	
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
@@ -41,6 +44,24 @@ public class AbstractManagedBean {
 	
 	public String redirect(String url) {
 		return url + "?faces-redirect=true";
+	}
+	
+	public String redirectWithViewParameters(String url){
+		return redirect(url) + "&includeViewParams=true89";
+	}
+	
+	public Object getAttribute(ActionEvent evt, String attributeName){
+		return evt.getComponent().getAttributes().get(attributeName);
+	}
+	
+	public void addAttributeToFlash(String name, Object value){
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.put(name, value);
+	}
+	
+	public Object getAttributeFromFlash(String name){
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		return flash.get(name);
 	}
 	
 	protected String logout(UserBean userBean, HttpSession session, boolean allSessions) throws IOException {		
