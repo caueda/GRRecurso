@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
+				
+		<ui:define name="titulo">GRRecurso</ui:define>
+		
+		<ui:define name="aplicacao">   
+			<p:panel id="table" header="Filtro de Pesquisa">
+				<p:outputLabel for="nomePesquisa" value="Nome"/>
+				<p:inputText id="nomePesquisa" value="#{usuarioPesquisaAction.usuario.nome}"/>
+				<p:outputLabel for="emailPesquisa" value="E-mail"/>
+				<p:inputText id="emailPesquisa" value="#{usuarioPesquisaAction.usuario.email}"/>
+				<br/>
+				
+				<p:commandButton value="Consultar" action="#{usuarioPesquisaAction.consultar}" process="table" update="table"/>
+				<p:dataTable value="#{usuarioPesquisaAction.listaUsuarios}" var="user" emptyMessage="Nenhum usuário encontrado." widgetVar="usersTable">
+					<p:column headerText="ID" width="10%">
+						<h:outputText value="#{user.idUsuario}"/>
+					</p:column>
+					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains">
+						<h:outputText value="#{user.nome}"/>
+					</p:column>
+					<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">
+						<h:outputText value="#{user.email}"/>
+					</p:column>
+					<p:column headerText="Status" filterBy="#{user.status.desc}">
+						<f:facet name="filter">
+							<p:selectOneButton onchange="PF('usersTable').filter()">
+								<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
+							</p:selectOneButton>
+						</f:facet>
+						<h:outputText value="#{user.status.desc}"/>
+					</p:column>
+					<p:column headerText="Editar">
+						<h:link value="Editar" outcome="pretty:user">
+							<f:param name="idUsuario" value="#{user.idUsuario}"/>	
+						</h:link>						
+					</p:column>
+				</p:dataTable>
+			</p:panel>				
+		</ui:define>
+		
+</ui:composition>
+</html>

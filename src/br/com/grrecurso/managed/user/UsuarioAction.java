@@ -1,10 +1,9 @@
-package br.com.grrecurso.managed;
+package br.com.grrecurso.managed.user;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -13,9 +12,10 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import br.com.grrecurso.ejb.login.UsuarioBean;
 import br.com.grrecurso.entities.Usuario;
 import br.com.grrecurso.enumerator.DominioAtivoInativo;
+import br.com.grrecurso.managed.AbstractManagedBean;
 
 @Named
-@ViewScoped
+@RequestScoped
 
 @URLMappings( mappings= {
 		@URLMapping(id="user", pattern="/app/usuario", viewId="/application/user/usuario.jsf"),
@@ -29,9 +29,6 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 7537013458287313484L;
 	private Usuario usuario;
-	private Usuario usuarioPesquisa;
-	private List<Usuario> listaUsuarios;
-	private List<Usuario> listaUsuariosFiltrados;
 	private String senhaAtual;
 	private String novaSenha1;
 	private String novaSenha2;
@@ -45,22 +42,6 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 		return "";
 	}
 	
-	public void consultar() {
-		setListaUsuarios(usuarioBean.list(getUsuarioPesquisa()));
-	}
-	
-
-	public Usuario getUsuarioPesquisa() {
-		if(this.usuarioPesquisa == null){
-			setUsuarioPesquisa(new Usuario());
-		}
-		return usuarioPesquisa;
-	}
-
-	public void setUsuarioPesquisa(Usuario usuarioPesquisa) {
-		this.usuarioPesquisa = usuarioPesquisa;
-	}
-
 	public String getSenhaAtual() {
 		return senhaAtual;
 	}
@@ -84,22 +65,6 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 	public void setNovaSenha2(String novaSenha2) {
 		this.novaSenha2 = novaSenha2;
 	}
-
-	public List<Usuario> getListaUsuarios() {
-		return listaUsuarios;
-	}
-
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
-	}
-	
-	public List<Usuario> getListaUsuariosFiltrados() {
-		return listaUsuariosFiltrados;
-	}
-
-	public void setListaUsuariosFiltrados(List<Usuario> listaUsuariosFiltrados) {
-		this.listaUsuariosFiltrados = listaUsuariosFiltrados;
-	}	
 	
 	public Long getIdUsuario() {
 		return idUsuario;
@@ -107,17 +72,21 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
-		if(idUsuario != null){
-			setUsuario(usuarioBean.loadById(idUsuario));
-		}
 	}
 
 	public DominioAtivoInativo[] getListaStatus() {
 		return DominioAtivoInativo.values();
 	}
 	
+	public void exibirEdicao(){
+		if(this.idUsuario != null){
+			setUsuario(usuarioBean.loadById(idUsuario));
+		}
+	}
+	
 	public String alterarSenha(){
 		try {
+			usuario = usuarioBean.loadById(getIdUsuario());
 			if(!getSenhaAtual().equals(getUsuario().getSenha())){
 				incluirError("A senha atual não confere.");
 				return "";
@@ -139,11 +108,9 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 	
 	public void incluir() {
 		try {		
-			
 			usuarioBean.saveOrUpdate(this.usuario);			
 			incluirInfo("Usuário incluído com sucesso.");
 			setUsuario(new Usuario());
-			consultar();
 		} catch(Exception e) {
 			e.printStackTrace();
 			incluirError("Erro ao incluir usuário.", e.getMessage());

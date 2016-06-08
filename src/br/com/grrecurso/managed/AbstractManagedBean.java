@@ -19,7 +19,6 @@ import br.com.grrecurso.entities.UserBean;
 
 @SuppressWarnings("unchecked")
 public class AbstractManagedBean {
-	
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
@@ -41,7 +40,7 @@ public class AbstractManagedBean {
 		
 		cacheSessions.add(session);
 	}
-	
+
 	public String redirect(String url) {
 		return url + "?faces-redirect=true";
 	}
