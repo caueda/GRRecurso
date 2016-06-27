@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
@@ -47,10 +48,10 @@
 	function validate(){
 		var msg = $("#messageDialog");
 		var message = "";
-		if($("#login").val() == ""){
+		if($("#username").val() == ""){
 			message += "<li>O login é obrigatório.</li>";
 		}
-		if($("#senha").val() == ""){
+		if($("#password").val() == ""){
 			message += "<li>A senha é obrigatória.</li>";
 		}
 		
@@ -74,24 +75,35 @@
   </script>
 </head>
 <body>
-  <form method="post" action="<%= request.getContextPath() %>/autenticar" class="login">
+  <c:url value="/login" var="loginUrl"/>
+  <form action="${loginUrl}" class="login" method="post">
+  	<c:if test="${param.error != null}">
+	<p>Invalid username and password.</p>
+    </c:if>
+    
+    <c:if test="${param.logout != null}">
+    <p>You have been logged out.</p>
+  	</c:if>
+  	
     <p>
-      <label for="login">Email:</label>
-      <input type="text" name="login" id="login" value="">
+      <label for="username">Email:</label>
+      <input type="text" name="username" id="username" value="">
     </p>
 
     <p>
-      <label for="senha">Password:</label>
-      <input type="password" name="senha" id="senha" value="">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" value="">
     </p>
 
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <p class="login-submit">
       <button id="btnSubmit" type="submit" class="login-button" onclick="return validate()">Login</button>
     </p>
   </form>
   
-  <div id="messageDialog" title="Basic dialog" style="display: none;">
-  	<p><%= request.getAttribute("mensagem") %></p>
-  </div>
+ <div id="messageDialog" title="Basic dialog" style="display: none;">
+ 	<p><%= request.getAttribute("mensagem") %></p>
+ </div>
+  
 </body>
 </html>

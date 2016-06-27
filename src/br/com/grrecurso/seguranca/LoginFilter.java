@@ -1,18 +1,16 @@
-package br.com.grrecurso.filter;
+package br.com.grrecurso.seguranca;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,11 +20,11 @@ import br.com.grrecurso.entities.UserBean;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(dispatcherTypes = {
-				DispatcherType.REQUEST, 
-				DispatcherType.FORWARD
-		}
-					, urlPatterns = { "/*" })
+//@WebFilter(dispatcherTypes = {
+//				DispatcherType.REQUEST, 
+//				DispatcherType.FORWARD
+//		}
+//					, urlPatterns = { "/*" })
 public class LoginFilter implements Filter {
 	private static final Logger logger = Logger.getLogger(LoginFilter.class.getName()); 
     /**

@@ -89,7 +89,7 @@ public class AbstractManagedBean {
 				response.addCookie(cookie);
 			}
 		}
-		FacesContext.getCurrentInstance().getExternalContext().redirect(getURL(getRequest()) + "login.curso");
+		FacesContext.getCurrentInstance().getExternalContext().redirect(getURL(getRequest()) + "login.jsf");
 		return "";
 	}
 	
