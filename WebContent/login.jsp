@@ -9,6 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="_csrf" content="${_csrf.token}"/>
   <base href="http://<%= request.getLocalName() + ":" + request.getLocalPort() + request.getContextPath() + "/" %>">
   <script src="resources/jQuery/jquery-1.12.1.min.js"></script>
   <script src="resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
