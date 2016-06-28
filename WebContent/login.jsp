@@ -78,11 +78,11 @@
   <c:url value="/login" var="loginUrl"/>
   <form action="${loginUrl}" class="login" method="post">
   	<c:if test="${param.error != null}">
-	<p>Invalid username and password.</p>
+	<p>Usuário ou senha inválida.</p>
     </c:if>
     
     <c:if test="${param.logout != null}">
-    <p>You have been logged out.</p>
+    <p>Deslogado.</p>
   	</c:if>
   	
     <p>

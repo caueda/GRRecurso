@@ -20,10 +20,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/resources/**").permitAll()
 				.anyRequest().authenticated()
-				.and()
+				.and()						
 			.formLogin()
 				.loginPage("/login").permitAll()				
-				.and().csrf();
+				.and().csrf()
+				.and()
+			.sessionManagement()
+				.maximumSessions(1);
 //		http
 //		.authorizeRequests()
 //			.anyRequest().authenticated()

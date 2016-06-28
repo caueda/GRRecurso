@@ -19,6 +19,8 @@ import br.com.grrecurso.entities.UserBean;
 
 /**
  * Servlet Filter implementation class LoginFilter
+ * @deprecated - Foi a primeira solução para autênticação antes de configurar o Spring Security.
+ * Ficará apenas para conhecimento de como implementar um Filter para autênticação.
  */
 //@WebFilter(dispatcherTypes = {
 //				DispatcherType.REQUEST, 

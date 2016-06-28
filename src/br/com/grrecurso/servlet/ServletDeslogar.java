@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import br.com.grrecurso.entities.UserBean;
 import br.com.grrecurso.util.WebUtil;
-
+/**
+ * @deprecated - função delegada para o Spring Security.
+ * @author c8757550
+ *
+ */
+/*
 @WebServlet(urlPatterns="/deslogar")
+*/
 public class ServletDeslogar extends HttpServlet {
 
 	/**

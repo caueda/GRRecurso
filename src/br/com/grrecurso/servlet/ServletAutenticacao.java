@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,13 @@ import br.com.grrecurso.entities.UserBean;
 import br.com.grrecurso.entities.Usuario;
 import br.com.grrecurso.util.WebUtil;
 
+/**
+ * @deprecated - Função delegada para o Spring Security.
+ *
+ */
+/*
 @WebServlet(urlPatterns="/autenticar")
+*/
 public class ServletAutenticacao extends HttpServlet {
 
 	/**
