@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().csrf()
 				.and()
 			.sessionManagement()
-				.maximumSessions(1);
+				.maximumSessions(1).maxSessionsPreventsLogin(true)
+				;
 //		http
 //		.authorizeRequests()
 //			.anyRequest().authenticated()
