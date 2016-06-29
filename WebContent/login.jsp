@@ -86,6 +86,10 @@
     <p>Deslogado.</p>
   	</c:if>
   	
+  	<c:if test="${param.maxSessionLimit != null}">
+    <p>O usuário já se encontra logado em outro browser ou máquina.</p>
+  	</c:if>
+  	
     <p>
       <label for="username">Email:</label>
       <input type="text" name="username" id="username" value="">
