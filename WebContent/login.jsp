@@ -49,10 +49,10 @@
 	function validate(){
 		var msg = $("#messageDialog");
 		var message = "";
-		if($("#username").val() == ""){
+		if($("#email").val() == ""){
 			message += "<li>O login é obrigatório.</li>";
 		}
-		if($("#password").val() == ""){
+		if($("#senha").val() == ""){
 			message += "<li>A senha é obrigatória.</li>";
 		}
 		
@@ -91,13 +91,13 @@
   	</c:if>
   	
     <p>
-      <label for="username">Email:</label>
-      <input type="text" name="username" id="username" value="">
+      <label for="email">Email:</label>
+      <input type="text" name="email" id="email" value="">
     </p>
 
     <p>
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" value="">
+      <label for="senha">Senha:</label>
+      <input type="password" name="senha" id="senha" value="">
     </p>
 
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

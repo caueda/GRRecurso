@@ -45,10 +45,11 @@ public class Usuario implements Serializable {
 	private Date dataLogin;
 	private DominioAtivoInativo status;
 	private List<PerfilUsuario> perfis;
+	private List<Role> roles;
 	private boolean edicao;
 	
 	public Usuario(){
-		
+		super();
 	}
 
 	@Id
@@ -121,6 +122,18 @@ public class Usuario implements Serializable {
 
 	public void setPerfis(List<PerfilUsuario> perfis) {
 		this.perfis = perfis;
+	}
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="usuario_role", joinColumns= {@JoinColumn(name="id_usuario")},
+			   inverseJoinColumns= {@JoinColumn(name="id_role")}
+	)
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public boolean isEdicao() {

@@ -15,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginAppController {
 
-	@RequestMapping(value = "/loginFailed", method = RequestMethod.GET)
+	@RequestMapping(value = "/maxSession", method = RequestMethod.GET)
 	public String accessDeniedPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "login?maxSessionLimit=true";
+	}
+	
+	@RequestMapping(value = "/loginFailed", method = RequestMethod.GET)
+	public String loginDeniedPage(ModelMap model) {
+		model.addAttribute("user", getPrincipal());
+		return "/login?error=true";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
