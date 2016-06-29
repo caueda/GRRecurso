@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityLoginConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
+	AuthenticationHandler authenticationHander;
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");		
 	}
@@ -24,6 +26,7 @@ public class SecurityLoginConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login").permitAll()	
 				.failureUrl("/loginFailed")
+				.successHandler(authenticationHander)
 				.and().csrf()
 				.and()
 			.sessionManagement()
