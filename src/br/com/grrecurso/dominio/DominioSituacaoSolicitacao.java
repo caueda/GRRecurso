@@ -1,4 +1,4 @@
-package br.com.grrecurso.enumerator;
+package br.com.grrecurso.dominio;
 
 public enum DominioSituacaoSolicitacao {
 	PENDENTE(1, "Pendente"), PERSISTIDO(2, "Persistido");

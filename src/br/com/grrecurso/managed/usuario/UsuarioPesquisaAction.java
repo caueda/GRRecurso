@@ -1,4 +1,4 @@
-package br.com.grrecurso.managed.user;
+package br.com.grrecurso.managed.usuario;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,9 +10,9 @@ import javax.inject.Named;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
-import br.com.grrecurso.ejb.login.UsuarioBean;
-import br.com.grrecurso.entities.Usuario;
-import br.com.grrecurso.enumerator.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.ejb.login.UsuarioService;
+import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
 
 @Named
@@ -31,7 +31,7 @@ public class UsuarioPesquisaAction extends AbstractManagedBean implements Serial
 	private List<Usuario> listaUsuarios;
 	
 	@EJB
-	private UsuarioBean usuarioBean;
+	private UsuarioService usuarioBean;
 	
 	public String persist() {
 		usuarioBean.saveOrUpdate(usuario);

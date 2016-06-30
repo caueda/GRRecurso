@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
     protected Log logger = LogFactory.getLog(this.getClass());
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
+    
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.Authentication auth) throws IOException, ServletException {
 		

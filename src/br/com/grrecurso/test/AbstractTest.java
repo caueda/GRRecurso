@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 
-import br.com.grrecurso.ejb.login.LoginBean;
-import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.ejb.login.LoginService;
+import br.com.grrecurso.entities.usuario.Usuario;
 
 
 @SuppressWarnings(value="all")
@@ -29,7 +29,7 @@ public class AbstractTest {
 		EJBContainer ejbC = EJBContainer.createEJBContainer(properties);
 		Context context = ejbC.getContext();
 		String name = "java:global/Inventario/LoginBean";
-		LoginBean bean = (LoginBean)context.lookup(name);
+		LoginService bean = (LoginService)context.lookup(name);
 		Usuario usuario = bean.remoteLogin("aplicacao@test.com", "welcome1");
 		System.out.println(usuario != null);
 	}

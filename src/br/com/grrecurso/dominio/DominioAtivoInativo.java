@@ -1,4 +1,4 @@
-package br.com.grrecurso.enumerator;
+package br.com.grrecurso.dominio;
 
 public enum DominioAtivoInativo {
 	ATIVO(1, "Ativo"), INATIVO(2, "Inativo");

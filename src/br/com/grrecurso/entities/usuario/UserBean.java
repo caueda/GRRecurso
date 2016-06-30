@@ -1,4 +1,4 @@
-package br.com.grrecurso.entities;
+package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

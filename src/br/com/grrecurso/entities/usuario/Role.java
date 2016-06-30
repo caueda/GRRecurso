@@ -1,4 +1,4 @@
-package br.com.grrecurso.entities;
+package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 
@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="role")
+@NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r")})
 public class Role implements Serializable {	
 	/**
 	 * 

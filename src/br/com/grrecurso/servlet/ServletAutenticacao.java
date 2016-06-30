@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.grrecurso.ejb.login.LoginBean;
-import br.com.grrecurso.entities.UserBean;
-import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.ejb.login.LoginService;
+import br.com.grrecurso.entities.usuario.UserBean;
+import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.util.WebUtil;
 
 /**
@@ -29,7 +29,7 @@ public class ServletAutenticacao extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -1997026148543236463L;
 
-	@Inject private LoginBean loginBean;
+	@Inject private LoginService loginBean;
 	@Inject private UserBean userBean;
 	
 	@Override

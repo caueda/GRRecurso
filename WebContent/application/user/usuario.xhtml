@@ -23,6 +23,11 @@
 					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
 				</comp:inputSelectOneMenu>				
 				<br/>
+				<p:dataTable value="#{usuarioAction.roles}" var="role">
+					<p:column headerText="Role">
+						<h:outputText value="#{role.nome}"/>
+					</p:column>
+				</p:dataTable>
 				<p:commandButton value="Incluir" action="#{usuarioAction.incluir}" process="panelUser" update="panelUser"/>
 			</p:panel>		    
 		</ui:define>

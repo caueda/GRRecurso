@@ -3,13 +3,14 @@ package br.com.grrecurso.ejb.login;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,18 +18,18 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.entities.usuario.Usuario;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class UsuarioBean implements Serializable {
+public class UsuarioService implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4344896204368371422L;
-	@PersistenceContext(unitName="grrecurso")
-	private EntityManager em;
+	
+	@Inject private EntityManager em;
 	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> listAll(){
@@ -48,10 +49,18 @@ public class UsuarioBean implements Serializable {
 		return (Usuario)query.getSingleResult();
 	}
 	
+	@TransactionAttribute()
+	public Usuario loadByEmail(String email){
+		Query query = em.createNamedQuery("Usuario.loadByEmail");
+		query.setParameter("email", email);
+		return (Usuario)query.getSingleResult();
+	}
+	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void alterarSenha(Long idUsuario, String novaSenha){
 		Usuario usuario = loadById(idUsuario);
 		usuario.setSenha(novaSenha);
+		em.merge(usuario);
 	}
 	
 	@SuppressWarnings("unchecked")

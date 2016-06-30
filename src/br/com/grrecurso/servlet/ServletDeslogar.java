@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.util.WebUtil;
 /**
  * @deprecated - função delegada para o Spring Security.

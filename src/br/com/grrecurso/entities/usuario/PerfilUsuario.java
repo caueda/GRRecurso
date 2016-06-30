@@ -1,4 +1,4 @@
-package br.com.grrecurso.entities;
+package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.grrecurso.enumerator.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
 @Table(name="perfil_usuario")

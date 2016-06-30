@@ -1,18 +1,22 @@
-package br.com.grrecurso.managed.user;
+package br.com.grrecurso.managed.usuario;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
-import br.com.grrecurso.ejb.login.UsuarioBean;
-import br.com.grrecurso.entities.Usuario;
-import br.com.grrecurso.enumerator.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.ejb.login.UsuarioService;
+import br.com.grrecurso.entities.usuario.Role;
+import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
+import br.com.grrecurso.producer.qualifiers.RolesList;
 
 @Named
 @RequestScoped
@@ -33,9 +37,11 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 	private String novaSenha1;
 	private String novaSenha2;
 	private Long idUsuario;
+	@Inject @RolesList
+	private List<Role> roles;
 	
 	@EJB
-	private UsuarioBean usuarioBean;
+	private UsuarioService usuarioBean;
 	
 	public String persist() {
 		usuarioBean.saveOrUpdate(usuario);
@@ -84,6 +90,10 @@ public class UsuarioAction extends AbstractManagedBean implements Serializable {
 		}
 	}
 	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
 	public String alterarSenha(){
 		try {
 			usuario = usuarioBean.loadById(getIdUsuario());

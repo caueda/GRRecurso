@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.entities.usuario.UserBean;
 
 /**
  * Servlet Filter implementation class LoginFilter

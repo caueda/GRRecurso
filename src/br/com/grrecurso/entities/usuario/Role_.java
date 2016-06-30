@@ -1,4 +1,4 @@
-package br.com.grrecurso.entities;
+package br.com.grrecurso.entities.usuario;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

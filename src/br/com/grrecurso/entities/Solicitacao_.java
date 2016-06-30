@@ -1,11 +1,12 @@
 package br.com.grrecurso.entities;
 
-import br.com.grrecurso.enumerator.DominioSituacaoSolicitacao;
+import br.com.grrecurso.dominio.DominioSituacaoSolicitacao;
+import br.com.grrecurso.entities.usuario.Usuario;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-06-26T19:02:27.526-0400")
+@Generated(value="Dali", date="2016-06-29T21:37:02.079-0400")
 @StaticMetamodel(Solicitacao.class)
 public class Solicitacao_ {
 	public static volatile SingularAttribute<Solicitacao, Long> idSolicitacao;

@@ -10,9 +10,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import br.com.grrecurso.ejb.login.LoginBean;
-import br.com.grrecurso.entities.UserBean;
-import br.com.grrecurso.entities.Usuario;
+import br.com.grrecurso.ejb.login.LoginService;
+import br.com.grrecurso.entities.usuario.UserBean;
+import br.com.grrecurso.entities.usuario.Usuario;
 
 @Named("loginAction")
 @ViewScoped
@@ -21,7 +21,7 @@ public class LoginAction extends AbstractManagedBean implements Serializable {
 	private static final long serialVersionUID = -5263706623967677173L;	
 	
 	@EJB
-	private LoginBean loginBean;
+	private LoginService loginBean;
 	
 	private String login;
 	private String senha;

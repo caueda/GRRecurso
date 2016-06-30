@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.ocpsoft.logging.Logger;
 
-import br.com.grrecurso.entities.UserBean;
+import br.com.grrecurso.entities.usuario.UserBean;
 
 public class WebUtil {
 	public static void cacheSession(UserBean userBean, HttpSession session, boolean onlyOneSessionPerUser) {

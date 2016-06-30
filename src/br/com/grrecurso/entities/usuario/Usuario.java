@@ -1,4 +1,4 @@
-package br.com.grrecurso.entities;
+package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,14 +23,15 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
 
-import br.com.grrecurso.enumerator.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name="Usuario.findByEmailSenha", query="select u from Usuario u where u.email = :email and u.senha = :senha"),
 	@NamedQuery(name="Usuario.findById", query="select u from Usuario u where u.idUsuario = :idUsuario"),
-	@NamedQuery(name="Usuario.listAll", query="select u from Usuario u")
+	@NamedQuery(name="Usuario.listAll", query="select u from Usuario u"),
+	@NamedQuery(name="Usuario.loadByEmail", query="select u from Usuario u where u.email = :email")
 })
 public class Usuario implements Serializable {
 	/**

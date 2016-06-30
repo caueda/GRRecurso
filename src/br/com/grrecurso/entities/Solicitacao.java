@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.com.grrecurso.enumerator.DominioSituacaoSolicitacao;
+import br.com.grrecurso.dominio.DominioSituacaoSolicitacao;
+import br.com.grrecurso.entities.usuario.Usuario;
 
 @Entity
 @Table(name="solicitacao")
