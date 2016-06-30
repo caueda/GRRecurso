@@ -11,9 +11,9 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
-import br.com.grrecurso.ejb.login.UsuarioService;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
+import br.com.grrecurso.service.login.UsuarioService;
 
 @Named
 @ViewScoped

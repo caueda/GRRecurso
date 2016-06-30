@@ -10,9 +10,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import br.com.grrecurso.ejb.login.LoginService;
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.login.LoginService;
 
 @Named("loginAction")
 @ViewScoped

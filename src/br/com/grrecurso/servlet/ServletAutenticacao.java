@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.grrecurso.ejb.login.LoginService;
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.login.LoginService;
 import br.com.grrecurso.util.WebUtil;
 
 /**

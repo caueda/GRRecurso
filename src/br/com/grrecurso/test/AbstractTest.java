@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 
-import br.com.grrecurso.ejb.login.LoginService;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.login.LoginService;
 
 
 @SuppressWarnings(value="all")

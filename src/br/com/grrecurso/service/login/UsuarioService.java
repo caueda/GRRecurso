@@ -1,4 +1,4 @@
-package br.com.grrecurso.ejb.login;
+package br.com.grrecurso.service.login;
 
 import java.io.Serializable;
 import java.util.List;
