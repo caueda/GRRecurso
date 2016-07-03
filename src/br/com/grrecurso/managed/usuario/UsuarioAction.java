@@ -1,6 +1,5 @@
 package br.com.grrecurso.managed.usuario;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -27,7 +26,7 @@ import br.com.grrecurso.service.login.UsuarioService;
 		@URLMapping(id="usermessage", pattern="/app/message/usuario", viewId="/application/msg/mensagem.jsf")
 		
 })
-public class UsuarioAction extends AbstractManagedBean implements Serializable {	
+public class UsuarioAction extends AbstractManagedBean {	
 	/**
 	 * 
 	 */

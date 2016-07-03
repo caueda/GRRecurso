@@ -1,9 +1,7 @@
 package br.com.grrecurso.service.login;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -19,10 +17,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.AbstractService;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class UsuarioService implements Serializable {
+public class UsuarioService extends AbstractService {
 
 	/**
 	 * 

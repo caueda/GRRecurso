@@ -1,8 +1,6 @@
 package br.com.grrecurso.managed;
 
 
-import java.io.Serializable;
-
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,7 +14,7 @@ import br.com.grrecurso.service.login.LoginService;
 
 @Named("loginAction")
 @ViewScoped
-public class LoginAction extends AbstractManagedBean implements Serializable {
+public class LoginAction extends AbstractManagedBean {
 
 	private static final long serialVersionUID = -5263706623967677173L;	
 	
@@ -27,7 +25,7 @@ public class LoginAction extends AbstractManagedBean implements Serializable {
 	private String senha;
 	
 	public LoginAction(){
-		System.out.println("Creating LoginBean..." + new java.util.Date());
+		logger.info("Creating LoginBean..." + new java.util.Date());
 	}
 	
 	public String getLogin() {
@@ -57,7 +55,7 @@ public class LoginAction extends AbstractManagedBean implements Serializable {
     }
 	
     public String hello(){
-    	System.out.println("Hello World!");
+    	logger.info("Hello World!");
     	return "home";
     }
     

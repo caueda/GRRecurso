@@ -1,6 +1,5 @@
 package br.com.grrecurso.service.login;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,11 +12,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.com.grrecurso.entities.usuario.Role;
+import br.com.grrecurso.service.AbstractService;
 
 @Named
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class RoleService implements Serializable {
+public class RoleService extends AbstractService {
 
 	/**
 	 * 

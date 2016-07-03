@@ -1,13 +1,11 @@
 package br.com.grrecurso.managed;
 
-import java.io.Serializable;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named
-public class IdleMonitorView extends AbstractManagedBean implements Serializable {
+public class IdleMonitorView extends AbstractManagedBean {
 	public static final String MESSAGE_MONITOR = "messageMonitor";
     /**
 	 * 

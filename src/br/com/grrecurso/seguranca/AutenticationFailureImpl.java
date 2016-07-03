@@ -24,7 +24,7 @@ public class AutenticationFailureImpl implements AuthenticationFailureHandler{
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exc) throws IOException, ServletException {
 		logger.info(exc.getMessage());
 		if(exc.getMessage().contains("Maximum sessions"))
-			redirectStrategy.sendRedirect(request, response, "/maxSession?email=" + request.getParameter("email"));
+			redirectStrategy.sendRedirect(request, response, "/maxSession");
 		else
 			redirectStrategy.sendRedirect(request, response, "/loginFailed");
 	}

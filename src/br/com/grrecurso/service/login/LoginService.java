@@ -1,6 +1,5 @@
 package br.com.grrecurso.service.login;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,11 +16,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.AbstractService;
 
 @Named
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class LoginService implements Serializable{
+public class LoginService extends AbstractService {	
 	
 	private static final long serialVersionUID = -1466922676838989315L;
 
@@ -29,10 +29,7 @@ public class LoginService implements Serializable{
 	
 	@PostConstruct
 	private void init(){
-		/*
-		 * It will be executed before any other method 
-		 */
-		System.out.println("Method init [LoginBean] invoked at " + new java.util.Date());
+		logger.info("Method init [LoginBean] invoked at " + new java.util.Date());
 	}
 	
 	@PreDestroy

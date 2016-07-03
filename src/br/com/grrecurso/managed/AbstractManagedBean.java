@@ -1,6 +1,7 @@
 package br.com.grrecurso.managed;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,10 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import br.com.grrecurso.entities.usuario.UserBean;
 
 @SuppressWarnings("unchecked")
-public class AbstractManagedBean {
+public abstract class AbstractManagedBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	protected Log logger = LogFactory.getLog(this.getClass());
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
