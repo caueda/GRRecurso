@@ -9,6 +9,14 @@ public enum DominioAtivoInativo {
 	DominioAtivoInativo(Integer codigo, String desc){
 		this.codigo = codigo;
 		this.desc = desc;
+	}	
+	
+	public DominioAtivoInativo valueOf(Integer codigo){
+		for(DominioAtivoInativo value : DominioAtivoInativo.values()){
+			if(value.getCodigo().equals(codigo))
+				return value;
+		}
+		return null;
 	}
 
 	public Integer getCodigo() {

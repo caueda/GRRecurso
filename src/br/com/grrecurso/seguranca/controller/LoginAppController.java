@@ -5,6 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginAppController {
+	
+    private SessionRegistry sessionRegistry = new SessionRegistryImpl();
+
+	@RequestMapping(value = "/expireuser", method = RequestMethod.GET)
+    public void expireUserSessions(String username) {
+        for (Object principal : sessionRegistry.getAllPrincipals()) {
+            if (principal instanceof User) {
+                UserDetails userDetails = (UserDetails) principal;
+                if (userDetails.getUsername().equals(username)) {
+                    for (SessionInformation information : sessionRegistry.getAllSessions(userDetails, true)) {
+                        information.expireNow();
+                    }
+                }
+            }
+        }
+    }
 
 	@RequestMapping(value = "/maxSession", method = RequestMethod.GET)
 	public String accessDeniedPage(ModelMap model) {

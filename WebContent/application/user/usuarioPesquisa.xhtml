@@ -43,6 +43,9 @@
 							<f:param name="idUsuario" value="#{user.idUsuario}"/>	
 						</h:link>						
 					</p:column>
+					<p:column headerText="Sexo">
+						<h:outputText value="#{user.sexo.desc}"/>
+					</p:column>
 				</p:dataTable>
 			</p:panel>				
 		</ui:define>

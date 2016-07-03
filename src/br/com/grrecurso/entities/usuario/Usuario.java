@@ -21,9 +21,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioSexo;
 
 @Entity
 @Table(name="usuario")
@@ -47,6 +50,7 @@ public class Usuario implements Serializable {
 	private DominioAtivoInativo status;
 	private List<PerfilUsuario> perfis;
 	private List<Role> roles;
+	private DominioSexo sexo;
 	private boolean edicao;
 	
 	public Usuario(){
@@ -82,6 +86,20 @@ public class Usuario implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Column(name="sexo")
+	@Type(type = "br.com.grrecurso.dominio.EnumUserType",
+	  parameters = { 
+			  @Parameter(name = "enumClassName", value = "br.com.grrecurso.dominio.DominioSexo"),
+			  @Parameter(name = "method", value = "getCharCodigo")	
+    })
+	public DominioSexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(DominioSexo sexo) {
+		this.sexo = sexo;
+	}
 
 	@Column(name="senha", length=20)
 	public String getSenha() {
@@ -101,7 +119,6 @@ public class Usuario implements Serializable {
 	public void setDataLogin(Date dataLogin) {
 		this.dataLogin = dataLogin;
 	}
-
 	@Column(name="status")
 	@Enumerated(EnumType.ORDINAL)
 	public DominioAtivoInativo getStatus() {
