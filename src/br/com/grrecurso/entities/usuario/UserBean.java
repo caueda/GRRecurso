@@ -4,15 +4,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 
-@Named
-@SessionScoped
 public class UserBean implements Serializable {
-	
 	
 	/**
 	 * 

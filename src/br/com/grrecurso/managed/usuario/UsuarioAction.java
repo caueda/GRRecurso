@@ -15,7 +15,7 @@ import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.producer.qualifiers.RolesList;
-import br.com.grrecurso.service.login.UsuarioService;
+import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
 @RequestScoped
@@ -40,10 +40,10 @@ public class UsuarioAction extends AbstractManagedBean {
 	private List<Role> roles;
 	
 	@EJB
-	private UsuarioService usuarioBean;
+	private UsuarioSvcLocal usuarioSvcLocal;
 	
 	public String persist() {
-		usuarioBean.saveOrUpdate(usuario);
+		usuarioSvcLocal.saveOrUpdate(usuario);
 		return "";
 	}
 	
@@ -85,7 +85,7 @@ public class UsuarioAction extends AbstractManagedBean {
 	
 	public void exibirEdicao(){
 		if(this.idUsuario != null){
-			setUsuario(usuarioBean.loadById(idUsuario));
+			setUsuario(usuarioSvcLocal.loadById(idUsuario));
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	public String alterarSenha(){
 		try {
-			usuario = usuarioBean.loadById(getIdUsuario());
+			usuario = usuarioSvcLocal.loadById(getIdUsuario());
 			if(!getSenhaAtual().equals(getUsuario().getSenha())){
 				incluirError("A senha atual não confere.");
 				return "";
@@ -104,7 +104,7 @@ public class UsuarioAction extends AbstractManagedBean {
 				incluirError("Confirmação da nova senha inválida.");
 				return "";
 			}			
-			usuarioBean.alterarSenha(getIdUsuario(), getNovaSenha1());
+			usuarioSvcLocal.alterarSenha(getIdUsuario(), getNovaSenha1());
 			incluirInfo("Senha alterada com sucesso");
 			setUsuario(new Usuario());
 			return "pretty:usermessage";
@@ -117,7 +117,7 @@ public class UsuarioAction extends AbstractManagedBean {
 	
 	public void incluir() {
 		try {		
-			usuarioBean.saveOrUpdate(this.usuario);			
+			usuarioSvcLocal.saveOrUpdate(this.usuario);			
 			incluirInfo("Usuário incluído com sucesso.");
 			setUsuario(new Usuario());
 		} catch(Exception e) {

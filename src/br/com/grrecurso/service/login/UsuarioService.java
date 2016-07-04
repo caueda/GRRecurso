@@ -7,8 +7,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,25 +21,16 @@ import br.com.grrecurso.service.AbstractService;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class UsuarioService extends AbstractService {
+public class UsuarioService extends AbstractService implements UsuarioSvcLocal, UsuarioSvcRemote{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4344896204368371422L;
 	
-	@Inject private EntityManager em;
+	@PersistenceContext 
+	private EntityManager em;
 	
-	@SuppressWarnings("unchecked")
-	public List<Usuario> listAll(){
-		return em.createNamedQuery("Usuario.listAll").getResultList();
-	}
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Usuario saveOrUpdate(Usuario usuario) {
-		em.merge(usuario);
-		return usuario;
-	}	
 	
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Usuario loadById(Long idUsuario) {
@@ -54,6 +45,18 @@ public class UsuarioService extends AbstractService {
 		query.setParameter("email", email);
 		return (Usuario)query.getSingleResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listAll(){
+		return em.createNamedQuery("Usuario.listAll").getResultList();
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Usuario saveOrUpdate(Usuario usuario) {
+		em.merge(usuario);
+		return usuario;
+	}	
+	
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void alterarSenha(Long idUsuario, String novaSenha){

@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca.controller;
+package br.com.grrecurso.seguranca.spring.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

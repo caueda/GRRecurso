@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca;
+package br.com.grrecurso.seguranca.spring.configuration;
 
 import javax.sql.DataSource;
 
@@ -9,9 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
+import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
+
 @Configuration
 @EnableWebSecurity
-public class SecurityLoginConfig extends WebSecurityConfigurerAdapter {
+public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationSuccessImpl authenticationSuccessHandler;
 	@Autowired

@@ -24,8 +24,6 @@
     <script>
     
     </script>
-    
-    
 </h:head>	
 <h:body>			
 	  <h:form id="menuForm" prependId="false">  
@@ -41,14 +39,14 @@
 		            <p:menuitem value="Manter" outcome="pretty:user"  ajax="true" icon="ui-icon-close"/>
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-close"/>
 		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-close">
-		            	<f:param name="idUsuario" value="1"/>
+		            	<f:param name="idUsuario" value="#{sessionScope['userLogged'].idUsuario}"/>
 		            </p:menuitem>
 		        </p:submenu>
 		        <p:submenu label="Sistema">
 		        	<p:menuitem value="Logout" url="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/logout"/>
 		        </p:submenu>
 		        <f:facet name="options">
-		        	<h:outputLabel value="Admin"/>
+		        	<h:outputLabel value="#{sessionScope['userLogged'].email}"/>
 		        </f:facet>		        
 		    </p:menubar>		    
 		</h:form>

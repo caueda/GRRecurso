@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca;
+package br.com.grrecurso.seguranca.spring.handlers;
 
 import java.io.IOException;
 

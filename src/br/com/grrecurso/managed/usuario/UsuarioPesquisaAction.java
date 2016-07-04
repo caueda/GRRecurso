@@ -12,7 +12,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
-import br.com.grrecurso.service.login.UsuarioService;
+import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
 @ViewScoped
@@ -30,15 +30,15 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 	private List<Usuario> listaUsuarios;
 	
 	@EJB
-	private UsuarioService usuarioBean;
+	private UsuarioSvcLocal usuarioSvcLocal;
 	
 	public String persist() {
-		usuarioBean.saveOrUpdate(usuario);
+		usuarioSvcLocal.saveOrUpdate(usuario);
 		return "";
 	}
 	
 	public void consultar() {
-		setListaUsuarios(usuarioBean.list(getUsuario()));
+		setListaUsuarios(usuarioSvcLocal.list(getUsuario()));
 	}
 
 	public List<Usuario> getListaUsuarios() {

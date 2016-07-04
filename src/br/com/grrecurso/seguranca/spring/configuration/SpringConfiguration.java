@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca.configuration;
+package br.com.grrecurso.seguranca.spring.configuration;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -15,11 +15,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import br.com.grrecurso.service.login.UsuarioSvcLocal;
+
 @org.springframework.context.annotation.Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "br.com.grrecurso.seguranca")
-public class Configuration extends WebMvcConfigurerAdapter {
+@ComponentScan(basePackages = "br.com.grrecurso.seguranca.spring")
+public class SpringConfiguration extends WebMvcConfigurerAdapter {
 	protected Log logger = LogFactory.getLog(this.getClass());
+	
+	@Bean(name="usuarioSvcLocal")
+	public UsuarioSvcLocal usuarioSvcLocal() {
+		UsuarioSvcLocal usuarioSvcLocal = null;
+		JndiTemplate jndi = new JndiTemplate();
+        try {
+        	usuarioSvcLocal = (UsuarioSvcLocal) jndi.lookup("java:app/GRRecurso/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal");
+        } catch (NamingException e) {
+            logger.error("NamingException for java:app/GRRecurso/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal", e);
+        }
+        return usuarioSvcLocal;
+	}
+	
 	
 	@Bean(name = "dataSource")
     public DataSource dataSourceJndi() {

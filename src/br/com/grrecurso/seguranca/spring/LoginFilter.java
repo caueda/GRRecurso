@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca;
+package br.com.grrecurso.seguranca.spring;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,8 +19,8 @@ import br.com.grrecurso.entities.usuario.UserBean;
 
 /**
  * Servlet Filter implementation class LoginFilter
- * @deprecated - Foi a primeira solução para autênticação antes de configurar o Spring Security.
- * Ficará apenas para conhecimento de como implementar um Filter para autênticação.
+ * @deprecated - Foi a primeira soluï¿½ï¿½o para autï¿½nticaï¿½ï¿½o antes de configurar o Spring Security.
+ * Ficarï¿½ apenas para conhecimento de como implementar um Filter para autï¿½nticaï¿½ï¿½o.
  */
 //@WebFilter(dispatcherTypes = {
 //				DispatcherType.REQUEST, 

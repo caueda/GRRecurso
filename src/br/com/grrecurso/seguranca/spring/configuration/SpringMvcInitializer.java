@@ -1,4 +1,4 @@
-package br.com.grrecurso.seguranca.configuration;
+package br.com.grrecurso.seguranca.spring.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -6,7 +6,7 @@ public class SpringMvcInitializer  extends AbstractAnnotationConfigDispatcherSer
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { Configuration.class };
+        return new Class[] { SpringConfiguration.class };
     }
   
     @Override
