@@ -19,7 +19,6 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @URLMappings( mappings= {
 		@URLMapping(id="userPesquisa", pattern="/app/usuario/pesquisa", viewId="/application/user/usuarioPesquisa.jsf"),
-		
 })
 public class UsuarioPesquisaAction extends AbstractManagedBean {	
 	/**

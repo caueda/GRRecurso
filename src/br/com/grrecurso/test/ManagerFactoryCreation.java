@@ -1,15 +1,16 @@
-package br.com.grrecurso.util;
+package br.com.grrecurso.test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class Main {
+public class ManagerFactoryCreation {
 
 	/**
 	 * Configurar o MySQL
-	 * mysql -u root -p
+	 * mysql -u root
 	 * mysql> create database grrecurso;
-	 * mysql> grant all on grrecurso.* to 'grrecurso'@'localhost' identified by 'welcome1';
+	 * mysql> create user 'grrecurso'@'localhost' identified by 'welcome1';
+	 * mysql> grant all on grrecurso.* to 'grrecurso'@'localhost';
 	 * @param args
 	 */
 	public static void main(String[] args) {

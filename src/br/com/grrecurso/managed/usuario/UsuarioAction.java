@@ -1,30 +1,23 @@
 package br.com.grrecurso.managed.usuario;
 
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
-import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
-import br.com.grrecurso.producer.qualifiers.RolesList;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
 @RequestScoped
-
 @URLMappings( mappings= {
 		@URLMapping(id="user", pattern="/app/usuario", viewId="/application/user/usuario.jsf"),
-		@URLMapping(id="userpassword", pattern="/app/usuario/password/#{userBean.idUsuario}", viewId="/application/user/usuarioPassword.jsf"),
+		@URLMapping(id="userpassword", pattern="/app/cpasswd", viewId="/application/user/usuarioPassword.jsf"),
 		@URLMapping(id="usermessage", pattern="/app/message/usuario", viewId="/application/msg/mensagem.jsf")
-		
 })
 public class UsuarioAction extends AbstractManagedBean {	
 	/**
@@ -36,8 +29,6 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String novaSenha1;
 	private String novaSenha2;
 	private Long idUsuario;
-	@Inject @RolesList
-	private List<Role> roles;
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
@@ -84,18 +75,14 @@ public class UsuarioAction extends AbstractManagedBean {
 	}
 	
 	public void exibirEdicao(){
-		if(this.idUsuario != null){
-			setUsuario(usuarioSvcLocal.loadById(idUsuario));
+		if(userBean != null && userBean.getIdUsuario() != null) {
+			setUsuario(usuarioSvcLocal.loadById(userBean.getIdUsuario()));
 		}
-	}
-	
-	public List<Role> getRoles() {
-		return roles;
 	}
 
 	public String alterarSenha(){
 		try {
-			usuario = usuarioSvcLocal.loadById(getIdUsuario());
+			usuario = usuarioSvcLocal.loadById(userBean.getIdUsuario());
 			if(!getSenhaAtual().equals(getUsuario().getSenha())){
 				incluirError("A senha atual não confere.");
 				return "";
@@ -104,7 +91,7 @@ public class UsuarioAction extends AbstractManagedBean {
 				incluirError("Confirmação da nova senha inválida.");
 				return "";
 			}			
-			usuarioSvcLocal.alterarSenha(getIdUsuario(), getNovaSenha1());
+			usuarioSvcLocal.alterarSenha(userBean.getIdUsuario(), getNovaSenha1());
 			incluirInfo("Senha alterada com sucesso");
 			setUsuario(new Usuario());
 			return "pretty:usermessage";
