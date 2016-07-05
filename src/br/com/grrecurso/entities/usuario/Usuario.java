@@ -23,12 +23,14 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 
 @Entity
+@Audited
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name="Usuario.findByEmailSenha", query="select u from Usuario u where u.email = :email and u.senha = :senha"),

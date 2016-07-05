@@ -47,6 +47,12 @@
 			<version>5.2.4.Final</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-envers</artifactId>
+		    <version>3.6.6.Final</version>
+		</dependency>
 
 		<!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
 		<dependency>
