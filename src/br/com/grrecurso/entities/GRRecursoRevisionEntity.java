@@ -6,7 +6,7 @@ import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionEntity;
 
 @Entity
-@org.hibernate.envers.RevisionEntity(GRRecursoEntityListener.class)
+@RevisionEntity(GRRecursoRevisionEntityListener.class)
 public class GRRecursoRevisionEntity extends DefaultRevisionEntity{
 	/**
 	 * 

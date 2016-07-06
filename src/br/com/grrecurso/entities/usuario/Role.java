@@ -11,8 +11,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 
 @Entity
+@Audited
 @Table(name="role")
 @NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r")})
 public class Role implements Serializable {	

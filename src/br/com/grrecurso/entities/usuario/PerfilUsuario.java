@@ -14,9 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
+
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
+@Audited
 @Table(name="perfil_usuario")
 public class PerfilUsuario implements Serializable {
 
