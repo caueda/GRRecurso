@@ -26,7 +26,7 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
-			.usersByUsernameQuery("select email, senha, case status when 0 then 1 else 0 end as status from usuario where email = ?")
+			.usersByUsernameQuery("select email, senha, status from usuario where email = ?")
 			.authoritiesByUsernameQuery("select u.email, r.nome as role from usuario u join usuario_role ur on ur.id_usuario = u.id_usuario "
 					+ " join role r on r.id_role = ur.id_role where u.email = ? ");
 	}

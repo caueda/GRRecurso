@@ -1,7 +1,7 @@
 package br.com.grrecurso.dominio;
 
 public enum DominioAtivoInativo {
-	ATIVO(1, "Ativo"), INATIVO(2, "Inativo");
+	ATIVO(1, "Ativo"), INATIVO(0, "Inativo");
 	
 	Integer codigo;
 	String desc;
@@ -34,4 +34,14 @@ public enum DominioAtivoInativo {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}	
+	
+	public DominioAtivoInativo getDominio(String codigo){
+		Integer cd = Integer.valueOf(codigo);
+		for(DominioAtivoInativo value : DominioAtivoInativo.values()){
+			if(value.getCodigo().equals(cd)){
+				return value;
+			}
+		}
+		return null;
+	}
 }

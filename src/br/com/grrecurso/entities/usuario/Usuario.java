@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -124,7 +122,11 @@ public class Usuario implements Serializable {
 		this.dataLogin = dataLogin;
 	}
 	@Column(name="status")
-	@Enumerated(EnumType.ORDINAL)
+	@Type(type = "br.com.grrecurso.dominio.EnumUserType",
+	  parameters = { 
+			  @Parameter(name = "enumClassName", value = "br.com.grrecurso.dominio.DominioAtivoInativo"),
+			  @Parameter(name = "method", value = "getCodigo")	
+    })
 	public DominioAtivoInativo getStatus() {
 		return status;
 	}
