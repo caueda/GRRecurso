@@ -14,11 +14,13 @@
 		<cc:attribute name="value"/>		
 		<cc:attribute name="required"/>		
 		<cc:attribute name="requiredMessage"/>
+		<cc:attribute name="rendered"/>
 	</cc:interface>
 	
 	<cc:implementation>			
 		<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}"/>
-		<p:selectOneMenu id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}">
+		<p:selectOneMenu id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
+			rendered="#{cc.attrs.rendered}">
 			<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>					
 			<cc:insertChildren/>			
 		</p:selectOneMenu>				

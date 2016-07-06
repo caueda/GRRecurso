@@ -36,7 +36,9 @@
 		    
 		    <p:menubar>		    	
 		        <p:submenu label="Usuário">
-		            <p:menuitem value="Incluir" outcome="pretty:user"  ajax="true" icon="ui-icon-close"/>
+		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-close">
+		            	<f:param name="tipoOperacao" value="incluir"/>
+		            </p:menuitem>
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-close"/>
 		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-close"/>		            	
 		        </p:submenu>

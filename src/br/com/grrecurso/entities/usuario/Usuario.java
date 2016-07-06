@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.validator.constraints.Email;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
@@ -103,6 +104,7 @@ public class Usuario implements Serializable {
 		this.sexo = sexo;
 	}
 
+	@NotAudited
 	@Column(name="senha", length=20)
 	public String getSenha() {
 		return senha;

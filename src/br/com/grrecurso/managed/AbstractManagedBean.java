@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
 
 import br.com.grrecurso.entities.usuario.UserBean;
@@ -22,17 +23,39 @@ public abstract class AbstractManagedBean implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Inject @UsuarioLogado
-	protected UserBean userBean;
-	
+	private static final long serialVersionUID = 1L;	
 	protected Logger logger = Logger.getLogger(this.getClass());
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
 	public static final String MESSAGE = "messages";
-
+	
+	public static final String INCLUIR = "incluir";
+	public static final String ALTERAR = "alterar";
+	public static final String PESQUISAR = "pesquisar";
+	public static final String EXCLUIR = "excluir";
+	
+	@Inject @UsuarioLogado
+	protected UserBean userBean;
+	
+	private String tipoOperacao;
+	
+	public boolean isIncluir() {
+		return getTipoOperacao().equals(INCLUIR);
+	}
+	
+	public boolean isAlterar() {
+		return getTipoOperacao().equals(ALTERAR);
+	}
+	
+	public boolean isPesquisar() {
+		return getTipoOperacao().equals(PESQUISAR);
+	}
+	
+	public boolean isExcluir() {
+		return getTipoOperacao().equals(EXCLUIR);
+	}
+	
 	public String redirect(String url) {
 		return url + "?faces-redirect=true";
 	}
@@ -113,5 +136,16 @@ public abstract class AbstractManagedBean implements Serializable {
 		ELContext elContext = context.getELContext();
 		T bean = (T)context.getApplication().getExpressionFactory().createValueExpression(elContext, "#{" + beanName + "}", clazz);
 		return bean;
+	}
+
+	public String getTipoOperacao() {
+		if(this.tipoOperacao == null) {
+			setTipoOperacao(StringUtils.EMPTY);
+		}
+		return this.tipoOperacao;
+	}
+
+	public void setTipoOperacao(String tipoOperacao) {
+		this.tipoOperacao = tipoOperacao;
 	}
 }

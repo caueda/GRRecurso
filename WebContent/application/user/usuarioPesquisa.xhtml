@@ -39,8 +39,9 @@
 						<h:outputText value="#{user.status.desc}"/>
 					</p:column>
 					<p:column headerText="Editar">
-						<h:link value="Editar" outcome="pretty:user">
-							<f:param name="idUsuario" value="#{user.idUsuario}"/>	
+						<h:link value="Editar" outcome="pretty:editUsuario">
+							<f:param name="tipoOperacao" value="alterar"/>
+							<f:param name="idUsuario" value="#{user.idUsuario}"/>
 						</h:link>						
 					</p:column>
 					<p:column headerText="Sexo">

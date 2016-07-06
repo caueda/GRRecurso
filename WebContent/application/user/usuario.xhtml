@@ -13,17 +13,23 @@
 		<ui:define name="aplicacao">
 			<p:panel id="panelUser">	
 				<f:metadata>
-					<f:viewParam name="idUsuario" value="#{usuarioAction.idUsuario}"/>
-					<f:viewAction action="#{usuarioAction.exibirEdicao()}" onPostback="true"/>
+					<f:param name="idUsuario" value="#{usuarioAction.idUsuario}"/>
+					<f:viewAction action="#{usuarioAction.exibirEdicao()}" onPostback="false"/>
 				</f:metadata>
 				<comp:inputText id="nome" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
-				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" requiredMessage="A senha é obrigatória." placeholder="******"/>
+				
+				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 
+					requiredMessage="A senha é obrigatória." placeholder="******" rendered="#{usuarioAction.isIncluir()}"/>
+				
 				<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
 					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
 				</comp:inputSelectOneMenu>				
+				
 				<br/>
-				<p:commandButton value="Incluir" action="#{usuarioAction.incluir}" process="panelUser" update="panelUser"/>
+				
+				<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
+				
 			</p:panel>		    
 		</ui:define>
 		

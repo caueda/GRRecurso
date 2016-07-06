@@ -52,7 +52,7 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.and().csrf()
 				.and()
 			.sessionManagement()
-				.maximumSessions(1).maxSessionsPreventsLogin(true)
+				.maximumSessions(1).maxSessionsPreventsLogin(false)
 				;
 //		http
 //		.authorizeRequests()

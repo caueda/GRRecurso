@@ -1,7 +1,7 @@
 package br.com.grrecurso.managed.usuario;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -13,9 +13,11 @@ import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
-@RequestScoped
+@ViewScoped
 @URLMappings( mappings= {
-		@URLMapping(id="user", pattern="/app/usuario", viewId="/application/user/usuario.jsf"),
+		@URLMapping(id="newUsuario", pattern="/app/usuario/#{tipoOperacao : usuarioAction.tipoOperacao}", viewId="/application/user/usuario.jsf"),
+		@URLMapping(id="editUsuario", pattern="/app/usuario/#{tipoOperacao : usuarioAction.tipoOperacao}/id/#{idUsuario : usuarioAction.idUsuario}", 
+					onPostback=false, viewId="/application/user/usuario.jsf"),
 		@URLMapping(id="userpassword", pattern="/app/cpasswd", viewId="/application/user/usuarioPassword.jsf"),
 		@URLMapping(id="usermessage", pattern="/app/message/usuario", viewId="/application/msg/mensagem.jsf")
 })
@@ -32,11 +34,6 @@ public class UsuarioAction extends AbstractManagedBean {
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
-	
-	public String persist() {
-		usuarioSvcLocal.saveOrUpdate(usuario);
-		return "";
-	}
 	
 	public String getSenhaAtual() {
 		return senhaAtual;
@@ -72,11 +69,18 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	public DominioAtivoInativo[] getListaStatus() {
 		return DominioAtivoInativo.values();
-	}
+	}	
 	
 	public void exibirEdicao(){
-		if(userBean != null && userBean.getIdUsuario() != null) {
-			setUsuario(usuarioSvcLocal.loadById(userBean.getIdUsuario()));
+		if(!isIncluir() && getIdUsuario() != null) {
+			setTipoOperacao(ALTERAR);
+			setUsuario(usuarioSvcLocal.loadById(getIdUsuario()));
+		}
+	}
+	
+	public void exibirAlterarSenha() {
+		if(userBean != null && userBean.getIdUsuario() != null) {			
+			setUsuario(usuarioSvcLocal.loadById(userBean.getIdUsuario()));		
 		}
 	}
 
@@ -102,15 +106,29 @@ public class UsuarioAction extends AbstractManagedBean {
 		return "";
 	}
 	
-	public void incluir() {
-		try {		
-			usuarioSvcLocal.saveOrUpdate(this.usuario);			
-			incluirInfo("Usuário incluído com sucesso.");
-			setUsuario(new Usuario());
-		} catch(Exception e) {
-			e.printStackTrace();
-			incluirError("Erro ao incluir usuário.", e.getMessage());
+	public String persistir() {
+		if(isIncluir()) {
+			try {			
+				usuarioSvcLocal.saveOrUpdate(this.usuario);			
+				incluirInfo("Usuário incluído com sucesso.");
+				setUsuario(new Usuario());
+			} catch(Exception e) {
+				e.printStackTrace();
+				incluirError("Erro ao incluir usuário.", e.getMessage());
+			}
+			return "pretty:";
+		} else if(isAlterar()) {
+			try {			
+				usuarioSvcLocal.saveOrUpdate(this.usuario);			
+				incluirInfo("Usuário alterado com sucesso.");
+				setUsuario(new Usuario());
+				return "pretty:userPesquisa";
+			} catch(Exception e) {
+				e.printStackTrace();
+				incluirError("Erro ao alterar usuário.", e.getMessage());
+			}
 		}
+		return "pretty:";
 	}
 
 	public Usuario getUsuario() {

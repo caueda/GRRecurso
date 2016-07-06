@@ -12,10 +12,11 @@
 		<cc:attribute name="id"/>
 		<cc:attribute name="label"/>
 		<cc:attribute name="value"/>
+		<cc:attribute name="rendered"/>
 	</cc:interface>
 	
 	<cc:implementation>
 		<h:outputText value="#{cc.attrs.label}"/>&nbsp;
-		<h:outputText id="#{cc.attrs.id}" value="#{cc.attrs.value}"/>				
+		<h:outputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" rendered="#{cc.attrs.rendered}"/>				
 	</cc:implementation>
 </html>
