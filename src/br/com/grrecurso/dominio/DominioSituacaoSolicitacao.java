@@ -6,6 +6,9 @@ public enum DominioSituacaoSolicitacao {
 	Integer codigo;
 	String desc;
 	
+	public static final String NOME = "DominioSituacaoSolicitacao";
+	public static final String METHOD = "getCodigo";
+	
 	DominioSituacaoSolicitacao(Integer codigo, String desc){
 		this.codigo = codigo;
 		this.desc = desc;
@@ -26,4 +29,12 @@ public enum DominioSituacaoSolicitacao {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}	
+	
+	public static DominioSituacaoSolicitacao valueOf(Integer codigo){
+		for(DominioSituacaoSolicitacao situacao : DominioSituacaoSolicitacao.values()){
+			if(situacao.getCodigo().equals(codigo))
+				return situacao;
+		}
+		return null;
+	}
 }

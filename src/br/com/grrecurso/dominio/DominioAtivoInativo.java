@@ -6,12 +6,15 @@ public enum DominioAtivoInativo {
 	Integer codigo;
 	String desc;
 	
+	public static final String NOME = "DominioAtivoInativo";
+	public static final String METHOD = "getCodigo";
+	
 	DominioAtivoInativo(Integer codigo, String desc){
 		this.codigo = codigo;
 		this.desc = desc;
 	}	
 	
-	public DominioAtivoInativo valueOf(Integer codigo){
+	public static DominioAtivoInativo valueOf(Integer codigo){
 		for(DominioAtivoInativo value : DominioAtivoInativo.values()){
 			if(value.getCodigo().equals(codigo))
 				return value;
@@ -33,15 +36,5 @@ public enum DominioAtivoInativo {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}	
-	
-	public DominioAtivoInativo getDominio(String codigo){
-		Integer cd = Integer.valueOf(codigo);
-		for(DominioAtivoInativo value : DominioAtivoInativo.values()){
-			if(value.getCodigo().equals(cd)){
-				return value;
-			}
-		}
-		return null;
 	}
 }

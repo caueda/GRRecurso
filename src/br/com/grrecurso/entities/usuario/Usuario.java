@@ -89,11 +89,7 @@ public class Usuario implements Serializable {
 	}
 	
 	@Column(name="sexo")
-	@Type(type = "br.com.grrecurso.dominio.EnumUserType",
-	  parameters = { 
-			  @Parameter(name = "enumClassName", value = "br.com.grrecurso.dominio.DominioSexo"),
-			  @Parameter(name = "method", value = "getCharCodigo")	
-    })
+	@Type(type = DominioSexo.NOME)
 	public DominioSexo getSexo() {
 		return sexo;
 	}
@@ -122,11 +118,7 @@ public class Usuario implements Serializable {
 		this.dataLogin = dataLogin;
 	}
 	@Column(name="status")
-	@Type(type = "br.com.grrecurso.dominio.EnumUserType",
-	  parameters = { 
-			  @Parameter(name = "enumClassName", value = "br.com.grrecurso.dominio.DominioAtivoInativo"),
-			  @Parameter(name = "method", value = "getCodigo")	
-    })
+	@Type(type = DominioAtivoInativo.NOME)
 	public DominioAtivoInativo getStatus() {
 		return status;
 	}
