@@ -41,10 +41,9 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	
 	@TransactionAttribute()
 	public Usuario loadByEmail(String email){
-		Session session = (Session)em.getDelegate();
-		org.hibernate.Query query = session.createQuery("select u from Usuario u where u.email = :email");
+		Query query = em.createNamedQuery("Usuario.loadByEmail");
 		query.setParameter("email", email);
-		return (Usuario)query.uniqueResult();
+		return (Usuario)query.getSingleResult();
 	}
 	
 	@SuppressWarnings("unchecked")

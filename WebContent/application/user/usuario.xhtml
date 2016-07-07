@@ -26,7 +26,7 @@
 					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
 				</comp:inputSelectOneMenu>				
 				
-				<br/>
+				<br/><br/>
 				
 				<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
 				

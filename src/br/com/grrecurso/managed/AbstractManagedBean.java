@@ -96,39 +96,46 @@ public abstract class AbstractManagedBean implements Serializable {
 	}
 	
 	protected void incluirInfo(String summary) {
-		incluirInfo(summary, "");
+		incluirInfo(summary, "", true);
 	}
 	
-	protected void incluirInfo(String summary, String detail) {
+	protected void incluirInfo(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_INFO);
 		message.setSummary(summary);
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 	}
 	
 	protected void incluirError(String summary) {
-		incluirError(summary, "");
+		incluirError(summary, "", true);
 	}
 	
-	protected void incluirError(String summary, String detail) {
+	protected void incluirError(String summary, String detail){
+		incluirError(summary, detail, true);
+	}
+	
+	protected void incluirError(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_ERROR);
 		message.setSummary(summary);
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 	}
 	
 	protected void incluirWarning(String summary) {
-		incluirWarning(summary, "");
+		incluirWarning(summary, "", true);
 	}
 	
-	protected void incluirWarning(String summary, String detail) {
+	protected void incluirWarning(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_WARN);
 		message.setSummary(summary);
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 	}
 	
 	protected <T> T getBean(Class<T> clazz, String beanName) {

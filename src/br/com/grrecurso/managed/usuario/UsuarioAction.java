@@ -89,11 +89,11 @@ public class UsuarioAction extends AbstractManagedBean {
 			usuario = usuarioSvcLocal.loadById(userBean.getIdUsuario());
 			if(!getSenhaAtual().equals(getUsuario().getSenha())){
 				incluirError("A senha atual não confere.");
-				return "";
+				return "pretty:";
 			}
 			if(!getNovaSenha1().equals(getNovaSenha2())){
 				incluirError("Confirmação da nova senha inválida.");
-				return "";
+				return "pretty:";
 			}			
 			usuarioSvcLocal.alterarSenha(userBean.getIdUsuario(), getNovaSenha1());
 			incluirInfo("Senha alterada com sucesso");
@@ -103,7 +103,7 @@ public class UsuarioAction extends AbstractManagedBean {
 			e.printStackTrace();
 			incluirError(e.getMessage());
 		}
-		return "";
+		return "pretty:";
 	}
 	
 	public String persistir() {
