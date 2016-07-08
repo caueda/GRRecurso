@@ -8,6 +8,17 @@
  </context-param>
   
   <context-param>
+    <param-name>org.omnifaces.VIEW_SCOPE_MANAGER_MAX_ACTIVE_VIEW_SCOPES</param-name>
+    <param-value>1</param-value>
+  </context-param>
+  <!--   
+  <context-param>
+    <param-name>com.sun.faces.numberOfLogicalViews</param-name>
+    <param-value>1</param-value>
+  </context-param>  
+  -->
+  
+  <context-param>
     <param-name>javax.faces.PROJECT_STAGE</param-name>
     <param-value>Development</param-value>
   </context-param>

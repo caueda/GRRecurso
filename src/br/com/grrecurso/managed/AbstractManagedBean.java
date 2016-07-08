@@ -1,13 +1,25 @@
 package br.com.grrecurso.managed;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.el.ELContext;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.spi.Context;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -155,4 +167,56 @@ public abstract class AbstractManagedBean implements Serializable {
 	public void setTipoOperacao(String tipoOperacao) {
 		this.tipoOperacao = tipoOperacao;
 	}
+	
+    public Map<String, List<String>> getActiveReferences(BeanManager beanManager) {
+        Map<String, List<String>> activeReferences = new HashMap<String, List<String>>();
+        Set<Bean<?>> beans = beanManager.getBeans(Object.class);
+        Context viewScoped = beanManager.getContext(ViewScoped.class);
+        Context sessionScope = beanManager.getContext(SessionScoped.class);
+        Context requestScoped = beanManager.getContext(RequestScoped.class);
+        Context applicationScoped = beanManager.getContext(ApplicationScoped.class);
+        
+        for (Bean<?> bean : beans) {
+        	if(bean.getClass().getName().contains("com.sun.faces.util.cdi11.CDIUtilImpl")) continue;
+            Object referenceViewScoped = viewScoped.get(bean);
+            Object referenceAppScoped = applicationScoped.get(bean);
+            Object referenceSession = sessionScope.get(bean);
+            Object referenceRequest = requestScoped.get(bean);
+
+            if (referenceViewScoped != null) {
+            	if(activeReferences.get("ViewScoped") == null) activeReferences.put("ViewScoped", new ArrayList<String>()); 
+                activeReferences.get("ViewScoped").add(bean.getBeanClass().getName());
+            }
+            if(referenceAppScoped != null){
+            	if(activeReferences.get("ApplicationScoped") == null) activeReferences.put("ApplicationScoped", new ArrayList<String>());
+            	activeReferences.get("ApplicationScoped").add(bean.getBeanClass().getName());
+            }
+            if(referenceSession != null){
+            	if(activeReferences.get("SessionScoped") == null) activeReferences.put("SessionScoped", new ArrayList<String>());
+            	activeReferences.get("SessionScoped").add(bean.getBeanClass().getName());
+            }
+            if(referenceRequest != null){
+            	if(activeReferences.get("RequestScoped") == null) activeReferences.put("RequestScoped", new ArrayList<String>());
+            	activeReferences.get("RequestScoped").add(bean.getBeanClass().getName());
+            }
+        }
+
+        return activeReferences;
+    }
+    
+    /**
+     * Método utilizado para avaliar quais objetos estão sendo inseridos nos escopos.
+     * @param beanManager
+     */
+    @SuppressWarnings("rawtypes")
+    public void printScopedReferences(BeanManager beanManager) {
+		Map objects = getActiveReferences(beanManager);
+		Set keyValues = objects.entrySet();
+		logger.info("[Begin] Scoped attributes");
+		for(Object obj : keyValues){
+			Entry entry = (Entry) obj;
+			logger.info(entry.getKey() + ":" + entry.getValue());
+		}
+		logger.info("[End] Scoped attributes");
+    }
 }
