@@ -8,6 +8,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -70,6 +71,10 @@ public class UsuarioAction extends AbstractManagedBean {
 	public DominioAtivoInativo[] getListaStatus() {
 		return DominioAtivoInativo.values();
 	}	
+	
+	public DominioSexo[] getListaSexo() {
+		return DominioSexo.values();
+	}
 	
 	public void exibirEdicao(){
 		if(!isIncluir() && getIdUsuario() != null) {

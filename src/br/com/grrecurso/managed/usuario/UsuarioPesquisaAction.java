@@ -10,6 +10,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -35,7 +36,7 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 		usuarioSvcLocal.saveOrUpdate(usuario);
 		return "";
 	}
-	
+
 	public void consultar() {
 		setListaUsuarios(usuarioSvcLocal.list(getUsuario()));
 	}
@@ -51,7 +52,11 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 	public DominioAtivoInativo[] getListaStatus() {
 		return DominioAtivoInativo.values();
 	}
-
+	
+	public DominioSexo[] getListaSexo() {
+		return DominioSexo.values();
+	}
+	
 	public Usuario getUsuario() {
 		if(this.usuario == null) {
 			setUsuario(new Usuario());

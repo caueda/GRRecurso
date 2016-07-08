@@ -24,7 +24,12 @@
 				
 				<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
 					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
-				</comp:inputSelectOneMenu>				
+				</comp:inputSelectOneMenu>	
+				
+				<comp:inputSelectOneMenu id="sexo" label="Sexo" value="#{usuarioAction.usuario.sexo}" required="true"
+					requiredMessage="O sexo é obrigatório.">
+					<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
+				</comp:inputSelectOneMenu>			
 				
 				<br/><br/>
 				

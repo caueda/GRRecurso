@@ -14,12 +14,23 @@
     </properties>
 	
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-spec-api -->
 		<dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-all-7.0</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>provided</scope>
-    	</dependency>
+		    <groupId>org.wildfly</groupId>
+		    <artifactId>wildfly-spec-api</artifactId>
+		    <version>9.0.2.Final</version>
+		    <type>pom</type>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-spec-api -->
+		<!--  
+		<dependency>
+		    <groupId>org.wildfly</groupId>
+		    <artifactId>wildfly-spec-api</artifactId>
+		    <version>10.0.0.Final</version>
+		    <type>pom</type>
+		</dependency>
+		-->
     	<!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-impl -->
 		<dependency>
 		    <groupId>com.sun.faces</groupId>

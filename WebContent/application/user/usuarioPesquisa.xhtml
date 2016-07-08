@@ -34,7 +34,7 @@
 						<f:facet name="filter">
 							<p:selectOneButton onchange="PF('usersTable').filter()">
 								<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
+								<f:selectItems var="item" value="#{usuarioPesquisaAction.listaStatus}" itemLabel="#{item.desc}"/>
 							</p:selectOneButton>
 						</f:facet>
 						<h:outputText value="#{user.status.desc}"/>
