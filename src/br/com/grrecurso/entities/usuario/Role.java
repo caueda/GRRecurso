@@ -17,7 +17,9 @@ import org.hibernate.envers.Audited;
 @Entity
 @Audited
 @Table(name="role")
-@NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r")})
+@NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r"),
+			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")
+	})
 public class Role implements Serializable {	
 	/**
 	 * 

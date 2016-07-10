@@ -13,7 +13,6 @@
 		<ui:define name="aplicacao">
 			<p:panel id="panelUser">	
 				<f:metadata>
-					<f:param name="idUsuario" value="#{usuarioAction.idUsuario}"/>
 					<f:viewAction action="#{usuarioAction.exibirEdicao()}" onPostback="false"/>
 				</f:metadata>
 				<comp:inputText id="nome" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>

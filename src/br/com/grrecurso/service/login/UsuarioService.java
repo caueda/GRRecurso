@@ -34,7 +34,7 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Usuario loadById(Long idUsuario) {
-		Query query = em.createNamedQuery("Usuario.findById");
+		Query query = em.createNamedQuery("Usuario.loadById");
 		query.setParameter("idUsuario", idUsuario);
 		return (Usuario)query.getSingleResult();
 	}

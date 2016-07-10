@@ -40,7 +40,13 @@
 		            	<f:param name="tipoOperacao" value="incluir"/>
 		            </p:menuitem>
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search"/>
-		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked"/>		            	
+		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked"/>
+		            <p:submenu label="Papel" icon="ui-icon-person">
+		            	<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true" icon="ui-icon-pencil">
+		            		<f:param name="tipoOperacao" value="incluir"/>
+		            	</p:menuitem>
+		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search"/>		            			            	
+		        	</p:submenu>		            	
 		        </p:submenu>
 		        <p:submenu label="Sistema">
 		        	<p:menuitem value="Logout" url="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/logout"

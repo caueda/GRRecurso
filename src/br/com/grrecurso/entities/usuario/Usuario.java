@@ -32,7 +32,7 @@ import br.com.grrecurso.dominio.DominioSexo;
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name="Usuario.findByEmailSenha", query="select u from Usuario u where u.email = :email and u.senha = :senha"),
-	@NamedQuery(name="Usuario.findById", query="select u from Usuario u where u.idUsuario = :idUsuario"),
+	@NamedQuery(name="Usuario.loadById", query="select u from Usuario u where u.idUsuario = :idUsuario"),
 	@NamedQuery(name="Usuario.listAll", query="select u from Usuario u"),
 	@NamedQuery(name="Usuario.loadByEmail", query="select u from Usuario u where u.email = :email")
 })
