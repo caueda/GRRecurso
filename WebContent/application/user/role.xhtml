@@ -16,7 +16,9 @@
 					<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
 				</f:metadata>
 				<comp:inputText id="nome" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
-				
+				<p:outputLabel for="descricao" value="Descrição"/>
+				<p:inputTextarea id="descricao" value="#{roleAction.role.descricao}" cols="100" rows="4">
+				</p:inputTextarea>
 				<br/><br/>
 				
 				<p:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{roleAction.persistir}" process="panelRole" update="panelRole"/>

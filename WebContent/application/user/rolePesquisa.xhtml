@@ -25,6 +25,9 @@
 					<p:column filterBy="#{role.nome}" headerText="Papel" filterMatchMode="contains">
 						<h:outputText value="#{role.nome}"/>
 					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{role.descricao}"/>
+					</p:column>
 					<p:column headerText="Editar">
 						<h:link value="Editar" outcome="pretty:editRole">
 							<f:param name="tipoOperacao" value="alterar"/>
