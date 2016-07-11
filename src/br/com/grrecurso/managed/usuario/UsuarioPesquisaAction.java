@@ -6,10 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.omnifaces.cdi.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -22,6 +21,7 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
 @ViewScoped
+
 @URLMappings( mappings= {
 		@URLMapping(id="userPesquisa", pattern="/app/usuario/pesquisa", viewId="/application/user/usuarioPesquisa.jsf"),
 })
@@ -40,12 +40,12 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("[UsuarioPesquisaAction.init] " + this.toString());
+		logger.info("[UsuarioPesquisaAction.init] " + this.toString());
 	}
 	
 	@PreDestroy
 	public void destroy() {
-		System.out.println("[UsuarioPesquisaAction.destroy] " + this.toString());
+		logger.info("[UsuarioPesquisaAction.destroy] " + this.toString());
 	}
 	
 	public String persist() {

@@ -52,6 +52,10 @@ public abstract class AbstractManagedBean implements Serializable {
 	
 	private String tipoOperacao;
 	
+	public AbstractManagedBean() {		
+		super();
+	}
+	
 	public boolean isIncluir() {
 		return getTipoOperacao().equals(INCLUIR);
 	}

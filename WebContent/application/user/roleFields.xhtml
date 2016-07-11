@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:comp="http://java.sun.com/jsf/composite/comp">				
+		<p:panel id="panelRole">	
+			<comp:inputText id="nomeRole" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
+			<comp:inputTextarea id="descricaoRole" label="Descrição" value="#{roleAction.role.descricao}" cols="100" rows="4" required="false"/>
+			<br/><br/>
+			
+			<p:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{roleAction.persistir}" process="panelRole" update="panelRole"/>
+			<p:commandButton value="Cancelar" action="pretty:rolePesquisa" rendered="#{roleAction.isAlterar()}"/>
+			
+		</p:panel>		    
+</html>

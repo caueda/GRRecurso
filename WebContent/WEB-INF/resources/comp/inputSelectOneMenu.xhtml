@@ -6,10 +6,11 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"  
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:cc="http://java.sun.com/jsf/composite">
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:comp="http://java.sun.com/jsf/composite/comp">
 	
 	<cc:interface>
-		<cc:attribute name="id"/>
+		<cc:valueHolder name="inputField"/>	
 		<cc:attribute name="label"/>
 		<cc:attribute name="value"/>		
 		<cc:attribute name="required"/>		
@@ -17,12 +18,13 @@
 		<cc:attribute name="rendered"/>
 	</cc:interface>
 	
-	<cc:implementation>			
-		<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}"/>
-		<p:selectOneMenu id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
-			rendered="#{cc.attrs.rendered}">
-			<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>					
-			<cc:insertChildren/>			
-		</p:selectOneMenu>				
+	<cc:implementation>
+		<comp:inputDecorator idDecorator="inputField" label="#{cc.attrs.label}">				
+			<p:selectOneMenu id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
+				rendered="#{cc.attrs.rendered}">
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>					
+				<cc:insertChildren/>			
+			</p:selectOneMenu>
+		</comp:inputDecorator>
 	</cc:implementation>
 </html>

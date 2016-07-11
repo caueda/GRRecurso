@@ -26,9 +26,9 @@
     </script>
 </h:head>	
 <h:body>			
-	  <h:form id="menuForm" prependId="false">  
+	  <h:form id="menuForm" prependId="true">  
 	  		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>             	
-		    <p:growl id="messageMonitor" for="messageMonitor" showDetail="true"/>				                	     
+		    <p:growl id="messageMonitor" for="messageMonitor" showDetail="true" globalOnly="true"/>				                	     
 		    <p:idleMonitor timeout="60000" >				        				        
 		        <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messageMonitor" />
 	     		<p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messageMonitor" />
@@ -58,7 +58,7 @@
 		    </p:menubar>		    
 		</h:form>
 				
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
     	<h:form id="formapp" prependId="false">
     		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
         	<ui:insert name="aplicacao"></ui:insert>

@@ -5,26 +5,14 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" 
   xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:comp="http://java.sun.com/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-				
 		<ui:define name="titulo">GRRecurso</ui:define>
 		<ui:define name="aplicacao">
-			<p:panel id="panelRole">	
-				<f:metadata>
-					<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
-				</f:metadata>
-				<comp:inputText id="nome" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
-				<p:outputLabel for="descricao" value="Descrição"/>
-				<p:inputTextarea id="descricao" value="#{roleAction.role.descricao}" cols="100" rows="4">
-				</p:inputTextarea>
-				<br/><br/>
-				
-				<p:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{roleAction.persistir}" process="panelRole" update="panelRole"/>
-				
-			</p:panel>		    
+			<f:metadata>
+				<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
+			</f:metadata>
+			<ui:include src="/application/user/roleFields.xhtml"/>		    
 		</ui:define>
-		
 </ui:composition>
 </html>

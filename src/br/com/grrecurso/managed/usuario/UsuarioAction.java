@@ -3,11 +3,8 @@ package br.com.grrecurso.managed.usuario;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-
-import org.omnifaces.cdi.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -40,17 +37,15 @@ public class UsuarioAction extends AbstractManagedBean {
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
-	@Inject
-	protected BeanManager beanManager;
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("[UsuarioAction.init] " + this.toString());
+		logger.info("[UsuarioAction.init] " + this.toString());
 	}
 	
 	@PreDestroy
 	public void destroy() {
-		System.out.println("[UsuarioAction.destroy] " + this.toString());
+		logger.info("[UsuarioAction.destroy] " + this.toString());
 	}
 	
 	public String getSenhaAtual() {

@@ -34,12 +34,12 @@ public class RoleAction extends AbstractManagedBean {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("[RoleAction.init] " + this.toString());
+		logger.info("[RoleAction.init] " + this.toString());
 	}
 	
 	@PreDestroy
 	public void destroy() {
-		System.out.println("[RoleAction.destroy] " + this.toString());
+		logger.info("[RoleAction.destroy] " + this.toString());
 	}
 	
 	public void exibirEdicao(){

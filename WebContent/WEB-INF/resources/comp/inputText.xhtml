@@ -6,22 +6,24 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"  
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:cc="http://java.sun.com/jsf/composite">
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:comp="http://java.sun.com/jsf/composite/comp">
 	
 	<cc:interface>
-		<cc:attribute name="id"/>
+		<cc:valueHolder name="inputField"/>
 		<cc:attribute name="label"/>
 		<cc:attribute name="value"/>
 		<cc:attribute name="required"/>
 		<cc:attribute name="placeholder"/>
 		<cc:attribute name="requiredMessage"/>
+		<cc:attribute name="readonly"/>
 		<cc:attribute name="rendered"/>
 	</cc:interface>
 	
-	<cc:implementation>
-		<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}"/>	
-		<p:password id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" 
-			requiredMessage="#{cc.attrs.requiredMessage}" placeholder="#{cc.attrs.placeholder}"
-			rendered="#{cc.attrs.rendered}" />							
+	<cc:implementation>			
+		<comp:inputDecorator idDecorator="inputField" label="#{cc.attrs.label}">		
+			<p:inputText id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" readonly="#{readonly}" 
+				requiredMessage="#{cc.attrs.requiredMessage}" placeholder="#{cc.attrs.placeholder}" rendered="#{cc.attrs.rendered}"/>
+		</comp:inputDecorator>				
 	</cc:implementation>
 </html>

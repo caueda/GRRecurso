@@ -38,7 +38,7 @@ public class RolePesquisaAction extends AbstractManagedBean {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("[RolePesquisaAction.init] " + this.toString());
+		logger.info("[RolePesquisaAction.init] " + this.toString());
 	}
 	
 	@PreDestroy

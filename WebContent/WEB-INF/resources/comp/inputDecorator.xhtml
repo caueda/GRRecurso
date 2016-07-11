@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:comp="http://java.sun.com/jsf/composite/comp">
+	
+	<cc:interface>
+		<cc:attribute name="idDecorator" required="true"/>
+		<cc:attribute name="label"/>
+	</cc:interface>
+	
+	<cc:implementation>
+		<p:outputLabel for="#{cc.attrs.idDecorator}" value="#{cc.attrs.label}"/>
+		<cc:insertChildren></cc:insertChildren>
+		<p:message for="#{cc.attrs.idDecorator}"/>		
+	</cc:implementation>
+</html>
