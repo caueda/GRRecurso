@@ -15,6 +15,11 @@
 			    		typeClass = GRRecursoGenericEnumUserType.class, 
 			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioSituacaoSolicitacao.NOME),
 			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioSituacaoSolicitacao.METHOD)}),
+			    @TypeDef(
+			    		name = DominioTipoEndereco.NOME, 
+			    		typeClass = GRRecursoGenericEnumUserType.class, 
+			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioTipoEndereco.NOME),
+			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioTipoEndereco.METHOD)}),
 			}
     			
 		)

@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,6 +53,7 @@ public class Usuario implements Serializable {
 	private List<Role> roles;
 	private DominioSexo sexo;
 	private boolean edicao;
+	private List<Endereco> enderecos;
 	
 	public Usuario(){
 		super();
@@ -157,6 +159,15 @@ public class Usuario implements Serializable {
 
 	public void setEdicao(boolean edicao) {
 		this.edicao = edicao;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="usuario")	
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	@Override
