@@ -19,8 +19,13 @@
 				<br/>
 				
 				<p:commandButton value="Consultar" action="#{usuarioPesquisaAction.consultar}" process="table" update="table"/>
-				<br/>
-				<p:dataTable value="#{usuarioPesquisaAction.listaUsuarios}" var="user" emptyMessage="Nenhum usuário encontrado." widgetVar="usersTable">
+				<p:spacer height="20"/>
+				
+				<p:dataTable value="#{usuarioPesquisaAction.listaUsuarios}"
+					paginator="true" rows="5" paginatorPosition="bottom" editable="true" editMode="cell"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                	rowsPerPageTemplate="3,5,10" lazy="true"
+					var="user" emptyMessage="Nenhum usuário encontrado." widgetVar="usersTable">
 					<p:column headerText="ID" width="10%">
 						<h:outputText value="#{user.idUsuario}"/>
 					</p:column>
@@ -46,7 +51,16 @@
 						</h:link>						
 					</p:column>
 					<p:column headerText="Sexo">
-						<h:outputText value="#{user.sexo.desc}"/>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.sexo.desc}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{user.sexo}">
+									<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 				</p:dataTable>
 			</p:panel>				

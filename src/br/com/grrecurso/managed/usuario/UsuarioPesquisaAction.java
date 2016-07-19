@@ -1,6 +1,7 @@
 package br.com.grrecurso.managed.usuario;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -9,6 +10,9 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -21,7 +25,6 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
 @ViewScoped
-
 @URLMappings( mappings= {
 		@URLMapping(id="userPesquisa", pattern="/app/usuario/pesquisa", viewId="/application/user/usuarioPesquisa.jsf"),
 })
@@ -31,21 +34,39 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 	 */
 	private static final long serialVersionUID = 7537013458287313484L;
 	private Usuario usuario;
-	private List<Usuario> listaUsuarios;
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
 	@Inject
 	protected BeanManager beanManager;
 	
+	private LazyDataModel<Usuario> listaUsuarios;
+	
 	@PostConstruct
 	public void init() {
 		logger.info("[UsuarioPesquisaAction.init] " + this.toString());
-	}
+		this.listaUsuarios = new LazyDataModel<Usuario>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+            public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                List<Usuario> result = usuarioSvcLocal.listAll(first, pageSize, sortField, sortOrder, filters);
+                listaUsuarios.setRowCount(usuarioSvcLocal.count(sortField, sortOrder, filters));
+                return result;
+            }
+        };
+	}	
 	
 	@PreDestroy
 	public void destroy() {
 		logger.info("[UsuarioPesquisaAction.destroy] " + this.toString());
+	}
+	
+	public void consultar() {
+		
 	}
 	
 	public String persist() {
@@ -53,16 +74,11 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 		return "";
 	}
 
-	public void consultar() {
-		setListaUsuarios(usuarioSvcLocal.list(getUsuario()));
-//		printScopedReferences(beanManager);
-	}
-
-	public List<Usuario> getListaUsuarios() {
+	public LazyDataModel<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
-
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
+	
+	public void setListaUsuarios(LazyDataModel<Usuario> listaUsuarios) {
 		this.listaUsuarios = listaUsuarios;
 	}
 

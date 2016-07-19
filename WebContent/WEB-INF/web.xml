@@ -11,7 +11,10 @@
  	<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
  	<param-value>true</param-value>
  </context-param>
-  
+ <context-param>
+  <param-name>org.jboss.weld.development</param-name>
+  <param-value>true</param-value>
+ </context-param>
   <!--   
   <context-param>
     <param-name>org.omnifaces.VIEW_SCOPE_MANAGER_MAX_ACTIVE_VIEW_SCOPES</param-name>
