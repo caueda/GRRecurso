@@ -29,7 +29,7 @@
 					<p:column headerText="ID" width="10%">
 						<h:outputText value="#{user.idUsuario}"/>
 					</p:column>
-					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains">
+					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains" filterFunction="#{usuarioPesquisaAction.filterByName}">
 						<h:outputText value="#{user.nome}"/>
 					</p:column>
 					<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">

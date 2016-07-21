@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -41,11 +43,11 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Usuario loadById(Long idUsuario) {
 		Query query = em.createNamedQuery("Usuario.loadById");
-		query.setParameter("idUsuario", idUsuario);
+		query.setParameter("idUsuario", idUsuario);		
 		return (Usuario)query.getSingleResult();
 	}
 	
-	@TransactionAttribute()
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Usuario loadByEmail(String email){
 		Query query = em.createNamedQuery("Usuario.loadByEmail");
 		query.setParameter("email", email);
@@ -58,9 +60,9 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 		return usuario;
 	}	
 	
-	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void alterarSenha(Long idUsuario, String novaSenha){
+		em.getTransaction().begin();
 		Usuario usuario = loadById(idUsuario);
 		usuario.setSenha(novaSenha);
 		em.merge(usuario);
@@ -83,12 +85,12 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	}
 	
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        return this.listAll(-1,-1,null,null,filters).size();
+        return this.list(-1,-1,null,null,filters).size();
     }
 	
-	public List<Usuario> listAll(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Usuario> query = cb.createQuery(Usuario.class);
+	public List<Usuario> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Usuario> query = criteriaBuilder.createQuery(Usuario.class);
         Root<Usuario> usuario = query.from(Usuario.class);
 //        Join<Site,SiteType> siteType = site.join(Site_.siteType);
         query.select(usuario);
@@ -110,20 +112,20 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
         */
         
         //filter
-        Predicate filterCondition = cb.conjunction();
+        Predicate filterCondition = criteriaBuilder.conjunction();
         for (Map.Entry<String, Object> filter : filters.entrySet()) {
             if (!filter.getValue().equals("")) {
-            	/*
-                //try as string using like            	
-                Path<String> pathFilter = getStringPath(filter.getKey(), usuario, siteType);
+                //try as string using like
+            	Path<String> pathFilter = null;
+//                Path<String> pathFilter = getStringPath(filter.getKey(), usuario, siteType);
                 if (pathFilter != null){
-                    filterCondition = cb.and(filterCondition, cb.like(pathFilter, "%"+filter.getValue()+"%"));
+                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.like(pathFilter, "%"+filter.getValue()+"%"));
                 }else{
                     //try as non-string using equal
-                    Path<?> pathFilterNonString = getPath(filter.getKey(), usuario, siteType);
-                    filterCondition = cb.and(filterCondition, cb.equal(pathFilterNonString, filter.getValue()));
+//                    Path<?> pathFilterNonString = getPath(filter.getKey(), usuario, siteType);
+                	  
+//                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.equal(pathFilterNonString, filter.getValue()));
                 }
-                */
             }
         }
         query.where(filterCondition);

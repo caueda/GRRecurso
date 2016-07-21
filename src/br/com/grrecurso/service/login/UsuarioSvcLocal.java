@@ -11,7 +11,7 @@ import br.com.grrecurso.entities.usuario.Usuario;
 
 @Local
 public interface UsuarioSvcLocal extends UsuarioSvcRemote {
-	public List<Usuario> listAll(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters);
+	public List<Usuario> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters);
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters);
 	public Usuario saveOrUpdate(Usuario usuario);
 	public void alterarSenha(Long idUsuario, String novaSenha);

@@ -1,13 +1,14 @@
 package br.com.grrecurso.managed.usuario;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,7 +25,7 @@ import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
-@ViewScoped
+@RequestScoped
 @URLMappings( mappings= {
 		@URLMapping(id="userPesquisa", pattern="/app/usuario/pesquisa", viewId="/application/user/usuarioPesquisa.jsf"),
 })
@@ -53,7 +54,7 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 			
 			@Override
             public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-                List<Usuario> result = usuarioSvcLocal.listAll(first, pageSize, sortField, sortOrder, filters);
+                List<Usuario> result = usuarioSvcLocal.list(first, pageSize, sortField, sortOrder, filters);
                 listaUsuarios.setRowCount(usuarioSvcLocal.count(sortField, sortOrder, filters));
                 return result;
             }
@@ -65,8 +66,15 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 		logger.info("[UsuarioPesquisaAction.destroy] " + this.toString());
 	}
 	
+	public boolean filterByName(Object value, Object filter, Locale locale) {
+//        String filterText = (filter == null) ? null : filter.toString().trim();
+        return true;
+    }
+	
 	public void consultar() {
-		
+		List<Usuario> usuarios = usuarioSvcLocal.list(getUsuario());
+		listaUsuarios.setWrappedData(usuarios);		
+		listaUsuarios.setRowCount(usuarios.size());
 	}
 	
 	public String persist() {
