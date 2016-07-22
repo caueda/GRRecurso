@@ -26,7 +26,6 @@
 				</comp:inputSelectOneMenu>			
 				
 				<br/>
-				<br/><br/>
 				
 				<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
 				<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>

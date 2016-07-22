@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
+import br.com.grrecurso.seguranca.spring.user.UserDetailService;
 
 @Configuration
 @EnableWebSecurity
@@ -20,15 +21,18 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AutenticationFailureImpl authenticationFailureHandler;
 	
-	@Autowired
-	DataSource dataSource;
+//	@Autowired
+//	DataSource dataSource;
+	
+	@Autowired UserDetailService userDetailService;
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(dataSource)
-			.usersByUsernameQuery("select email, senha, status from usuario where email = ?")
-			.authoritiesByUsernameQuery("select u.email, r.nome as role from usuario u join usuario_role ur on ur.id_usuario = u.id_usuario "
-					+ " join role r on r.id_role = ur.id_role where u.email = ? ");
+		auth.userDetailsService(userDetailService);
+//		auth.jdbcAuthentication().dataSource(dataSource)
+//			.usersByUsernameQuery("select email, senha, status from usuario where email = ?")
+//			.authoritiesByUsernameQuery("select u.email, r.nome as role from usuario u join usuario_role ur on ur.id_usuario = u.id_usuario "
+//					+ " join role r on r.id_role = ur.id_role where u.email = ? ");
 	}
 	
 //	@Autowired

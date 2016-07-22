@@ -17,6 +17,12 @@ import br.com.grrecurso.dominio.DominioSituacaoSolicitacao;
 import br.com.grrecurso.entities.usuario.Usuario;
 
 @Entity
+/*
+@FilterDef (name = "porRoleId", parameters = @ParamDef (name = "roleId", type="integer"))
+@Filters ({
+    @Filter (name = "porRoleId", condition = "nome = :nome")
+})
+*/
 @Table(name="solicitacao")
 public class Solicitacao implements Serializable {
 

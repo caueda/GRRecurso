@@ -22,7 +22,7 @@ public abstract class AbstractService implements Serializable {
 	
 	public Session getSession() {
 		Session session = em.unwrap(Session.class);
-		session.enableFilter("porNome").setParameter("nome", "Administrator");
+		session.enableFilter("porSistema").setParameter("sistema", "grrecurso");
 		return session;
 	}
 }

@@ -35,7 +35,7 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 		HttpSession session = request.getSession(false);
 		if (principal instanceof UserDetails) {
 			userName = ((UserDetails) principal).getUsername();
-			Usuario usuario = usuarioSvcLocal.loadByEmail(userName);
+			Usuario usuario = usuarioSvcLocal.findByEmail(userName);
 			if(usuario != null) {
 				logger.debug("Usuário: " + usuario.getNome());
 				UserBean userBean = new UserBean(usuario);

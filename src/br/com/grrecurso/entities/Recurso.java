@@ -14,7 +14,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
+
 @Entity
+@FilterDef (name = "porSistema", parameters = @ParamDef (name = "sistema", type="string"))
+@Filters ({
+    @Filter (name = "porSistema", condition = "sistema = :sistema")
+})
 @Table(name="recurso")
 public class Recurso implements Serializable {
 

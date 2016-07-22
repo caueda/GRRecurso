@@ -13,6 +13,7 @@ import javax.persistence.criteria.Path;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.primefaces.model.SortOrder;
@@ -37,10 +38,14 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public Usuario loadByEmail(String email){
-		Query query = em.createNamedQuery("Usuario.loadByEmail");
-		query.setParameter("email", email);
-		return (Usuario)query.getSingleResult();
+	public Usuario findByEmail(String email){
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.setFetchMode("roles", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.eq("email", email));
+		
+		return (Usuario)criteria.uniqueResult();
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

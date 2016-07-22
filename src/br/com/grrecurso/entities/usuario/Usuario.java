@@ -20,10 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -35,10 +31,6 @@ import br.com.grrecurso.dominio.DominioSexo;
 @Entity
 @Audited
 @Table(name="usuario")
-@FilterDef (name = "porNome", parameters = @ParamDef (name = "nome", type="string"))
-@Filters ({
-    @Filter (name = "porNome", condition = "nome = :nome")
-})
 @NamedQueries({
 	@NamedQuery(name="Usuario.findByEmailSenha", query="select u from Usuario u where u.email = :email and u.senha = :senha"),
 	@NamedQuery(name="Usuario.loadById", query="select u from Usuario u where u.idUsuario = :idUsuario"),
