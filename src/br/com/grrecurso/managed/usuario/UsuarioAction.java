@@ -6,6 +6,8 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import com.ocpsoft.pretty.faces.annotation.URLAction;
+import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
@@ -16,6 +18,7 @@ import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
+@URLBeanName(value="usuarioAction")
 @ViewScoped
 @URLMappings( mappings= {
 		@URLMapping(id="newUsuario", pattern="/app/usuario/#{tipoOperacao : usuarioAction.tipoOperacao}", viewId="/application/user/usuario.jsf"),
@@ -88,6 +91,7 @@ public class UsuarioAction extends AbstractManagedBean {
 		return DominioSexo.values();
 	}
 	
+	@URLAction(mappingId="editUsuario")
 	public void exibirEdicao(){
 		if(!isIncluir() && getIdUsuario() != null) {
 			setTipoOperacao(ALTERAR);

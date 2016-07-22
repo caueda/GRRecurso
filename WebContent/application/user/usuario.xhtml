@@ -11,10 +11,6 @@
 		<ui:define name="titulo">GRRecurso</ui:define>
 		<ui:define name="aplicacao">
 			<p:panel id="panelUser">	
-				<f:metadata>
-					<f:viewAction action="#{usuarioAction.exibirEdicao()}" onPostback="false"/>
-				</f:metadata>
-				
 				<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
 				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 

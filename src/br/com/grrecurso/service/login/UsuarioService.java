@@ -8,16 +8,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -36,9 +28,6 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	 * 
 	 */
 	private static final long serialVersionUID = 4344896204368371422L;
-	
-	@PersistenceContext 
-	private EntityManager em;
 	
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Usuario loadById(Long idUsuario) {
@@ -71,7 +60,7 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 	@SuppressWarnings("unchecked")
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Usuario> list(Usuario usuarioPesquisa){
-		Session session = (Session)em.getDelegate();
+		Session session = getSession();
 		Criteria criteria = session.createCriteria(Usuario.class);
 		
 		if(StringUtils.isNotBlank(usuarioPesquisa.getNome())) {
@@ -89,13 +78,7 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
     }
 	
 	public List<Usuario> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Usuario> query = criteriaBuilder.createQuery(Usuario.class);
-        Root<Usuario> usuario = query.from(Usuario.class);
-//        Join<Site,SiteType> siteType = site.join(Site_.siteType);
-        query.select(usuario);
-
-
+        Criteria criteria = getSession().createCriteria(Usuario.class);        
 //        Path<?> path = getPath(sortField, usuario, siteType);
         /*
         if (sortOrder == null){
@@ -112,14 +95,14 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
         */
         
         //filter
-        Predicate filterCondition = criteriaBuilder.conjunction();
+//        Predicate filterCondition = criteriaBuilder.conjunction();
         for (Map.Entry<String, Object> filter : filters.entrySet()) {
             if (!filter.getValue().equals("")) {
                 //try as string using like
             	Path<String> pathFilter = null;
 //                Path<String> pathFilter = getStringPath(filter.getKey(), usuario, siteType);
                 if (pathFilter != null){
-                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.like(pathFilter, "%"+filter.getValue()+"%"));
+//                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.like(pathFilter, "%"+filter.getValue()+"%"));
                 }else{
                     //try as non-string using equal
 //                    Path<?> pathFilterNonString = getPath(filter.getKey(), usuario, siteType);
@@ -128,17 +111,16 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
                 }
             }
         }
-        query.where(filterCondition);
+//        query.where(filterCondition);
         
         //pagination
-        TypedQuery<Usuario> typedQuery = em.createQuery(query);
         if (pageSize >= 0){
-            typedQuery.setMaxResults(pageSize);
+            criteria.setMaxResults(pageSize);
         }
         if (first >= 0){
-            typedQuery.setFirstResult(first);
+            criteria.setFirstResult(first);
         }
-        return typedQuery.getResultList();
+        return criteria.list();
     }
 
 }

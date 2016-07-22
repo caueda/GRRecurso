@@ -8,9 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +28,6 @@ public class RoleService extends AbstractService {
 	 * 
 	 */
 	private static final long serialVersionUID = 336983759745248607L;
-	@Inject private EntityManager em;
 	
 	@PostConstruct
 	private void init(){
