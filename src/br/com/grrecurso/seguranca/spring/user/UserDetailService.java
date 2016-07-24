@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -54,7 +55,11 @@ public class UserDetailService implements UserDetailsService {
 		
 		GRRecursoUser grrecursoUser = new GRRecursoUser(email, password, enabled, accountNonExpired, credentialNonExpired,
 				accountNonLocked, authorities);
-		grrecursoUser.setModulos(usuario.getModulos());
+		grrecursoUser.setModuleIds(new ArrayList<Long>());
+		for(Modulo modulo : usuario.getModulos()){
+			grrecursoUser.getModuleIds().add(modulo.getIdModulo());
+		}
+		grrecursoUser.setIdUsuario(usuario.getIdUsuario());
 		
 		return grrecursoUser;
 	}

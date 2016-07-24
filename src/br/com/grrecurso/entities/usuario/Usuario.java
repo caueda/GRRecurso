@@ -2,7 +2,7 @@ package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,12 +50,12 @@ public class Usuario implements Serializable {
 	private String senha;
 	private Date dataLogin;
 	private DominioAtivoInativo status;
-	private List<PerfilUsuario> perfis;
-	private List<Role> roles;
+	private Set<PerfilUsuario> perfis;
+	private Set<Role> roles;
 	private DominioSexo sexo;
 	private boolean edicao;
-	private List<Endereco> enderecos;
-	private List<Modulo> modulos;
+	private Set<Endereco> enderecos;
+	private Set<Modulo> modulos;
 	
 	public Usuario(){
 		super();
@@ -135,11 +135,11 @@ public class Usuario implements Serializable {
 		joinColumns= {@JoinColumn(name="id_usuario")},
 		inverseJoinColumns= {@JoinColumn(name="id_perfil_usuario")}
 	)
-	public List<PerfilUsuario> getPerfis() {
+	public Set<PerfilUsuario> getPerfis() {
 		return perfis;
 	}
 
-	public void setPerfis(List<PerfilUsuario> perfis) {
+	public void setPerfis(Set<PerfilUsuario> perfis) {
 		this.perfis = perfis;
 	}
 	
@@ -148,11 +148,11 @@ public class Usuario implements Serializable {
 			@JoinColumn(name="id_usuario")},
 			inverseJoinColumns={@JoinColumn(name="id_modulo")}
 	)
-	public List<Modulo> getModulos() {
+	public Set<Modulo> getModulos() {
 		return modulos;
 	}
 
-	public void setModulos(List<Modulo> modulos) {
+	public void setModulos(Set<Modulo> modulos) {
 		this.modulos = modulos;
 	}
 
@@ -160,11 +160,11 @@ public class Usuario implements Serializable {
 	@JoinTable(name="usuario_role", joinColumns= {@JoinColumn(name="id_usuario")},
 			   inverseJoinColumns= {@JoinColumn(name="id_role")}
 	)
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
@@ -177,11 +177,11 @@ public class Usuario implements Serializable {
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="usuario")	
-	public List<Endereco> getEnderecos() {
+	public Set<Endereco> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
+	public void setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
 

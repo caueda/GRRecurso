@@ -23,7 +23,11 @@ import br.com.grrecurso.service.AbstractService;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class UsuarioService extends AbstractService implements UsuarioSvcLocal, UsuarioSvcRemote{
+public class UsuarioService extends AbstractService<Usuario> implements UsuarioSvcLocal, UsuarioSvcRemote{
+
+	protected UsuarioService() {
+		super(Usuario.class);
+	}
 
 	/**
 	 * 

@@ -1,22 +1,22 @@
 package br.com.grrecurso.service;
 
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.com.grrecurso.entities.usuario.Modulo;
+import br.com.grrecurso.entities.Solicitacao;
+import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
-public abstract class AbstractService implements Serializable {
+public abstract class AbstractService<T> implements Serializable {
 	/**
 	 * 
 	 */
@@ -27,16 +27,38 @@ public abstract class AbstractService implements Serializable {
 	@PersistenceContext
 	protected EntityManager em;
 	
-	@Resource
-	protected Principal principal;
+	protected GRRecursoUser principal;
+	
+	protected Usuario usuarioLogado;
+	
+	private Class<T> clazz;
+	
+	protected AbstractService(Class<T> clazz){
+		this.clazz = clazz;
+	}
 	
 	public Session getSession() {
-		Session session = em.unwrap(Session.class);
-		List<Modulo> modulos = new ArrayList<Modulo>();
-		if(principal != null && principal instanceof GRRecursoUser){
-			modulos = ((GRRecursoUser)principal).getModulos();
+		Session session = em.unwrap(Session.class);		
+		Object callerPrincipal = null;
+		if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null){
+			callerPrincipal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		session.enableFilter("porModulo").setParameter("modulos", modulos);
+		List<Long> idModules = new ArrayList<Long>();
+		if(callerPrincipal != null && callerPrincipal instanceof GRRecursoUser){
+			principal = (GRRecursoUser)callerPrincipal;
+			idModules = principal.getModuleIds();			
+		}
+		if(this.clazz.getSimpleName().equals(Solicitacao.class.getSimpleName())){
+			session.enableFilter("porModulo").setParameterList("idModulos", idModules);
+		}
 		return session;
+	}
+
+	public GRRecursoUser getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(GRRecursoUser principal) {
+		this.principal = principal;
 	}
 }

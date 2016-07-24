@@ -22,7 +22,11 @@ import br.com.grrecurso.service.AbstractService;
 @Named
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class RoleService extends AbstractService {
+public class RoleService extends AbstractService<Role> {
+
+	protected RoleService() {
+		super(Role.class);
+	}
 
 	/**
 	 * 

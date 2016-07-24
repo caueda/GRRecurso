@@ -1,0 +1,68 @@
+package br.com.grrecurso.service.solicitacao;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Named;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+
+import br.com.grrecurso.entities.Solicitacao;
+import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.AbstractService;
+
+@Named
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@Stateless
+public class SolicitacaoService extends AbstractService<Solicitacao> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 336983759745248607L;
+	
+	public SolicitacaoService(){
+		super(Solicitacao.class);
+	}
+	
+	@PostConstruct
+	private void init(){
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Solicitacao> getSolicitacoes(){
+		Criteria criteria = getSession().createCriteria(Solicitacao.class);		
+		return criteria.list();
+	}
+	
+	public Solicitacao loadById(Long idSolicitacao){
+		return getSession().load(Solicitacao.class, idSolicitacao);
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Solicitacao saveOrUpdate(Solicitacao solicitacao) {
+		if(solicitacao.getIdSolicitacao() == null){
+			solicitacao.setUsuario(getSession().load(Usuario.class, getPrincipal().getIdUsuario()));
+		}
+		getSession().saveOrUpdate(solicitacao);		
+		return solicitacao;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public List<Solicitacao> list(Solicitacao solicitacao){
+		Criteria criteria = getSession().createCriteria(Solicitacao.class);
+		
+		if(StringUtils.isNotBlank(solicitacao.getChamado())) {
+			criteria.add(Restrictions.like("chamado", solicitacao.getChamado()));
+		} 
+		return criteria.list();
+	}
+}

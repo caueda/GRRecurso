@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
+				
+		<ui:define name="titulo">GRRecurso</ui:define>
+		<ui:define name="aplicacao">
+			<p:panel id="panelSolicitacao">	
+				<comp:inputText id="chamado" label="Nº Chamado" value="#{solicitacaoAction.solicitacao.chamado}" required="true" requiredMessage="O nº do chamado é obrigatório."/>
+				<comp:inputText id="descricao" label="Descrição" value="#{solicitacaoAction.solicitacao.descricao}" required="false"/>	
+				
+				<comp:inputSelectOneMenu id="status" label="Situação da solicitação" value="#{solicitacaoAction.solicitacao.situacao}" required="true" requiredMessage="A situação da solicitação é obrigatória.">
+					<f:selectItems var="item" value="#{solicitacaoAction.listaSituacaoSolicitacao}" itemLabel="#{item.desc}"/>
+				</comp:inputSelectOneMenu>	
+				
+				<comp:inputSelectOneMenu id="modulo" label="Modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
+					requiredMessage="O módulo é obrigatório.">
+					<f:selectItems var="item" value="#{solicitacaoAction.listaModulos}" itemLabel="#{item.nome}" converter="omnifaces.SelectItemsConverter"/>
+				</comp:inputSelectOneMenu>			
+				
+				<br/>
+				
+				<p:commandButton value="#{solicitacaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{solicitacaoAction.persistir}" process="panelSolicitacao" update="panelSolicitacao"/>
+				<p:commandButton value="Cancelar" action="pretty:solicitacaoPesquisa" rendered="#{solicitacaoAction.isAlterar()}"/>
+				
+			</p:panel>		    
+		</ui:define>
+		
+</ui:composition>
+</html>

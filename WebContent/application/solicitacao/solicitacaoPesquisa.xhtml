@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
+				
+		<ui:define name="titulo">GRRecurso</ui:define>
+		
+		<ui:define name="aplicacao">   
+			<p:panel id="table" header="Filtro de Pesquisa">
+				<p:outputLabel for="chamadoPesquisa" value="Chamado"/>
+				<p:inputText id="chamadoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.chamado}"/>
+				<p:outputLabel for="descricaoPesquisa" value="Descrição"/>
+				<p:inputText id="descricaoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.descricao}"/>
+				<br/>
+				
+				<p:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" process="table" update="table"/>
+				<p:spacer height="20"/>
+				
+				<p:dataTable value="#{solicitacaoPesquisaAction.listaSolicitacoes}" var="solicitacao" emptyMessage="Nenhuma solicitação encontrada." widgetVar="solicitacoesTable">
+					<p:column headerText="ID" width="10%">
+						<h:outputText value="#{solicitacao.idSolicitacao}"/>
+					</p:column>
+					<p:column filterBy="#{solicitacao.chamado}" headerText="Chamado" filterMatchMode="contains">
+						<h:outputText value="#{solicitacao.chamado}"/>
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{solicitacao.descricao}"/>
+					</p:column>
+					<p:column headerText="Usuário">
+						<h:outputText value="#{solicitacao.usuario.nome}"/>
+					</p:column>
+					<p:column headerText="Módulo">
+						<h:outputText value="#{solicitacao.modulo.nome}"/>
+					</p:column>
+					<p:column headerText="Editar">
+						<h:link value="Editar" outcome="pretty:editSolicitacao">
+							<f:param name="tipoOperacao" value="alterar"/>
+							<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
+						</h:link>						
+					</p:column>
+				</p:dataTable>
+			</p:panel>				
+		</ui:define>
+		
+</ui:composition>
+</html>

@@ -1,7 +1,5 @@
 package br.com.grrecurso.entities.usuario;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +11,12 @@ import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.entities.BaseEntity;
 
 @Entity
 @Audited
 @Table(name="modulo")
-public class Modulo implements Serializable {
+public class Modulo extends BaseEntity {
 
 	/**
 	 * 
@@ -94,5 +93,14 @@ public class Modulo implements Serializable {
 		if (status != other.status)
 			return false;
 		return true;
+	}
+
+	@Override
+	public Long getId() {
+		return getIdModulo();
+	}
+	
+	public void setId(Long id){
+		setIdModulo(id);
 	}
 }

@@ -223,4 +223,12 @@ public abstract class AbstractManagedBean implements Serializable {
 		}
 		logger.info("[End] Scoped attributes");
     }
+
+	public UserBean getUserBean() {
+		return userBean;
+	}
+
+	public void setUserBean(UserBean userBean) {
+		this.userBean = userBean;
+	}
 }

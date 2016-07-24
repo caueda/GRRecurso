@@ -24,9 +24,9 @@ import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Usuario;
 
 @Entity
-@FilterDef (name = "porModulo", parameters = @ParamDef (name = "modulos", type="java.util.List"))
+@FilterDef (name = "porModulo", parameters = @ParamDef (name = "idModulos", type="long"))
 @Filters ({
-    @Filter (name = "porModulo", condition = "modulo in (:modulos)")
+    @Filter (name = "porModulo", condition = "id_modulo in (:idModulos)")
 })
 @Table(name="solicitacao")
 public class Solicitacao implements Serializable {

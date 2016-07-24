@@ -2,22 +2,46 @@ package br.com.grrecurso.producer;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.producer.qualifiers.RolesList;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 
 public class GRRecursoProducer {
-	@PersistenceContext
-	private EntityManager em;
+	@PersistenceUnit
+	private EntityManagerFactory emf;
+	
+	@Produces @RequestScoped
+	public EntityManager getEntityManager(){
+		return emf.createEntityManager();
+	}
+
+	@Inject
+	private EntityManager entityManager;
+	
+	public void closeEntityManager(@Disposes EntityManager entityManager){
+		try {
+			entityManager.close();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	@Produces
 	public DominioAtivoInativo[] listaAtivoInativo(){
@@ -28,8 +52,15 @@ public class GRRecursoProducer {
 	@RolesList
 	@SuppressWarnings("unchecked")
 	public List<Role> listRoles(){
-		Query query = em.createNamedQuery("Role.listAll");
+		Query query = entityManager.createNamedQuery("Role.listAll");
 		return (List<Role>)query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Produces
+	public List<Modulo> listaModulos(){
+		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Modulo.class);
+		return (List<Modulo>)criteria.list();
 	}
 	
 	@Produces @UsuarioLogado
