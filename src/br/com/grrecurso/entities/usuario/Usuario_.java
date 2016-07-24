@@ -8,7 +8,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-07-22T14:01:47.801-0400")
+@Generated(value="Dali", date="2016-07-24T11:27:30.616-0400")
 @StaticMetamodel(Usuario.class)
 public class Usuario_ {
 	public static volatile SingularAttribute<Usuario, Long> idUsuario;
@@ -22,4 +22,5 @@ public class Usuario_ {
 	public static volatile ListAttribute<Usuario, Role> roles;
 	public static volatile ListAttribute<Usuario, Endereco> enderecos;
 	public static volatile SingularAttribute<Usuario, Boolean> edicao;
+	public static volatile ListAttribute<Usuario, Modulo> modulos;
 }

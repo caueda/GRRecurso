@@ -2,6 +2,7 @@ package br.com.grrecurso.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,16 +14,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
+
 import br.com.grrecurso.dominio.DominioSituacaoSolicitacao;
+import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Usuario;
 
 @Entity
-/*
-@FilterDef (name = "porRoleId", parameters = @ParamDef (name = "roleId", type="integer"))
+@FilterDef (name = "porModulo", parameters = @ParamDef (name = "modulos", type="java.util.List"))
 @Filters ({
-    @Filter (name = "porRoleId", condition = "nome = :nome")
+    @Filter (name = "porModulo", condition = "modulo in (:modulos)")
 })
-*/
 @Table(name="solicitacao")
 public class Solicitacao implements Serializable {
 
@@ -48,6 +53,9 @@ public class Solicitacao implements Serializable {
 	@Column(name="situacao_solicitacao", nullable=false)
 	@Enumerated(EnumType.ORDINAL)
 	private DominioSituacaoSolicitacao situacao;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_modulo")
+	private Modulo modulo;
 	
 	public Solicitacao(){
 		super();
@@ -99,6 +107,14 @@ public class Solicitacao implements Serializable {
 
 	public void setSituacao(DominioSituacaoSolicitacao situacao) {
 		this.situacao = situacao;
+	}
+
+	public Modulo getModulo() {
+		return modulo;
+	}
+
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
 	}
 
 	@Override

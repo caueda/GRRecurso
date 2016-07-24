@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,6 +55,7 @@ public class Usuario implements Serializable {
 	private DominioSexo sexo;
 	private boolean edicao;
 	private List<Endereco> enderecos;
+	private List<Modulo> modulos;
 	
 	public Usuario(){
 		super();
@@ -128,7 +130,7 @@ public class Usuario implements Serializable {
 		this.status = status;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="usuario_perfil_usuario", 
 		joinColumns= {@JoinColumn(name="id_usuario")},
 		inverseJoinColumns= {@JoinColumn(name="id_perfil_usuario")}
@@ -141,6 +143,19 @@ public class Usuario implements Serializable {
 		this.perfis = perfis;
 	}
 	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinTable(name="usuario_modulos", joinColumns={
+			@JoinColumn(name="id_usuario")},
+			inverseJoinColumns={@JoinColumn(name="id_modulo")}
+	)
+	public List<Modulo> getModulos() {
+		return modulos;
+	}
+
+	public void setModulos(List<Modulo> modulos) {
+		this.modulos = modulos;
+	}
+
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="usuario_role", joinColumns= {@JoinColumn(name="id_usuario")},
 			   inverseJoinColumns= {@JoinColumn(name="id_role")}

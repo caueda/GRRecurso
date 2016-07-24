@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Component
@@ -34,7 +35,7 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		HttpSession session = request.getSession(false);
 		if (principal instanceof UserDetails) {
-			userName = ((UserDetails) principal).getUsername();
+			userName = ((GRRecursoUser) principal).getUsername();
 			Usuario usuario = usuarioSvcLocal.findByEmail(userName);
 			if(usuario != null) {
 				logger.debug("Usuário: " + usuario.getNome());

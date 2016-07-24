@@ -37,15 +37,16 @@ public class UsuarioService extends AbstractService implements UsuarioSvcLocal, 
 		return (Usuario)query.getSingleResult();
 	}
 	
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(Usuario.class);
 		criteria.setFetchMode("roles", FetchMode.JOIN);
-		
+		criteria.setFetchMode("modulos", FetchMode.JOIN);
 		criteria.add(Restrictions.eq("email", email));
-		
-		return (Usuario)criteria.uniqueResult();
+		Usuario usuario = (Usuario)criteria.uniqueResult();
+		em.detach(usuario);
+		return usuario;
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

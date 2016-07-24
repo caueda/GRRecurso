@@ -32,7 +32,7 @@ public class UserDetailService implements UserDetailsService {
 			usuario = usuarioSvcLocal.findByEmail(email);
 			if(usuario == null) {
 				throw new UsernameNotFoundException("E-mail não encontrado.");
-			}
+			}			
 		} catch(Exception e) {
 			throw new UsernameNotFoundException("Erro no banco de dados. Contacte o administrador do sistema.");
 		}
@@ -52,9 +52,10 @@ public class UserDetailService implements UserDetailsService {
 			authorities.add(new SimpleGrantedAuthority(role.getNome()));
 		}
 		
-		User springUser = new User(email, password, enabled, accountNonExpired, credentialNonExpired,
+		GRRecursoUser grrecursoUser = new GRRecursoUser(email, password, enabled, accountNonExpired, credentialNonExpired,
 				accountNonLocked, authorities);
+		grrecursoUser.setModulos(usuario.getModulos());
 		
-		return springUser;
+		return grrecursoUser;
 	}
 }
