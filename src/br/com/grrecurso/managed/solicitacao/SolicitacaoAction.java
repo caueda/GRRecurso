@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -111,5 +112,16 @@ public class SolicitacaoAction extends AbstractManagedBean {
 
 	public List<Modulo> getListaModulos() {
 		return listaModulos;
+	}
+	
+	public SelectItem[] getSelectItemModulos(){
+		SelectItem[] items = new SelectItem[listaModulos.size()];
+		for(int i=0; i<listaModulos.size(); i++){
+			Modulo modulo = listaModulos.get(i);
+			items[i] = new SelectItem();
+			items[i].setLabel(modulo.getNome());
+			items[i].setValue(modulo);
+		}
+		return items;
 	}
 }

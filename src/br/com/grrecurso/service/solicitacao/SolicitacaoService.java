@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.grrecurso.entities.Solicitacao;
@@ -43,7 +44,10 @@ public class SolicitacaoService extends AbstractService<Solicitacao> {
 	}
 	
 	public Solicitacao loadById(Long idSolicitacao){
-		return getSession().load(Solicitacao.class, idSolicitacao);
+		Criteria criteria = getSession().createCriteria(Solicitacao.class);
+		criteria.add(Restrictions.eq("idSolicitacao", idSolicitacao));
+		criteria.setFetchMode("modulo", FetchMode.JOIN);
+		return (Solicitacao)criteria.uniqueResult();
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

@@ -18,10 +18,13 @@
 					<f:selectItems var="item" value="#{solicitacaoAction.listaSituacaoSolicitacao}" itemLabel="#{item.desc}"/>
 				</comp:inputSelectOneMenu>	
 				
-				<comp:inputSelectOneMenu id="modulo" label="Modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
+				<p:outputLabel for="modulo" value="Módulo"/>
+				<p:selectOneMenu id="modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
 					requiredMessage="O módulo é obrigatório.">
-					<f:selectItems var="item" value="#{solicitacaoAction.listaModulos}" itemLabel="#{item.nome}" converter="omnifaces.SelectItemsConverter"/>
-				</comp:inputSelectOneMenu>			
+					<f:converter converterId="EntityConverter"/>
+					<f:selectItem noSelectionOption="true" value="Selecione"/>
+					<f:selectItems value="#{solicitacaoAction.selectItemModulos}"/>
+				</p:selectOneMenu>			
 				
 				<br/>
 				
