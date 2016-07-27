@@ -6,7 +6,7 @@ import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.service.AbstractService;
 
 @Stateless
-public class ModuloService extends AbstractService<Modulo> {
+public class ModuloService extends AbstractService<Modulo, Long> {
 
 	/**
 	 * 

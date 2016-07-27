@@ -1,22 +1,26 @@
 package br.com.grrecurso.service;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
-public abstract class AbstractService<T> implements Serializable {
+public abstract class AbstractService<T, ID extends Serializable> implements Serializable {
 	/**
 	 * 
 	 */
@@ -60,5 +64,37 @@ public abstract class AbstractService<T> implements Serializable {
 
 	public void setPrincipal(GRRecursoUser principal) {
 		this.principal = principal;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> listAll(){
+		Criteria criteria = getSession().createCriteria(this.clazz);
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T loadById(ID id){
+		String idAttribute = getIdAnnotatedAttribute(this.clazz);
+		Criteria criteria = getSession().createCriteria(this.clazz);
+		criteria.add(Restrictions.eq(idAttribute, id));
+		return (T)criteria.uniqueResult();
+	}
+	
+	public String getIdAnnotatedAttribute(Class<?> clazz){
+		String idAttribute = null;
+		for (Field f : clazz.getDeclaredFields()) {
+			if (f.isAnnotationPresent(Id.class)) {				
+				idAttribute = f.getName();				
+			}
+		}
+		if(idAttribute == null && !clazz.getSuperclass().getName().equals(Object.class.getName())){
+			idAttribute = getIdAnnotatedAttribute(clazz.getSuperclass());
+		}
+		return idAttribute;
+	}
+	
+	public T saveOrUpdate(T entity){
+		getSession().saveOrUpdate(entity);
+		return entity;
 	}
 }

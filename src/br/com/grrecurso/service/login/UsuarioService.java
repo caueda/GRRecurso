@@ -8,7 +8,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.Query;
 import javax.persistence.criteria.Path;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +22,7 @@ import br.com.grrecurso.service.AbstractService;
 
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class UsuarioService extends AbstractService<Usuario> implements UsuarioSvcLocal, UsuarioSvcRemote{
+public class UsuarioService extends AbstractService<Usuario, Long> implements UsuarioSvcLocal, UsuarioSvcRemote{
 
 	protected UsuarioService() {
 		super(Usuario.class);
@@ -33,13 +32,6 @@ public class UsuarioService extends AbstractService<Usuario> implements UsuarioS
 	 * 
 	 */
 	private static final long serialVersionUID = 4344896204368371422L;
-	
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public Usuario loadById(Long idUsuario) {
-		Query query = em.createNamedQuery("Usuario.loadById");
-		query.setParameter("idUsuario", idUsuario);		
-		return (Usuario)query.getSingleResult();
-	}
 	
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
@@ -52,12 +44,6 @@ public class UsuarioService extends AbstractService<Usuario> implements UsuarioS
 		em.detach(usuario);
 		return usuario;
 	}
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Usuario saveOrUpdate(Usuario usuario) {
-		em.merge(usuario);
-		return usuario;
-	}	
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void alterarSenha(Long idUsuario, String novaSenha){

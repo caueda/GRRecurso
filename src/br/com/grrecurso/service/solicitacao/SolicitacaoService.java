@@ -22,7 +22,7 @@ import br.com.grrecurso.service.AbstractService;
 @Named
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
-public class SolicitacaoService extends AbstractService<Solicitacao> {
+public class SolicitacaoService extends AbstractService<Solicitacao, Long> {
 
 	/**
 	 * 
@@ -37,12 +37,7 @@ public class SolicitacaoService extends AbstractService<Solicitacao> {
 	private void init(){
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Solicitacao> getSolicitacoes(){
-		Criteria criteria = getSession().createCriteria(Solicitacao.class);		
-		return criteria.list();
-	}
-	
+	@Override
 	public Solicitacao loadById(Long idSolicitacao){
 		Criteria criteria = getSession().createCriteria(Solicitacao.class);
 		criteria.add(Restrictions.eq("idSolicitacao", idSolicitacao));
@@ -50,13 +45,13 @@ public class SolicitacaoService extends AbstractService<Solicitacao> {
 		return (Solicitacao)criteria.uniqueResult();
 	}
 	
+	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Solicitacao saveOrUpdate(Solicitacao solicitacao) {
 		if(solicitacao.getIdSolicitacao() == null){
 			solicitacao.setUsuario(getSession().load(Usuario.class, getPrincipal().getIdUsuario()));
 		}
-		getSession().saveOrUpdate(solicitacao);		
-		return solicitacao;
+		return super.saveOrUpdate(solicitacao);		
 	}	
 	
 	@SuppressWarnings("unchecked")

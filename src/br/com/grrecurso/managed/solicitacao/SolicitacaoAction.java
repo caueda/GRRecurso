@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
