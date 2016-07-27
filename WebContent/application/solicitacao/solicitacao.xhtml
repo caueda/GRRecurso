@@ -20,10 +20,9 @@
 				
 				<p:outputLabel for="modulo" value="Módulo"/>
 				<p:selectOneMenu id="modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
-					requiredMessage="O módulo é obrigatório.">
-					<f:converter converterId="EntityConverter"/>
-					<f:selectItem noSelectionOption="true" value="Selecione"/>
-					<f:selectItems value="#{solicitacaoAction.selectItemModulos}"/>
+					requiredMessage="O módulo é obrigatório." converter="#{entityConverterImpl}">
+					<f:selectItems var="modulo" value="#{solicitacaoAction.listaModulos}" 
+							itemLabel="#{modulo.nome}" itemValue="#{modulo}"/>
 				</p:selectOneMenu>			
 				
 				<br/>

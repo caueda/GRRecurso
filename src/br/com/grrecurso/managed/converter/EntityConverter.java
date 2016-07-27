@@ -5,61 +5,37 @@ import java.lang.reflect.Field;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
+import javax.persistence.PersistenceContext;
 
-@FacesConverter(value="EntityConverter")
+@Named("entityConverterImpl")
 public class EntityConverter implements Converter {
-	public Object getAsObject(FacesContext ctx, UIComponent component,
-			String value) {
-		if (value != null) {
-			return component.getAttributes().get(value);
+	
+	@PersistenceContext
+	private EntityManager em;
+
+	public Object getAsObject(FacesContext fc, UIComponent component, String string) {
+		try {
+			String[] split = string.split(":");
+			return em.find(Class.forName(split[0]), Long.valueOf(split[1]));
+		} catch (NumberFormatException | ClassNotFoundException e) {
+			return null;
 		}
-		return null;
 	}
-	public String getAsString(FacesContext ctx, UIComponent component,
-			Object obj) {
-		if (obj != null && !"".equals(obj)) {
-			String id;
-			try {
-				id = this.getId(getClazz(ctx, component), obj);
-				if (id == null){
-					id = "";
-				}
-				id = id.trim();
-				component.getAttributes().put(id,
-						getClazz(ctx, component).cast(obj));
-				return id;
-			} catch (SecurityException e) {
-				e.printStackTrace(); // seu log aqui
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace(); // seu log aqui
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace(); // seu log aqui
-			} catch (IllegalAccessException e) {
-				e.printStackTrace(); // seu log aqui
-			}
-		}
-		return null;
-	}
-	private Class<?> getClazz(FacesContext facesContext, UIComponent component) {
-		return component.getValueExpression("value").getType(
-				facesContext.getELContext());
-	}
-	public String getId(Class<?> clazz, Object obj) throws SecurityException,
-			NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
-		for (Field field : clazz.getDeclaredFields()) {
-			if ((field.getAnnotation(Id.class)) != null) {
-				Field privateField = clazz.getDeclaredField(field.getName());
-				privateField.setAccessible(true);
-				if (privateField.get(clazz.cast(obj)) != null) {
-					return (String)field.getType()
-							.cast(privateField.get(clazz.cast(obj))).toString();
-				} else {
-					return null;
+
+	public String getAsString(FacesContext fc, UIComponent component, Object object) {
+		try {
+			Class<? extends Object> clazz = object.getClass();
+			for (Field f : clazz.getDeclaredFields()) {
+				if (f.isAnnotationPresent(Id.class)) {
+					f.setAccessible(true);
+					Long id = (Long) f.get(object);
+					return clazz.getCanonicalName() + ":" + id.toString();
 				}
 			}
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 		}
 		return null;
 	}
