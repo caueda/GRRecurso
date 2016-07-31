@@ -7,9 +7,6 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-				
-		<ui:define name="titulo">GRRecurso</ui:define>
-		
 		<ui:define name="aplicacao">   
 			<p:panel id="table" header="Filtro de Pesquisa">
 				<p:outputLabel for="nomePesquisa" value="Nome"/>
@@ -17,6 +14,7 @@
 				<br/>
 				
 				<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="table"/>
+				<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
 				<br/>
 				
 				<p:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" emptyMessage="Nenhum papel encontrado." widgetVar="rolesTable">

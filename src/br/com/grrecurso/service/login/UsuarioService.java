@@ -8,7 +8,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.criteria.Path;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -17,21 +16,18 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.primefaces.model.SortOrder;
 
+import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
-import br.com.grrecurso.service.AbstractService;
 
-@TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class UsuarioService extends AbstractService<Usuario, Long> implements UsuarioSvcLocal, UsuarioSvcRemote{
 
+	private static final long serialVersionUID = 4344896204368371422L;
+	
 	protected UsuarioService() {
 		super(Usuario.class);
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4344896204368371422L;
 	
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
@@ -72,52 +68,5 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         return this.list(-1,-1,null,null,filters).size();
     }
-	
-	public List<Usuario> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        Criteria criteria = getSession().createCriteria(Usuario.class);        
-//        Path<?> path = getPath(sortField, usuario, siteType);
-        /*
-        if (sortOrder == null){
-            //just don't sort
-        }else if (sortOrder.equals(SortOrder.ASCENDING)){
-            query.orderBy(cb.asc(path));
-        }else if (sortOrder.equals(SortOrder.DESCENDING)){
-            query.orderBy(cb.asc(path));
-        }else if (sortOrder.equals(SortOrder.UNSORTED)){
-            //just don't sort
-        }else{
-            //just don't sort
-        }
-        */
-        
-        //filter
-//        Predicate filterCondition = criteriaBuilder.conjunction();
-        for (Map.Entry<String, Object> filter : filters.entrySet()) {
-            if (!filter.getValue().equals("")) {
-                //try as string using like
-            	Path<String> pathFilter = null;
-//                Path<String> pathFilter = getStringPath(filter.getKey(), usuario, siteType);
-                if (pathFilter != null){
-//                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.like(pathFilter, "%"+filter.getValue()+"%"));
-                }else{
-                    //try as non-string using equal
-//                    Path<?> pathFilterNonString = getPath(filter.getKey(), usuario, siteType);
-                	  
-//                    filterCondition = criteriaBuilder.and(filterCondition, criteriaBuilder.equal(pathFilterNonString, filter.getValue()));
-                }
-            }
-        }
-//        query.where(filterCondition);
-        
-        //pagination
-        if (pageSize >= 0){
-            criteria.setMaxResults(pageSize);
-        }
-        if (first >= 0){
-            criteria.setFirstResult(first);
-        }
-        return criteria.list();
-    }
-
 }
 

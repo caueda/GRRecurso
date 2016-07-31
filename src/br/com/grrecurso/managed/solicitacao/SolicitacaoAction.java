@@ -15,10 +15,10 @@ import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
+import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.dominio.DominioSituacaoSolicitacao;
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.entities.usuario.Modulo;
-import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.solicitacao.SolicitacaoService;
 
 @Named

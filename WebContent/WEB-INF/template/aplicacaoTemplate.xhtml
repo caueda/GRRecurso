@@ -19,7 +19,7 @@
     <h:outputStylesheet library="bootstrap" name="css/bootstrap-responsive.css"></h:outputStylesheet>
     <h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
     
-    <title><ui:insert name="titulo">GRRecurso</ui:insert></title>
+    <title><ui:insert name="titulo">#{initParam['Sistema.NOME']}</ui:insert></title>
     
     <script>
     
@@ -66,8 +66,10 @@
 				
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
     	<h:form id="formapp" prependId="false">
+    		<div class="container-fluid">
     		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
         	<ui:insert name="aplicacao"></ui:insert>
+        	</div>
         </h:form>
         <ui:debug hotkey="k" rendered="true"/>
 </h:body>

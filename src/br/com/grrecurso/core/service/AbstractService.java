@@ -1,9 +1,11 @@
-package br.com.grrecurso.service;
+package br.com.grrecurso.core.service;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.primefaces.model.SortOrder;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.grrecurso.entities.Solicitacao;
@@ -87,6 +90,14 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 				idAttribute = f.getName();				
 			}
 		}
+		for(Method m : clazz.getMethods()){
+			String idMethodName = m.getName();
+			if(m.isAnnotationPresent(Id.class)){
+				idMethodName = idMethodName.replace("get", "");
+				idAttribute = String.valueOf(idMethodName.charAt(0)).toLowerCase() + idMethodName.substring(1);
+			}
+		}
+		
 		if(idAttribute == null && !clazz.getSuperclass().getName().equals(Object.class.getName())){
 			idAttribute = getIdAnnotatedAttribute(clazz.getSuperclass());
 		}
@@ -97,4 +108,24 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 		getSession().saveOrUpdate(entity);
 		return entity;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        Criteria criteria = getSession().createCriteria(clazz);
+
+        for (Map.Entry<String, Object> filter : filters.entrySet()){
+            if (!filter.getValue().equals("")) {            	
+            	System.out.println("Key: " + filter.getKey() + "  Value: " + filter.getValue());
+            }
+        }
+        
+        //pagination
+        if (pageSize >= 0){
+            criteria.setMaxResults(pageSize);
+        }
+        if (first >= 0){
+            criteria.setFirstResult(first);
+        }
+        return criteria.list();
+    }
 }

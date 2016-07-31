@@ -7,9 +7,6 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-				
-		<ui:define name="titulo">GRRecurso</ui:define>
-		
 		<ui:define name="aplicacao">   
 			<p:panel id="table" header="Filtro de Pesquisa">
 				<p:outputLabel for="nomePesquisa" value="Nome"/>
@@ -29,7 +26,7 @@
 					<p:column headerText="ID" width="10%">
 						<h:outputText value="#{user.idUsuario}"/>
 					</p:column>
-					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains" filterFunction="#{usuarioPesquisaAction.filterByName}">
+					<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains">
 						<h:outputText value="#{user.nome}"/>
 					</p:column>
 					<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">

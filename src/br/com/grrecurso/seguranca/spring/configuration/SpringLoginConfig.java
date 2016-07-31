@@ -1,7 +1,5 @@
 package br.com.grrecurso.seguranca.spring.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,7 +45,7 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/maxSession").permitAll()
 				.anyRequest().authenticated()
-				.and()						
+				.and()
 			.formLogin()
 				.loginPage("/login").permitAll()
 				.usernameParameter("email").passwordParameter("senha")				

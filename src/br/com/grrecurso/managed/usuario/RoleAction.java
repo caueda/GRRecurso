@@ -10,8 +10,8 @@ import org.omnifaces.cdi.ViewScoped;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
+import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.entities.usuario.Role;
-import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.RoleService;
 
 @Named

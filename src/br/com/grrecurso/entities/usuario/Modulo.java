@@ -10,8 +10,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 
+import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
-import br.com.grrecurso.entities.BaseEntity;
 
 @Entity
 @Audited

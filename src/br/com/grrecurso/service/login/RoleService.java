@@ -8,7 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Named;
+import javax.enterprise.inject.Produces;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,12 +16,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Role;
-import br.com.grrecurso.service.AbstractService;
+import br.com.grrecurso.producer.qualifiers.RolesList;
 
-@Named
-@TransactionManagement(TransactionManagementType.CONTAINER)
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class RoleService extends AbstractService<Role, Long> {
 
 	protected RoleService() {
@@ -65,5 +65,13 @@ public class RoleService extends AbstractService<Role, Long> {
 			criteria.add(Restrictions.like("nome", rolePesquisa.getNome()));
 		} 
 		return (List<Role>)criteria.list();
+	}
+	
+	@Produces
+	@RolesList
+	@SuppressWarnings("unchecked")
+	public List<Role> listRoles(){
+		Query query = em.createNamedQuery("Role.listAll");
+		return (List<Role>)query.getResultList();
 	}
 }

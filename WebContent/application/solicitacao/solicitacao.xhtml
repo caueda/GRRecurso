@@ -7,8 +7,6 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-				
-		<ui:define name="titulo">GRRecurso</ui:define>
 		<ui:define name="aplicacao">
 			<p:panel id="panelSolicitacao">	
 				<comp:inputText id="chamado" label="Nº Chamado" value="#{solicitacaoAction.solicitacao.chamado}" required="true" requiredMessage="O nº do chamado é obrigatório."/>

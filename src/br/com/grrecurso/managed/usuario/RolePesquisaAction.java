@@ -14,8 +14,8 @@ import org.omnifaces.cdi.ViewScoped;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
+import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.entities.usuario.Role;
-import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.RoleService;
 
 @Named
@@ -68,5 +68,14 @@ public class RolePesquisaAction extends AbstractManagedBean {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	public String pesquisar(){
+		try {
+			return pesquisar(Role.class.getName());
+		} catch (ClassNotFoundException e) {
+			incluirError("Contate o administrador do sistema: " + e.getMessage());
+		}
+		return null;
 	}
 }

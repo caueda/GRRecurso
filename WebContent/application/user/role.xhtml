@@ -7,12 +7,11 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-		<ui:define name="titulo">GRRecurso</ui:define>
 		<ui:define name="aplicacao">
 			<f:metadata>
 				<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
 			</f:metadata>
-			<ui:include src="/application/user/roleFields.xhtml"/>		    
+			<ui:include src="/application/user/roleFields.xhtml"/>	
 		</ui:define>
 </ui:composition>
 </html>

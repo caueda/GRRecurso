@@ -4,6 +4,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import br.com.grrecurso.core.managed.AbstractManagedBean;
+
 @Named
 public class IdleMonitorView extends AbstractManagedBean {
 	public static final String MESSAGE_MONITOR = "messageMonitor";

@@ -1,7 +1,5 @@
 package br.com.grrecurso.entities.usuario;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +11,11 @@ import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 
+import br.com.grrecurso.core.persistence.BaseEntity;
+import br.com.grrecurso.core.search.FieldTextOperations;
+import br.com.grrecurso.core.search.FieldTextPresentation;
+import br.com.grrecurso.core.search.annotations.FieldTextFilter;
+
 
 @Entity
 @Audited
@@ -20,7 +23,7 @@ import org.hibernate.envers.Audited;
 @NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r"),
 			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")
 	})
-public class Role implements Serializable {	
+public class Role extends BaseEntity {	
 	/**
 	 * 
 	 */
@@ -32,8 +35,10 @@ public class Role implements Serializable {
 	@Column(name="id_role")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@FieldTextFilter(label="Nome", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.CONTAINS)
 	@Column(name="nome", length=200, nullable=false)
 	private String nome;
+	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.CONTAINS)
 	@Column(name="descricao", length=400)	
 	private String descricao;	
 	

@@ -7,8 +7,6 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-				
-		<ui:define name="titulo">GRRecurso</ui:define>
 		<ui:define name="aplicacao">
 			<p:panel id="panelUser">	
 				<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>

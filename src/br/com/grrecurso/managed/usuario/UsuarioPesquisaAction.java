@@ -18,10 +18,10 @@ import org.primefaces.model.SortOrder;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
+import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Usuario;
-import br.com.grrecurso.managed.AbstractManagedBean;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Named
@@ -65,11 +65,6 @@ public class UsuarioPesquisaAction extends AbstractManagedBean {
 	public void destroy() {
 		logger.info("[UsuarioPesquisaAction.destroy] " + this.toString());
 	}
-	
-	public boolean filterByName(Object value, Object filter, Locale locale) {
-//        String filterText = (filter == null) ? null : filter.toString().trim();
-        return true;
-    }
 	
 	public void consultar() {
 		List<Usuario> usuarios = usuarioSvcLocal.list(getUsuario());

@@ -15,9 +15,9 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 
+import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.entities.usuario.Usuario;
-import br.com.grrecurso.service.AbstractService;
 
 @Named
 @TransactionManagement(TransactionManagementType.CONTAINER)

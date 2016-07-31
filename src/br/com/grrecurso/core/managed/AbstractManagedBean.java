@@ -1,4 +1,4 @@
-package br.com.grrecurso.managed;
+package br.com.grrecurso.core.managed;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.el.ELContext;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.context.spi.Context;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
 
+import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 
@@ -35,8 +37,15 @@ public abstract class AbstractManagedBean implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
+	
+	protected static final String SEARCH_OBJECT = "br.com.grrecurso.core.managed.SearchEngine";
+	
 	protected Logger logger = Logger.getLogger(this.getClass());
+	
+	@Inject
+	private Conversation conversation;
+	
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
@@ -84,14 +93,19 @@ public abstract class AbstractManagedBean implements Serializable {
 		return evt.getComponent().getAttributes().get(attributeName);
 	}
 	
-	public void addAttributeToFlash(String name, Object value){
+	protected String pesquisar(String className) throws ClassNotFoundException{
+		addAttributeToFlash(SEARCH_OBJECT, className);
+		return "/application/search/searchPrototype.jsf";
+	}
+	
+	public <T> void addAttributeToFlash(String name, T value){
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.put(name, value);
 	}
 	
-	public Object getAttributeFromFlash(String name){
+	public <T> T getAttributeFromFlash(String name){
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		return flash.get(name);
+		return (T)flash.get(name);
 	}
 	
 	
@@ -230,5 +244,9 @@ public abstract class AbstractManagedBean implements Serializable {
 
 	public void setUserBean(UserBean userBean) {
 		this.userBean = userBean;
+	}
+
+	public Conversation getConversation() {
+		return conversation;
 	}
 }
