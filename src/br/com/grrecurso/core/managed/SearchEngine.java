@@ -2,6 +2,7 @@ package br.com.grrecurso.core.managed;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +29,13 @@ import javax.inject.Named;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.panel.Panel;
-import org.primefaces.mobile.component.header.Header;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
+import br.com.grrecurso.core.search.ResultGridBean;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
+import br.com.grrecurso.core.search.annotations.ResultGrid;
 import br.com.grrecurso.core.service.GenericService;
 
 @Named
@@ -51,7 +53,7 @@ public class SearchEngine extends AbstractManagedBean {
 	private Panel mainPanel;
 	private Class<? extends BaseEntity> clazzEntity;
 	private List<?> listaResultados = new ArrayList();
-	private List<String> columnsGrid = new ArrayList<String>();
+	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
 	private DataTable dataTable = null;
 	
 	@PostConstruct
@@ -83,14 +85,16 @@ public class SearchEngine extends AbstractManagedBean {
 		dataTable.setPaginatorTemplate("{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
 		dataTable.setRowsPerPageTemplate("10,25,50,100");
 		
-		for(String columnName : columnsGrid){
+		Collections.sort(columnsLabelsGrid);
+		
+		for(ResultGridBean bean : columnsLabelsGrid){
 			Column column = new Column();
 			UIOutput headerColumn = new UIOutput();
-			headerColumn.setValue(columnName.toUpperCase());
+			headerColumn.setValue(bean.getLabel());
 			column.setHeader(headerColumn);
 			HtmlOutputText columnValue = new HtmlOutputText();
 			
-			columnValue.setValueExpression("value", createValueExpression("#{row." + columnName + "}" , String.class));
+			columnValue.setValueExpression("value", createValueExpression("#{row." + bean.getCampo() + "}" , String.class));
 			
 			column.getChildren().add(columnValue);
 			dataTable.getChildren().add(column);
@@ -126,20 +130,18 @@ public class SearchEngine extends AbstractManagedBean {
 		this.listaResultados = listaResultados;
 	}
 
-	
-	
 	public String pesquisar(){
-		@SuppressWarnings({ "rawtypes", "unused" })
+		@SuppressWarnings({ "rawtypes"})
 		
 		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		Set<Map.Entry> entries = requestParameters.entrySet();
 		Map filter = new HashMap();
 		
-		for(String column : columnsGrid){
-			if(requestParameters.containsKey(column)){
-				String value = (String)requestParameters.get(column);
+		for(ResultGridBean bean : columnsLabelsGrid){
+			if(requestParameters.containsKey(bean.getCampo())){
+				String value = (String)requestParameters.get(bean.getCampo());
 				if(value != null && !value.isEmpty()){
-					filter.put(column, value);
+					filter.put(bean.getCampo(), value);
 				}
 			}
 		}
@@ -160,21 +162,24 @@ public class SearchEngine extends AbstractManagedBean {
 		this.dataTable = dataTable;
 	}
 
-	private List<String> getColumnsGrid() {
-		return columnsGrid;
+	private List<ResultGridBean> getColumnsGrid() {
+		return columnsLabelsGrid;
 	}
 
 	private List<UIComponent> getFieldComponents() throws NoSuchFieldException, SecurityException{
 		List<UIComponent> components = new ArrayList<UIComponent>();
 		getColumnsGrid().clear();
 		for(Field f : getClazzEntity().getDeclaredFields()){
+			if(f.isAnnotationPresent(ResultGrid.class)){
+				ResultGrid resultGrid = f.getAnnotation(ResultGrid.class);
+				String campo = (resultGrid.campo().isEmpty())?f.getName():resultGrid.campo();
+				getColumnsGrid().add(new ResultGridBean(resultGrid.ordem(), campo, resultGrid.label()));
+			}
 			if(f.isAnnotationPresent(FieldTextFilter.class)){
 				FieldTextFilter filter = f.getAnnotation(FieldTextFilter.class);
 				FieldTextPresentation apresentacao = filter.apresentacao();				
 				String campo = (filter.campo().isEmpty()) ? f.getName() : filter.campo();
 				FieldTextOperations[] operations = filter.operacao();
-				
-				getColumnsGrid().add(campo);
 				
 				UIOutput initTag = new UIOutput();
 				initTag.setValue("<div class=\"form-group\">");

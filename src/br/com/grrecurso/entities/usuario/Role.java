@@ -15,6 +15,7 @@ import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
+import br.com.grrecurso.core.search.annotations.ResultGrid;
 
 
 @Entity
@@ -34,10 +35,13 @@ public class Role extends BaseEntity {
 	@Id
 	@Column(name="id_role")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@ResultGrid(label="ID", ordem=1)
 	private Long id;
+	@ResultGrid(label="Nome", ordem=2)
 	@FieldTextFilter(label="Nome", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.CONTAINS)
 	@Column(name="nome", length=200, nullable=false)
 	private String nome;
+	@ResultGrid(label="Descrição", ordem=3)
 	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.CONTAINS)
 	@Column(name="descricao", length=400)	
 	private String descricao;	
