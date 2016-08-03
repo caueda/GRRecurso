@@ -13,7 +13,7 @@
 				<p:inputText id="nomePesquisa" value="#{rolePesquisaAction.role.nome}"/>
 				<br/>
 				
-				<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="table"/>
+				<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
 				<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
 				<br/>
 				

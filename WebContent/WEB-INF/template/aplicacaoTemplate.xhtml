@@ -36,27 +36,27 @@
 		    
 		    <p:menubar>		    	
 		        <p:submenu label="Usuário">
-		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-pencil">
+		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
 		            	<f:param name="tipoOperacao" value="incluir"/>
 		            </p:menuitem>
-		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search"/>
-		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked"/>
+		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
+		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked" update="#{p:component('areaAplicacao')}"/>
 		            <p:submenu label="Papel" icon="ui-icon-person">
-		            	<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true" icon="ui-icon-pencil">
+		            	<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
 		            		<f:param name="tipoOperacao" value="incluir"/>
 		            	</p:menuitem>
-		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search"/>		            			            	
+		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>		            			            	
 		        	</p:submenu>		            	
 		        </p:submenu>
 		        <p:submenu label="Solicitações">
-		        	<p:menuitem value="Incluir" outcome="pretty:newSolicitacao" ajax="true" icon="ui-icon-pencil">
+		        	<p:menuitem value="Incluir" outcome="pretty:newSolicitacao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
 		        		<f:param name="tipoOperacao" value="incluir"/>
 		        	</p:menuitem>
-		        	<p:menuitem value="Consultar" outcome="pretty:solicitacaoPesquisa" ajax="true" icon="ui-icon-search"/>
+		        	<p:menuitem value="Consultar" outcome="pretty:solicitacaoPesquisa" ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
 		        </p:submenu>
 		        <p:submenu label="Sistema">
 		        	<p:menuitem value="Logout" url="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/logout"
-		        		icon="ui-icon-power"/>
+		        		icon="ui-icon-power" update="#{p:component('areaAplicacao')}"/>
 		        </p:submenu>
 		        <f:facet name="options">
 		        	<h:outputLabel value="#{sessionScope['userLogged'].nome}"/>
@@ -65,12 +65,14 @@
 		</h:form>
 				
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-    	<h:form id="formapp" prependId="false">
-    		<div class="container-fluid">
-    		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
-        	<ui:insert name="aplicacao"></ui:insert>
-        	</div>
-        </h:form>
+        <p:panel id="areaAplicacao">
+	    	<h:form id="formapp" prependId="false">
+	    		<div class="container-fluid">
+	    		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
+	        	<ui:insert name="aplicacao"></ui:insert>
+	        	</div>
+	        </h:form>
+        </p:panel>
         <ui:debug hotkey="k" rendered="true"/>
 </h:body>
 
