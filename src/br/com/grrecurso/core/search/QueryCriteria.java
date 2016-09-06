@@ -88,6 +88,7 @@ public class QueryCriteria<T> implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		@SuppressWarnings("rawtypes")
 		QueryCriteria other = (QueryCriteria) obj;
 		if (condition == null) {
 			if (other.condition != null)
