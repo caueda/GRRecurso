@@ -28,7 +28,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
 
-import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 
