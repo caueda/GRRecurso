@@ -40,6 +40,7 @@ import br.com.grrecurso.core.service.GenericService;
 
 @Named
 @ViewScoped
+@SuppressWarnings("all")
 public class SearchEngine extends AbstractManagedBean {
 	
 	/**
@@ -52,7 +53,7 @@ public class SearchEngine extends AbstractManagedBean {
 	
 	private Panel mainPanel;
 	private Class<? extends BaseEntity> clazzEntity;
-	private List<?> listaResultados = new ArrayList();
+	private List<?> listaResultados = new ArrayList<>();
 	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
 	private DataTable dataTable = null;
 	
