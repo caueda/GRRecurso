@@ -22,6 +22,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		super(GenericEntity.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> List<T> list(Map<String, Object> filter, Class<T> clazzEntity){
 		List<T> result = null;
 		Criteria criteria = getSession().createCriteria(clazzEntity);

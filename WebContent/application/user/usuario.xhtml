@@ -5,10 +5,10 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" 
   xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:comp="http://xmlns.jcp.org/jsf/composite/comp">
+  xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">
-			<p:panel id="panelUser">	
+			<p:panel id="panelUser">								
 				<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
 				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 
