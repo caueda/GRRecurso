@@ -123,8 +123,8 @@ public class SearchEngine extends AbstractManagedBean {
 			UIOutput headerColumn = new UIOutput();
 			headerColumn.setValue(bean.getLabel());
 			column.setHeader(headerColumn);
+			column.setStyle("text-align:" + bean.getAlinhamento());
 			HtmlOutputText columnValue = new HtmlOutputText();
-			columnValue.setStyle("center");
 			columnValue.setValueExpression("value", createValueExpression("#{" + varAttr + "." + bean.getCampo() + "}" , String.class));
 			
 			column.getChildren().add(columnValue);
@@ -204,7 +204,7 @@ public class SearchEngine extends AbstractManagedBean {
 			if(f.isAnnotationPresent(ResultGrid.class)){
 				ResultGrid resultGrid = f.getAnnotation(ResultGrid.class);
 				String campo = (resultGrid.campo().isEmpty())?f.getName():resultGrid.campo();
-				getColumnsGrid().add(new ResultGridBean(resultGrid.ordem(), campo, resultGrid.label()));
+				getColumnsGrid().add(new ResultGridBean(resultGrid.ordem(), campo, resultGrid.label(), resultGrid.align()));
 			}
 			if(f.isAnnotationPresent(FieldTextFilter.class)){
 				FieldTextFilter filter = f.getAnnotation(FieldTextFilter.class);

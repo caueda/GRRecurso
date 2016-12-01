@@ -11,6 +11,7 @@ public class ResultGridBean implements Serializable, Comparable<ResultGridBean> 
 	private int ordem;
 	private String campo;
 	private String label;
+	private String alinhamento;
 	
 	public ResultGridBean(String campo, String label){
 		setOrdem(ordem);
@@ -21,6 +22,21 @@ public class ResultGridBean implements Serializable, Comparable<ResultGridBean> 
 		setOrdem(ordem);
 		setCampo(campo);
 		setLabel(label);
+	}
+	
+	public ResultGridBean(int ordem, String campo, String label, String alinhamento){
+		setOrdem(ordem);
+		setCampo(campo);
+		setLabel(label);
+		setAlinhamento(alinhamento);
+	}
+
+	public String getAlinhamento() {
+		return alinhamento;
+	}
+
+	public void setAlinhamento(String alinhamento) {
+		this.alinhamento = alinhamento;
 	}
 
 	public int getOrdem() {
