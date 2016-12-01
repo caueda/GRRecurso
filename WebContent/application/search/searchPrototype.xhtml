@@ -11,7 +11,11 @@
 		<p:panel id="panelSolicitacao" binding="#{searchEngine.mainPanel}">	
 			
 		</p:panel>		    
-		<p:dataTable binding="#{searchEngine.dataTable}"></p:dataTable>
+		<p:dataTable binding="#{searchEngine.dataTable}">
+			<p:column headerText="Links">
+				<h:outputText value="Editar #{row.id}"/>
+			</p:column>
+		</p:dataTable>
 	</ui:define>
 </ui:composition>
 </html>

@@ -34,7 +34,9 @@ import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
 import br.com.grrecurso.core.search.ResultGridBean;
+import br.com.grrecurso.core.search.annotations.ConfiguracaoPesquisa;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
+import br.com.grrecurso.core.search.annotations.TituloPesquisa;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
 import br.com.grrecurso.core.service.GenericService;
 
@@ -51,6 +53,12 @@ public class SearchEngine extends AbstractManagedBean {
 	@EJB
 	private GenericService genericService;
 	
+	private String tituloPesquisa="Pesquisa de ";
+	private String tituloResultado = "Resultado da pesquisa";
+	private String entidade = "Genérica";
+	private String rowsPerPageTemplate = "10,25,50,100";
+	private String varAttr = "row";
+	
 	private Panel mainPanel;
 	private Class<? extends BaseEntity> clazzEntity;
 	private List<?> listaResultados = new ArrayList<>();
@@ -62,9 +70,31 @@ public class SearchEngine extends AbstractManagedBean {
 		String className = getAttributeFromFlash(SEARCH_OBJECT);
 		mainPanel = new Panel();
 		
-		mainPanel.setHeader("Pesquisa Genérica");
 		try {
-			setClazzEntity(Class.forName(className));
+			Class clazzEntity = Class.forName(className);
+			entidade = clazzEntity.getSimpleName();
+			mainPanel.setHeader(tituloPesquisa + entidade);
+			
+			if(clazzEntity.isAnnotationPresent(TituloPesquisa.class)) {
+				TituloPesquisa pesquisa = (TituloPesquisa) clazzEntity.getAnnotation(TituloPesquisa.class);
+				entidade = (pesquisa.entidade().isEmpty())?entidade:pesquisa.entidade();
+				tituloPesquisa = (pesquisa.tituloPesquisa().isEmpty())?tituloPesquisa + entidade:pesquisa.tituloPesquisa();
+				mainPanel.setHeader(tituloPesquisa);
+				tituloResultado = (pesquisa.tituloResultado().isEmpty())?tituloResultado: pesquisa.tituloResultado();
+			}
+			
+			if(clazzEntity.isAnnotationPresent(ConfiguracaoPesquisa.class)) {
+				ConfiguracaoPesquisa config = (ConfiguracaoPesquisa) clazzEntity.getAnnotation(ConfiguracaoPesquisa.class);
+				if(!config.rowsPerPageTemplate().isEmpty()) {
+					rowsPerPageTemplate = config.rowsPerPageTemplate();
+				}
+				if(!config.varAttr().isEmpty()) {
+					varAttr = config.varAttr();
+				}
+			}
+			
+			setClazzEntity(clazzEntity);
+			
 		} catch (ClassNotFoundException e) {			
 			HtmlOutputLabel error = new HtmlOutputLabel();
 			error.setValue("Erro, contacte o administrador do sistema. " + e.getMessage());
@@ -76,26 +106,26 @@ public class SearchEngine extends AbstractManagedBean {
 	private void buildDataTable(){
 		dataTable = new DataTable();
 		UIOutput header = new UIOutput();
-		header.setValue("Resultado da pesquisa");
+		header.setValue(tituloResultado);
 		dataTable.getFacets().put("header", header);
 		dataTable.setEmptyMessage("Nenhum resultado.");
 		dataTable.setValue(listaResultados);
-		dataTable.setVar("row");
+		dataTable.setVar(varAttr);
 		dataTable.setPaginator(true);
 		dataTable.setPaginatorPosition("bottom");
 		dataTable.setPaginatorTemplate("{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
-		dataTable.setRowsPerPageTemplate("10,25,50,100");
+		dataTable.setRowsPerPageTemplate(rowsPerPageTemplate);
 		
 		Collections.sort(columnsLabelsGrid);
 		
 		for(ResultGridBean bean : columnsLabelsGrid){
-			Column column = new Column();
+			Column column = new Column();			
 			UIOutput headerColumn = new UIOutput();
 			headerColumn.setValue(bean.getLabel());
 			column.setHeader(headerColumn);
 			HtmlOutputText columnValue = new HtmlOutputText();
-			
-			columnValue.setValueExpression("value", createValueExpression("#{row." + bean.getCampo() + "}" , String.class));
+			columnValue.setStyle("center");
+			columnValue.setValueExpression("value", createValueExpression("#{" + varAttr + "." + bean.getCampo() + "}" , String.class));
 			
 			column.getChildren().add(columnValue);
 			dataTable.getChildren().add(column);

@@ -4,9 +4,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ResultGrid {
-	String label();
-	String campo() default "";
-	int ordem() default 0;
-	String align() default "center";
+public @interface TituloPesquisa {
+	String entidade() default "";
+	String tituloPesquisa() default "";
+	String tituloResultado() default "";
 }

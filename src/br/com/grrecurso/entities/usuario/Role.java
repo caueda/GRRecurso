@@ -14,8 +14,10 @@ import org.hibernate.envers.Audited;
 import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
+import br.com.grrecurso.core.search.annotations.ConfiguracaoPesquisa;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
+import br.com.grrecurso.core.search.annotations.TituloPesquisa;
 
 
 @Entity
@@ -24,6 +26,8 @@ import br.com.grrecurso.core.search.annotations.ResultGrid;
 @NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r"),
 			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")
 	})
+@TituloPesquisa
+@ConfiguracaoPesquisa(rowsPerPageTemplate="5,10")
 public class Role extends BaseEntity {	
 	/**
 	 * 
