@@ -3,11 +3,16 @@ package br.com.grrecurso.service.login;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -20,12 +25,14 @@ import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
 
 @Stateless
+@LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@Path("/usuario")
 public class UsuarioService extends AbstractService<Usuario, Long> implements UsuarioSvcLocal, UsuarioSvcRemote{
 
 	private static final long serialVersionUID = 4344896204368371422L;
 	
-	protected UsuarioService() {
+	public UsuarioService() {
 		super(Usuario.class);
 	}
 	
@@ -62,6 +69,14 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 			criteria.add(Restrictions.like("email", usuarioPesquisa.getEmail()));
 		}
 		
+		return (List<Usuario>)criteria.list();
+	}
+	
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public List<Usuario> listaAll(){
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(Usuario.class);
 		return (List<Usuario>)criteria.list();
 	}
 	
