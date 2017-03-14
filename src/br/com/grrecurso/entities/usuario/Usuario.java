@@ -20,6 +20,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
@@ -38,23 +43,38 @@ import br.com.grrecurso.dominio.DominioSexo;
 	@NamedQuery(name="Usuario.listAll", query="select u from Usuario u"),
 	@NamedQuery(name="Usuario.loadByEmail", query="select u from Usuario u where u.email = :email")
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Usuario implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 340681521727137527L;
 	
+	@XmlElement
 	private Long idUsuario;
+	@XmlElement
 	private String nome;
+	@XmlElement
 	private String email;
+	@XmlTransient
 	private String senha;
+	
+	@XmlTransient
 	private Date dataLogin;
+	@XmlTransient
 	private DominioAtivoInativo status;
+	@XmlTransient
 	private Set<PerfilUsuario> perfis;
+	@XmlTransient
 	private Set<Role> roles;
+	@XmlTransient
 	private DominioSexo sexo;
+	@XmlTransient
 	private boolean edicao;
+	@XmlTransient
 	private Set<Endereco> enderecos;
+	@XmlTransient
 	private Set<Modulo> modulos;
 	
 	public Usuario(){
