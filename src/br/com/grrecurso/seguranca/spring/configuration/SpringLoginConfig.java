@@ -44,6 +44,7 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**").permitAll()
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/maxSession").permitAll()
+				.antMatchers("/public/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
