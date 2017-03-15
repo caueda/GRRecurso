@@ -9,7 +9,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -74,6 +76,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		return (List<Usuario>)criteria.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Usuario> listaAll(){
@@ -90,6 +93,13 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		Query query = session.createQuery("from Usuario u where u.idUsuario = :id");
 		query.setParameter("id", id);
 		return (Usuario)query.uniqueResult();
+	}
+	
+	@POST
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void processarUpdate(String content) {
+		System.out.println(content);
 	}
 	
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters) {
