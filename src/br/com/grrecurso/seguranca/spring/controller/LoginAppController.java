@@ -23,7 +23,7 @@ public class LoginAppController {
 
 	@RequestMapping(value = "/expireuser", method = RequestMethod.GET)
     public void expireUserSessions(String username) {
-        for (Object principal : sessionRegistry.getAllPrincipals()) {
+		for (Object principal : sessionRegistry.getAllPrincipals()) {
             if (principal instanceof User) {
                 UserDetails userDetails = (UserDetails) principal;
                 if (userDetails.getUsername().equals(username)) {
@@ -71,5 +71,5 @@ public class LoginAppController {
 			userName = principal.toString();
 		}
 		return userName;
-	}
+	}			
 }

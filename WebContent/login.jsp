@@ -67,11 +67,15 @@
 	
 	$(document).ready(function(){
 		var msg = $("#messageDialog");
+		
+		$("#${_csrf.parameterName}").val('');
+		
 		if(queryString.mensagem){
 			msg.html(queryString.mensagem.replace(/\+/g,' '));			
 			msg.dialog();
 			return;
-		}		
+		}
+		
 	});
   </script>
 </head>
@@ -100,7 +104,7 @@
       <input type="password" name="senha" id="senha" value="">
     </p>
 
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" name="${_csrf.parameterName}" id="${_csrf.parameterName}" value="${_csrf.token}"/>
     <p class="login-submit">
       <button id="btnSubmit" type="submit" class="login-button" onclick="return validate()">Login</button>
     </p>

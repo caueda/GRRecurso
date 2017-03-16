@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
@@ -27,7 +28,8 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailService);
+		auth.userDetailsService(userDetailService)
+		    .passwordEncoder(new BCryptPasswordEncoder());
 //		auth.jdbcAuthentication().dataSource(dataSource)
 //			.usersByUsernameQuery("select email, senha, status from usuario where email = ?")
 //			.authoritiesByUsernameQuery("select u.email, r.nome as role from usuario u join usuario_role ur on ur.id_usuario = u.id_usuario "

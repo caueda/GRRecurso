@@ -6,6 +6,8 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.ocpsoft.pretty.faces.annotation.URLAction;
 import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -105,6 +107,12 @@ public class UsuarioAction extends AbstractManagedBean {
 		}
 	}
 
+	public String encrypt(String senha) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashed = passwordEncoder.encode(senha);
+		return hashed;
+	}
+	
 	public String alterarSenha(){
 		try {
 			usuario = usuarioSvcLocal.loadById(userBean.getIdUsuario());
@@ -116,7 +124,7 @@ public class UsuarioAction extends AbstractManagedBean {
 				incluirError("Confirmação da nova senha inválida.");
 				return "pretty:";
 			}			
-			usuarioSvcLocal.alterarSenha(userBean.getIdUsuario(), getNovaSenha1());
+			usuarioSvcLocal.alterarSenha(userBean.getIdUsuario(), encrypt(getNovaSenha1()));
 			incluirInfo("Senha alterada com sucesso");
 			setUsuario(new Usuario());
 			return "pretty:usermessage";
@@ -131,6 +139,8 @@ public class UsuarioAction extends AbstractManagedBean {
 //		printScopedReferences(beanManager);
 		if(isIncluir()) {
 			try {			
+				String hashed = encrypt(this.usuario.getSenha());
+				this.usuario.setSenha(hashed);
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
 				incluirInfo("Usuário incluído com sucesso.");
 				setUsuario(new Usuario());

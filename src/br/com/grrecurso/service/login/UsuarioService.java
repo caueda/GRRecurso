@@ -54,7 +54,6 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void alterarSenha(Long idUsuario, String novaSenha){
-		em.getTransaction().begin();
 		Usuario usuario = loadById(idUsuario);
 		usuario.setSenha(novaSenha);
 		em.merge(usuario);
