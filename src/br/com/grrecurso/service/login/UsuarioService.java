@@ -97,8 +97,12 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	@POST
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void processarUpdate(String content) {
-		System.out.println(content);
+	@Produces(MediaType.TEXT_PLAIN)
+	public String processarUpdate(Usuario usuario) {
+		if(usuario != null) {
+			System.out.println("Nome: " + usuario.getNome());
+		}
+		return "OK";
 	}
 	
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters) {

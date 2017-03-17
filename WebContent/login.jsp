@@ -68,8 +68,6 @@
 	$(document).ready(function(){
 		var msg = $("#messageDialog");
 		
-		$("#${_csrf.parameterName}").val('');
-		
 		if(queryString.mensagem){
 			msg.html(queryString.mensagem.replace(/\+/g,' '));			
 			msg.dialog();

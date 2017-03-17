@@ -1,5 +1,9 @@
 package br.com.grrecurso.seguranca.spring.configuration;
 
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
@@ -48,7 +54,6 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/public/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -56,7 +61,9 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email").passwordParameter("senha")				
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
-				.and().csrf()
+				.and().csrf().ignoringAntMatchers("/public/api/**")
+				             .ignoringAntMatchers("/login")
+				//.disable().exceptionHandling()
 				.and()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
