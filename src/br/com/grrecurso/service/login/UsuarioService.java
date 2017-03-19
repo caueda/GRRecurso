@@ -86,7 +86,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	
 	@GET
 	@Path("{id}")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON})	
 	public Usuario findById(@PathParam("id")long id){
 		Session session = getSession();
 		Query query = session.createQuery("from Usuario u where u.idUsuario = :id");
@@ -98,10 +98,13 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public String processarUpdate(Usuario usuario) {
-		if(usuario != null) {
-			System.out.println("Nome: " + usuario.getNome());
-		}
+		Session session = getSession();
+		Usuario load = (Usuario)session.load(Usuario.class,usuario.getIdUsuario());
+		load.setNome(usuario.getNome());
+		load.setEmail(usuario.getEmail());
+		session.update(load);
 		return "OK";
 	}
 	
