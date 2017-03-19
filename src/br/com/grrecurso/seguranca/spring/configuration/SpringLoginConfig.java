@@ -31,6 +31,12 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 //	DataSource dataSource;
 	
 	@Autowired UserDetailService userDetailService;
+	/*
+	public static void main(String[] args) {
+		BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+		System.out.println(b.encode("welcome1"));
+	}
+	*/
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {

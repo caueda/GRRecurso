@@ -122,7 +122,7 @@ public class Usuario implements Serializable {
 	}
 
 	@NotAudited
-	@Column(name="senha", length=20)
+	@Column(name="senha", length=400)
 	public String getSenha() {
 		return senha;
 	}
