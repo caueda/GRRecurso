@@ -8,27 +8,29 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">
-			<p:panel id="panelSolicitacao">	
-				<comp:inputText id="chamado" label="Nº Chamado" value="#{solicitacaoAction.solicitacao.chamado}" required="true" requiredMessage="O nº do chamado é obrigatório."/>
-				<comp:inputText id="descricao" label="Descrição" value="#{solicitacaoAction.solicitacao.descricao}" required="false"/>	
-				
-				<comp:inputSelectOneMenu id="status" label="Situação da solicitação" value="#{solicitacaoAction.solicitacao.situacao}" required="true" requiredMessage="A situação da solicitação é obrigatória.">
-					<f:selectItems var="item" value="#{solicitacaoAction.listaSituacaoSolicitacao}" itemLabel="#{item.desc}"/>
-				</comp:inputSelectOneMenu>	
-				
-				<p:outputLabel for="modulo" value="Módulo"/>
-				<p:selectOneMenu id="modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
-					requiredMessage="O módulo é obrigatório." converter="#{entityConverterImpl}">
-					<f:selectItems var="modulo" value="#{solicitacaoAction.listaModulos}" 
-							itemLabel="#{modulo.nome}" itemValue="#{modulo}"/>
-				</p:selectOneMenu>			
-				
-				<br/>
-				
-				<p:commandButton value="#{solicitacaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{solicitacaoAction.persistir}" process="panelSolicitacao" update="panelSolicitacao"/>
-				<p:commandButton value="Cancelar" action="pretty:solicitacaoPesquisa" rendered="#{solicitacaoAction.isAlterar()}"/>
-				
-			</p:panel>		    
+			<comp:form id="formApp" styleClass="form-horizontal">
+				<p:panel id="panelSolicitacao">	
+					<comp:inputText id="chamado" label="Nº Chamado" value="#{solicitacaoAction.solicitacao.chamado}" required="true" requiredMessage="O nº do chamado é obrigatório."/>
+					<comp:inputText id="descricao" label="Descrição" value="#{solicitacaoAction.solicitacao.descricao}" required="false"/>	
+					
+					<comp:inputSelectOneMenu id="status" label="Situação da solicitação" value="#{solicitacaoAction.solicitacao.situacao}" required="true" requiredMessage="A situação da solicitação é obrigatória.">
+						<f:selectItems var="item" value="#{solicitacaoAction.listaSituacaoSolicitacao}" itemLabel="#{item.desc}"/>
+					</comp:inputSelectOneMenu>	
+					
+					<p:outputLabel for="modulo" value="Módulo"/>
+					<p:selectOneMenu id="modulo" value="#{solicitacaoAction.solicitacao.modulo}" required="true"
+						requiredMessage="O módulo é obrigatório." converter="#{entityConverterImpl}">
+						<f:selectItems var="modulo" value="#{solicitacaoAction.listaModulos}" 
+								itemLabel="#{modulo.nome}" itemValue="#{modulo}"/>
+					</p:selectOneMenu>			
+					
+					<br/>
+					
+					<p:commandButton value="#{solicitacaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{solicitacaoAction.persistir}" process="panelSolicitacao" update="panelSolicitacao"/>
+					<p:commandButton value="Cancelar" action="pretty:solicitacaoPesquisa" rendered="#{solicitacaoAction.isAlterar()}"/>
+					
+				</p:panel>	
+			</comp:form>	    
 		</ui:define>
 		
 </ui:composition>

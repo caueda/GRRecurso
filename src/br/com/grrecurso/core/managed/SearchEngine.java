@@ -17,12 +17,15 @@ import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
+import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.model.ArrayDataModel;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -36,8 +39,8 @@ import br.com.grrecurso.core.search.FieldTextPresentation;
 import br.com.grrecurso.core.search.ResultGridBean;
 import br.com.grrecurso.core.search.annotations.ConfiguracaoPesquisa;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
-import br.com.grrecurso.core.search.annotations.TituloPesquisa;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
+import br.com.grrecurso.core.search.annotations.TituloPesquisa;
 import br.com.grrecurso.core.service.GenericService;
 
 @Named
@@ -63,13 +66,12 @@ public class SearchEngine extends AbstractManagedBean {
 	private Class<? extends BaseEntity> clazzEntity;
 	private List<?> listaResultados = new ArrayList<>();
 	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
-	private DataTable dataTable = null;
+	private DataTable dataTable = null;	
 	
 	@PostConstruct
 	public void initBuild(){
 		String className = getAttributeFromFlash(SEARCH_OBJECT);
 		mainPanel = new Panel();
-		
 		try {
 			Class clazzEntity = Class.forName(className);
 			entidade = clazzEntity.getSimpleName();
@@ -103,6 +105,9 @@ public class SearchEngine extends AbstractManagedBean {
 		build();
 	}
 	
+	/**
+	 * Método utilizado para construir a tabela com o resultado da pesquisa.
+	 */
 	private void buildDataTable(){
 		dataTable = new DataTable();
 		UIOutput header = new UIOutput();
@@ -162,8 +167,7 @@ public class SearchEngine extends AbstractManagedBean {
 	}
 
 	public String pesquisar(){
-		@SuppressWarnings({ "rawtypes"})
-		
+		@SuppressWarnings({ "rawtypes"})		
 		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		Set<Map.Entry> entries = requestParameters.entrySet();
 		Map filter = new HashMap();
@@ -196,7 +200,7 @@ public class SearchEngine extends AbstractManagedBean {
 	private List<ResultGridBean> getColumnsGrid() {
 		return columnsLabelsGrid;
 	}
-
+	
 	private List<UIComponent> getFieldComponents() throws NoSuchFieldException, SecurityException{
 		List<UIComponent> components = new ArrayList<UIComponent>();
 		getColumnsGrid().clear();
@@ -216,19 +220,34 @@ public class SearchEngine extends AbstractManagedBean {
 				initTag.setValue("<div class=\"form-group\">");
 				components.add(initTag);
 				
+				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
 				label.setFor(campo);
 				components.add(label);
-				
-				HtmlInputText inputText = new HtmlInputText();
-				inputText.setId(campo);
-				inputText.setStyleClass("form-control");
-				inputText.setMaxlength(filter.maxLength());
-				inputText.setSize(filter.size());
-				inputText.setRequired(filter.obrigatorio());
-				components.add(inputText);
-				
+					
+					HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
+					selectOneMenu.setId(campo + "OperacaoSelect");
+					selectOneMenu.setLabel("Operação");
+					//selectOneMenu.setConverter(new EnumConverter());				
+					UISelectItems uiSelectItems = new UISelectItems();
+					List<SelectItem> opcoes = new ArrayList<SelectItem>();
+					for(FieldTextOperations operation : operations) {
+						opcoes.add(new SelectItem(operation.ordinal(), operation.getDesc()));
+					}
+					uiSelectItems.setValue(opcoes);
+					selectOneMenu.getChildren().add(uiSelectItems);
+					
+					components.add(selectOneMenu);
+					
+					HtmlInputText inputText = new HtmlInputText();
+					inputText.setId(campo);
+					inputText.setStyleClass("form-control");
+					inputText.setMaxlength(filter.maxLength());
+					inputText.setSize(filter.size());
+					inputText.setRequired(filter.obrigatorio());
+					components.add(inputText);
+					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
 				components.add(endTag);

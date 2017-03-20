@@ -42,7 +42,7 @@ public class Role extends BaseEntity {
 	@ResultGrid(label="ID", ordem=1, align="center")
 	private Long id;
 	@ResultGrid(label="Nome", ordem=2, align="left")
-	@FieldTextFilter(label="Nome", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.CONTAINS)
+	@FieldTextFilter(label="Nome", apresentacao=FieldTextPresentation.TEXT, operacao= {FieldTextOperations.CONTAINS, FieldTextOperations.ENDS_WITH})
 	@Column(name="nome", length=200, nullable=false)
 	private String nome;
 	@ResultGrid(label="Descrição", ordem=3, align="left")

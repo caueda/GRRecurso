@@ -8,10 +8,12 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">
-			<f:metadata>
-				<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
-			</f:metadata>
-			<ui:include src="/application/user/roleFields.xhtml"/>	
+			<comp:form id="formApp" styleClass="form-horizontal">
+				<f:metadata>
+					<f:viewAction action="#{roleAction.exibirEdicao()}" onPostback="false"/>
+				</f:metadata>
+				<ui:include src="/application/user/roleFields.xhtml"/>
+			</comp:form>
 		</ui:define>
 </ui:composition>
 </html>

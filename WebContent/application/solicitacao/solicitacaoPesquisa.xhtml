@@ -8,40 +8,42 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">   
-			<p:panel id="table" header="Filtro de Pesquisa">
-				<p:outputLabel for="chamadoPesquisa" value="Chamado"/>
-				<p:inputText id="chamadoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.chamado}"/>
-				<p:outputLabel for="descricaoPesquisa" value="Descrição"/>
-				<p:inputText id="descricaoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.descricao}"/>
-				<br/>
-				
-				<p:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" process="table" update="table"/>
-				<p:spacer height="20"/>
-				
-				<p:dataTable value="#{solicitacaoPesquisaAction.listaSolicitacoes}" var="solicitacao" emptyMessage="Nenhuma solicitação encontrada." widgetVar="solicitacoesTable">
-					<p:column headerText="ID" width="10%">
-						<h:outputText value="#{solicitacao.idSolicitacao}"/>
-					</p:column>
-					<p:column filterBy="#{solicitacao.chamado}" headerText="Chamado" filterMatchMode="contains">
-						<h:outputText value="#{solicitacao.chamado}"/>
-					</p:column>
-					<p:column headerText="Descrição">
-						<h:outputText value="#{solicitacao.descricao}"/>
-					</p:column>
-					<p:column headerText="Usuário">
-						<h:outputText value="#{solicitacao.usuario.nome}"/>
-					</p:column>
-					<p:column headerText="Módulo">
-						<h:outputText value="#{solicitacao.modulo.nome}"/>
-					</p:column>
-					<p:column headerText="Editar">
-						<h:link value="Editar" outcome="pretty:editSolicitacao">
-							<f:param name="tipoOperacao" value="alterar"/>
-							<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
-						</h:link>						
-					</p:column>
-				</p:dataTable>
-			</p:panel>				
+			<comp:form id="formApp" styleClass="form-horizontal">
+				<p:panel id="table" header="Filtro de Pesquisa">
+					<p:outputLabel for="chamadoPesquisa" value="Chamado"/>
+					<p:inputText id="chamadoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.chamado}"/>
+					<p:outputLabel for="descricaoPesquisa" value="Descrição"/>
+					<p:inputText id="descricaoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.descricao}"/>
+					<br/>
+					
+					<p:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" process="table" update="table"/>
+					<p:spacer height="20"/>
+					
+					<p:dataTable value="#{solicitacaoPesquisaAction.listaSolicitacoes}" var="solicitacao" emptyMessage="Nenhuma solicitação encontrada." widgetVar="solicitacoesTable">
+						<p:column headerText="ID" width="10%">
+							<h:outputText value="#{solicitacao.idSolicitacao}"/>
+						</p:column>
+						<p:column filterBy="#{solicitacao.chamado}" headerText="Chamado" filterMatchMode="contains">
+							<h:outputText value="#{solicitacao.chamado}"/>
+						</p:column>
+						<p:column headerText="Descrição">
+							<h:outputText value="#{solicitacao.descricao}"/>
+						</p:column>
+						<p:column headerText="Usuário">
+							<h:outputText value="#{solicitacao.usuario.nome}"/>
+						</p:column>
+						<p:column headerText="Módulo">
+							<h:outputText value="#{solicitacao.modulo.nome}"/>
+						</p:column>
+						<p:column headerText="Editar">
+							<h:link value="Editar" outcome="pretty:editSolicitacao">
+								<f:param name="tipoOperacao" value="alterar"/>
+								<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
+							</h:link>						
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</comp:form>				
 		</ui:define>
 		
 </ui:composition>

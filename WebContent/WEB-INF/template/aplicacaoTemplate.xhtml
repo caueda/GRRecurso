@@ -66,12 +66,7 @@
 				
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
         <p:panel id="areaAplicacao">
-	    	<h:form id="formapp" prependId="false">
-	    		<div class="container-fluid">
-	    		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
-	        	<ui:insert name="aplicacao"></ui:insert>
-	        	</div>
-	        </h:form>
+       		<ui:insert name="aplicacao"></ui:insert>
         </p:panel>
         <ui:debug hotkey="k" rendered="true"/>
 </h:body>

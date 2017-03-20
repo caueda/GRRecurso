@@ -7,34 +7,36 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-		<ui:define name="aplicacao">   
-			<p:panel id="table" header="Filtro de Pesquisa">
-				<p:outputLabel for="nomePesquisa" value="Nome"/>
-				<p:inputText id="nomePesquisa" value="#{rolePesquisaAction.role.nome}"/>
-				<br/>
-				
-				<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
-				<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
-				<br/>
-				
-				<p:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" emptyMessage="Nenhum papel encontrado." widgetVar="rolesTable">
-					<p:column headerText="ID" width="10%">
-						<h:outputText value="#{role.id}"/>
-					</p:column>
-					<p:column filterBy="#{role.nome}" headerText="Papel" filterMatchMode="contains">
-						<h:outputText value="#{role.nome}"/>
-					</p:column>
-					<p:column headerText="Descrição">
-						<h:outputText value="#{role.descricao}"/>
-					</p:column>
-					<p:column headerText="Editar">
-						<h:link value="Editar" outcome="pretty:editRole">
-							<f:param name="tipoOperacao" value="alterar"/>
-							<f:param name="idRole" value="#{role.id}"/>
-						</h:link>						
-					</p:column>
-				</p:dataTable>
-			</p:panel>				
+		<ui:define name="aplicacao"> 
+			<comp:form id="formApp" styleClass="form-horizontal">  
+				<p:panel id="table" header="Filtro de Pesquisa">
+					<p:outputLabel for="nomePesquisa" value="Nome"/>
+					<p:inputText id="nomePesquisa" value="#{rolePesquisaAction.role.nome}"/>
+					<br/>
+					
+					<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
+					<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
+					<br/>
+					
+					<p:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" emptyMessage="Nenhum papel encontrado." widgetVar="rolesTable">
+						<p:column headerText="ID" width="10%">
+							<h:outputText value="#{role.id}"/>
+						</p:column>
+						<p:column filterBy="#{role.nome}" headerText="Papel" filterMatchMode="contains">
+							<h:outputText value="#{role.nome}"/>
+						</p:column>
+						<p:column headerText="Descrição">
+							<h:outputText value="#{role.descricao}"/>
+						</p:column>
+						<p:column headerText="Editar">
+							<h:link value="Editar" outcome="pretty:editRole">
+								<f:param name="tipoOperacao" value="alterar"/>
+								<f:param name="idRole" value="#{role.id}"/>
+							</h:link>						
+						</p:column>
+					</p:dataTable>
+				</p:panel>	
+			</comp:form>			
 		</ui:define>
 		
 </ui:composition>

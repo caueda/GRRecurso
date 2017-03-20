@@ -8,27 +8,29 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">
-			<p:panel id="panelUser">								
-				<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
-				<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
-				<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 
-					requiredMessage="A senha é obrigatória." placeholder="******" rendered="#{usuarioAction.isIncluir()}"/>
-				
-				<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
-					<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
-				</comp:inputSelectOneMenu>	
-				
-				<comp:inputSelectOneMenu id="sexo" label="Sexo" value="#{usuarioAction.usuario.sexo}" required="true"
-					requiredMessage="O sexo é obrigatório.">
-					<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
-				</comp:inputSelectOneMenu>			
-				
-				<br/>
-				
-				<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
-				<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>
-				
-			</p:panel>		    
+			<comp:form id="formApp" styleClass="form-horizontal">
+				<p:panel id="panelUser">								
+					<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
+					<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
+					<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 
+						requiredMessage="A senha é obrigatória." placeholder="******" rendered="#{usuarioAction.isIncluir()}"/>
+					
+					<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
+						<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
+					</comp:inputSelectOneMenu>	
+					
+					<comp:inputSelectOneMenu id="sexo" label="Sexo" value="#{usuarioAction.usuario.sexo}" required="true"
+						requiredMessage="O sexo é obrigatório.">
+						<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
+					</comp:inputSelectOneMenu>			
+					
+					<br/>
+					
+					<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
+					<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>
+					
+				</p:panel>		  
+			</comp:form>  
 		</ui:define>
 		
 </ui:composition>

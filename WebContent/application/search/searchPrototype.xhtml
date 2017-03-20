@@ -8,14 +8,16 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 	<ui:define name="aplicacao">
-		<p:panel id="panelSolicitacao" binding="#{searchEngine.mainPanel}">	
-			
-		</p:panel>		    
-		<p:dataTable binding="#{searchEngine.dataTable}">
-			<p:column headerText="Links">
-				<h:outputText value="Editar #{row.id}"/>
-			</p:column>
-		</p:dataTable>
+		<h:form id="formApp" styleClass="form-horizontal" prependId="false">
+			<p:panel id="panelSolicitacao" binding="#{searchEngine.mainPanel}">
+				<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
+				<p:dataTable binding="#{searchEngine.dataTable}">
+					<p:column headerText="Links">
+						<h:outputText value="Editar #{row.id}"/>
+					</p:column>
+				</p:dataTable>			
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>
