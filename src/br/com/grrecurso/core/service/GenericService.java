@@ -5,9 +5,9 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.Query;
 
+import br.com.grrecurso.core.managed.CriteriaBean;
 import br.com.grrecurso.core.persistence.GenericEntity;
 
 @Stateless
@@ -23,13 +23,16 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> List<T> list(Map<String, Object> filter, Class<T> clazzEntity){
+	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity){
 		List<T> result = null;
-		Criteria criteria = getSession().createCriteria(clazzEntity);
-		for(Map.Entry<String, Object> entry : filter.entrySet()){
-			criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
+		StringBuilder hql = new StringBuilder();
+		hql.append("SELECT vo FROM " + clazzEntity.getName() + " vo WHERE 1=1 ");
+		for(Map.Entry<String, CriteriaBean> entry : filter.entrySet()){
+			CriteriaBean bean = entry.getValue();
+			hql.append(" and lower(vo." + entry.getKey() + ")" + bean.getOperacao().replace(":value", bean.getSingleValue()));
 		}
-		result = criteria.list();
+		Query query = getSession().createQuery(hql.toString());
+		result = query.list();
 		return result;
 	}
 }

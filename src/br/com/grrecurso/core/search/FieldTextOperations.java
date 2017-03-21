@@ -1,7 +1,7 @@
 package br.com.grrecurso.core.search;
 
 public enum FieldTextOperations {
-	CONTAINS(1, "Contém"), START_WITH (2, "Começa com"), ENDS_WITH(3, "Termina com");
+	TEXT_CONTAINS(1, "Contém"), TEXT_START_WITH (2, "Começa com"), TEXT_ENDS_WITH(3, "Termina com"), TEXT_IGUAL(4, "Igual a");
 	
 	String desc;
 	Integer id;

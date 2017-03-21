@@ -42,6 +42,8 @@ import br.com.grrecurso.core.search.annotations.FieldTextFilter;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
 import br.com.grrecurso.core.search.annotations.TituloPesquisa;
 import br.com.grrecurso.core.service.GenericService;
+import br.com.grrecurso.core.service.TradutorSQL;
+import br.com.grrecurso.core.service.Traduzivel;
 
 @Named
 @ViewScoped
@@ -67,6 +69,8 @@ public class SearchEngine extends AbstractManagedBean {
 	private List<?> listaResultados = new ArrayList<>();
 	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
 	private DataTable dataTable = null;	
+	
+	private Traduzivel traduzivel = new TradutorSQL();
 	
 	@PostConstruct
 	public void initBuild(){
@@ -170,13 +174,14 @@ public class SearchEngine extends AbstractManagedBean {
 		@SuppressWarnings({ "rawtypes"})		
 		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		Set<Map.Entry> entries = requestParameters.entrySet();
-		Map filter = new HashMap();
+		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
 		
 		for(ResultGridBean bean : columnsLabelsGrid){
 			if(requestParameters.containsKey(bean.getCampo())){
 				String value = (String)requestParameters.get(bean.getCampo());
 				if(value != null && !value.isEmpty()){
-					filter.put(bean.getCampo(), value);
+					String operacao = (String)requestParameters.get(bean.getCampo() + "_OPERACAO");
+					filter.put(bean.getCampo(), new CriteriaBean(bean.getCampo(), value, traduzivel.traduzir(operacao) ));
 				}
 			}
 		}
@@ -227,13 +232,13 @@ public class SearchEngine extends AbstractManagedBean {
 				components.add(label);
 					
 					HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
-					selectOneMenu.setId(campo + "OperacaoSelect");
+					selectOneMenu.setId(campo + "_OPERACAO");
 					selectOneMenu.setLabel("Operação");
 					//selectOneMenu.setConverter(new EnumConverter());				
 					UISelectItems uiSelectItems = new UISelectItems();
 					List<SelectItem> opcoes = new ArrayList<SelectItem>();
 					for(FieldTextOperations operation : operations) {
-						opcoes.add(new SelectItem(operation.ordinal(), operation.getDesc()));
+						opcoes.add(new SelectItem(operation.toString(), operation.getDesc()));
 					}
 					uiSelectItems.setValue(opcoes);
 					selectOneMenu.getChildren().add(uiSelectItems);
@@ -275,29 +280,29 @@ public class SearchEngine extends AbstractManagedBean {
 	}
 	
 	private MethodExpression createMethodExpression(String action) {
-		  final Class<?>[] paramTypes = new Class<?>[0];
+		final Class<?>[] paramTypes = new Class<?>[0];
 
-		  MethodExpression methodExpression = getExpressionFactory()
-		    .createMethodExpression(getELContext(),action, null, paramTypes);
+		MethodExpression methodExpression = getExpressionFactory()
+				.createMethodExpression(getELContext(),action, null, paramTypes);
 
-		  return methodExpression;
-		}
+		return methodExpression;
+	}
 
-		private ValueExpression createValueExpression(String binding, Class clazz) {
-		  final ValueExpression ve = getExpressionFactory().createValueExpression(getELContext(), binding, clazz);
-		  return ve;
-		}
+	private ValueExpression createValueExpression(String binding, Class clazz) {
+		final ValueExpression ve = getExpressionFactory().createValueExpression(getELContext(), binding, clazz);
+		return ve;
+	}
 
 
-		public static ELContext getELContext() {
-		  return FacesContext.getCurrentInstance().getELContext();
-		}
+	public static ELContext getELContext() {
+		return FacesContext.getCurrentInstance().getELContext();
+	}
 
-		public static ExpressionFactory getExpressionFactory() {
-		  return getApplication().getExpressionFactory();
-		}
+	public static ExpressionFactory getExpressionFactory() {
+		return getApplication().getExpressionFactory();
+	}
 
-		public static Application getApplication() {
-		  return FacesContext.getCurrentInstance().getApplication();
-		}
+	public static Application getApplication() {
+		return FacesContext.getCurrentInstance().getApplication();
+	}
 }
