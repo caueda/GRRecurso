@@ -1,17 +1,10 @@
 package br.com.grrecurso.entities.usuario;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,15 +24,15 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Audited
-@Table(name="role")
-@NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r"),
-			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")
+@Table(name="permissao")
+@NamedQueries({@NamedQuery(name="Permissao.listAll", query="select r from Permissao r"),
+			   @NamedQuery(name="Permissao.loadById", query="select r from Permissao r where r.id = :idPermissao")
 	})
-@TituloPesquisa
-@ConfiguracaoPesquisa(rowsPerPageTemplate="5,10")
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class Role extends BaseEntity {	
+@TituloPesquisa
+@ConfiguracaoPesquisa(rowsPerPageTemplate="5,10")
+public class Permissao extends BaseEntity {	
 	/**
 	 * 
 	 */
@@ -48,7 +41,7 @@ public class Role extends BaseEntity {
 	public static final String ADMIN = "admin";
 	
 	@Id
-	@Column(name="id_role")
+	@Column(name="id_permissao")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@ResultGrid(label="ID", ordem=1, align="center")
 	private Long id;
@@ -59,12 +52,5 @@ public class Role extends BaseEntity {
 	@ResultGrid(label="Descrição", ordem=3, align="left")
 	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)
 	@Column(name="descricao", length=400)	
-	private String descricao;	
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinTable(name="role_permissao", 
-		joinColumns= {@JoinColumn(name="id_role")},
-		inverseJoinColumns= {@JoinColumn(name="id_permissao")}
-	)
-	private Set<Permissao> permissoes;
-
+	private String descricao;
 }
