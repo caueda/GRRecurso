@@ -1,7 +1,5 @@
 package br.com.grrecurso.managed;
 
-import java.util.Date;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -16,10 +14,6 @@ public class IdleMonitorView extends AbstractManagedBean {
 	 */
 	private static final long serialVersionUID = 1610661144086364381L;
 
-	public Date getData() {
-		return new Date();
-	}
-	
 	public void onIdle() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,  "No activity.", "What are you doing over there?");		
         FacesContext.getCurrentInstance().addMessage(MESSAGE_MONITOR, message);

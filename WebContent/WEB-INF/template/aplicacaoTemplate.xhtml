@@ -49,7 +49,7 @@
 		        	</p:submenu>		            	
 		        </p:submenu>
 		        <p:submenu label="Solicitações">
-		        	<p:menuitem value="Incluir" action="#{viewBean.setPage('user/usuario.xhtml')}" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
+		        	<p:menuitem value="Incluir" outcome="pretty:newSolicitacao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
 		        		<f:param name="tipoOperacao" value="incluir"/>
 		        	</p:menuitem>
 		        	<p:menuitem value="Consultar" outcome="pretty:solicitacaoPesquisa" ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
@@ -59,14 +59,14 @@
 		        		icon="ui-icon-power" update="#{p:component('areaAplicacao')}"/>
 		        </p:submenu>
 		        <f:facet name="options">
-		        	<h:outputLabel value="#{idleMonitorView.data}"/>
+		        	<h:outputLabel value="#{sessionScope['userLogged'].nome}"/>
 		        </f:facet>		        
 		    </p:menubar>		    
 		</h:form>
 				
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
         <p:panel id="areaAplicacao">
-       		<ui:include src="/application/#{viewBean.page}"></ui:include>
+       		<ui:insert name="aplicacao"></ui:insert>
         </p:panel>
         <ui:debug hotkey="k" rendered="true"/>
 </h:body>
