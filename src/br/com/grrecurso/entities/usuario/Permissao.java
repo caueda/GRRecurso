@@ -53,4 +53,9 @@ public class Permissao extends BaseEntity {
 	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)
 	@Column(name="descricao", length=400)	
 	private String descricao;
+	
+	@ResultGrid(label="Ação", ordem=4, align="left")
+	@FieldTextFilter(label="Ação", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)
+	@Column(name="action", length=4000, unique=true)
+	private String action;
 }

@@ -3,23 +3,19 @@
 			    @TypeDef(
 			    		name = DominioAtivoInativo.NOME, 
 			    		typeClass = GRRecursoGenericEnumUserType.class, 
-			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioAtivoInativo.NOME),
-			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioAtivoInativo.METHOD)}),
+			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioAtivoInativo.NOME)}),
 			    @TypeDef(
 			    		name = DominioSexo.NOME, 
 			    		typeClass = GRRecursoGenericEnumUserType.class, 
-			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioSexo.NOME),
-			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioSexo.METHOD)}),
+			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioSexo.NOME)}),
 			    @TypeDef(
 			    		name = DominioSituacaoSolicitacao.NOME, 
 			    		typeClass = GRRecursoGenericEnumUserType.class, 
-			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioSituacaoSolicitacao.NOME),
-			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioSituacaoSolicitacao.METHOD)}),
+			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioSituacaoSolicitacao.NOME)}),
 			    @TypeDef(
 			    		name = DominioTipoEndereco.NOME, 
 			    		typeClass = GRRecursoGenericEnumUserType.class, 
-			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioTipoEndereco.NOME),
-			    				      @Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_VALUE_METHOD, value = DominioTipoEndereco.METHOD)}),
+			    		parameters = {@Parameter(name = GRRecursoGenericEnumUserType.ENUM_CLASS_NAME_PARAM, value = DominioTipoEndereco.NOME)}),
 			}
     			
 		)

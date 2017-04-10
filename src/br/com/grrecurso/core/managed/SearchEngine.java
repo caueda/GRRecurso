@@ -1,6 +1,7 @@
 package br.com.grrecurso.core.managed;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,10 +35,13 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.panel.Panel;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
+import br.com.grrecurso.core.search.EvalExpression;
+import br.com.grrecurso.core.search.FieldComboSelectOperations;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
 import br.com.grrecurso.core.search.ResultGridBean;
 import br.com.grrecurso.core.search.annotations.ConfiguracaoPesquisa;
+import br.com.grrecurso.core.search.annotations.FieldComboSelectFilter;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
 import br.com.grrecurso.core.search.annotations.TituloPesquisa;
@@ -180,7 +184,7 @@ public class SearchEngine extends AbstractManagedBean {
 			if(requestParameters.containsKey(bean.getCampo())){
 				String value = (String)requestParameters.get(bean.getCampo());
 				if(value != null && !value.isEmpty()){
-					String operacao = (String)requestParameters.get(bean.getCampo() + "_OPERACAO");
+					String operacao = (String)requestParameters.get(EvalExpression.getSufixoOperacao(bean.getCampo()));
 					filter.put(bean.getCampo(), new CriteriaBean(bean.getCampo(), value, traduzivel.traduzir(operacao) ));
 				}
 			}
@@ -232,7 +236,7 @@ public class SearchEngine extends AbstractManagedBean {
 				components.add(label);
 					
 					HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
-					selectOneMenu.setId(campo + "_OPERACAO");
+					selectOneMenu.setId(EvalExpression.getSufixoOperacao(campo));
 					selectOneMenu.setLabel("Operação");
 					//selectOneMenu.setConverter(new EnumConverter());				
 					UISelectItems uiSelectItems = new UISelectItems();
@@ -252,6 +256,69 @@ public class SearchEngine extends AbstractManagedBean {
 					inputText.setSize(filter.size());
 					inputText.setRequired(filter.obrigatorio());
 					components.add(inputText);
+					
+				UIOutput endTag = new UIOutput();
+				endTag.setValue("</div>");
+				components.add(endTag);
+				
+			} else if(f.isAnnotationPresent(FieldComboSelectFilter.class)){
+				FieldComboSelectFilter filter = f.getAnnotation(FieldComboSelectFilter.class);								
+				String campo = (filter.campo().isEmpty()) ? f.getName() : filter.campo();
+								
+				UIOutput initTag = new UIOutput();
+				initTag.setValue("<div class=\"form-group\">");
+				components.add(initTag);
+				
+				//Inseri o label do campo do filtro de pesquisa
+				HtmlOutputLabel label = new HtmlOutputLabel();
+				label.setValue(filter.label());
+				label.setFor(campo);
+				components.add(label);
+					
+					HtmlSelectOneMenu selectOneMenuOperacao = new HtmlSelectOneMenu();
+					HtmlSelectOneMenu selectOneMenuOpcoes = new HtmlSelectOneMenu();
+					selectOneMenuOperacao.setId(EvalExpression.getSufixoOperacao(campo));
+					selectOneMenuOperacao.setLabel("Operação");
+					UISelectItems uiSelectItemsOperacao = new UISelectItems();
+					UISelectItems uiSelectItemsOpcoes = new UISelectItems();
+					List<SelectItem> opcoesOperacao = new ArrayList<SelectItem>();
+					List<SelectItem> itemsOpcoes = new ArrayList<SelectItem>();
+					
+					FieldComboSelectOperations[] operations = new FieldComboSelectOperations[1];
+					//Pode vir a ter mais opções no futuro - Implementação inicial (por isso o array)
+					operations[0] = FieldComboSelectOperations.SELECT_IGUAL;
+					
+					for(FieldComboSelectOperations operation : operations) {
+						opcoesOperacao.add(new SelectItem(operation.toString(), operation.getDesc()));
+					}
+					
+					uiSelectItemsOperacao.setValue(opcoesOperacao);
+					selectOneMenuOperacao.getChildren().add(uiSelectItemsOperacao);
+					
+					components.add(selectOneMenuOperacao);
+					
+					
+					if(filter.classe().isEnum()){
+						//selectOneMenuOpcoes.setConverter(new EnumConverter());
+						try {
+							Enum[] values = getEnumValues(filter.classe());
+							for(Enum e : values){
+								itemsOpcoes.add(new SelectItem(e, e.toString()));
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					uiSelectItemsOpcoes.setValue(itemsOpcoes);				
+					selectOneMenuOpcoes.getChildren().add(uiSelectItemsOpcoes);
+					selectOneMenuOpcoes.setStyleClass("form-control");
+					selectOneMenuOpcoes.setId(campo);
+					
+					
+					selectOneMenuOpcoes.setRequired(filter.obrigatorio());
+					
+					components.add(selectOneMenuOpcoes);
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
@@ -304,5 +371,14 @@ public class SearchEngine extends AbstractManagedBean {
 
 	public static Application getApplication() {
 		return FacesContext.getCurrentInstance().getApplication();
+	}
+	
+	public Enum[] getEnumValues(Class<?> enumerator) throws Exception {		
+		
+		Method m = enumerator.getMethod("values");
+		
+		Enum[] result = (Enum[]) m.invoke(enumerator, null);
+		
+		return result;
 	}
 }

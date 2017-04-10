@@ -14,6 +14,8 @@ import org.hibernate.type.TypeResolver;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
+import br.com.grrecurso.core.search.annotations.DominioId;
+
 @SuppressWarnings("all")
 public class GenericEnumUserType implements UserType, ParameterizedType {
 
@@ -31,10 +33,16 @@ public class GenericEnumUserType implements UserType, ParameterizedType {
 	public void setParameterValues(Properties properties) {
 
 		getEnumClassName(properties);
-
-		String getValueMethodName = properties.getProperty("getValueMethod", DEFAULT_GET_VALUE_METHOD_NAME);
+		
 		try {
-			getValueMethod = enumClass.getMethod(getValueMethodName, new Class[0]);
+			Method[] methods = enumClass.getMethods();
+			for(Method m : methods){
+				if(m.isAnnotationPresent(DominioId.class)){
+					getValueMethod = m;
+				}
+			}
+			if(getValueMethod == null) throw new IllegalArgumentException("O Domínio " + enumClass.getName() + " não contém método acessor para Id anotado com " + 
+					DominioId.class.getName());
 			valueType = getValueMethod.getReturnType();
 		} catch (Exception e) {
 			throw new HibernateException("Failed to obtain identifier method", e);

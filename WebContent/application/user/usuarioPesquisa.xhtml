@@ -8,16 +8,18 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao"> 
-			<comp:form id="formApp" styleClass="form-horizontal">  
+			<comp:form id="formApp" styleClass="form-ho
+			rizontal">  
 				<p:panel id="table" header="Filtro de Pesquisa">
+				<div class="form-group">
 					<p:outputLabel for="nomePesquisa" value="Nome"/>
-					<p:inputText id="nomePesquisa" value="#{usuarioPesquisaAction.usuario.nome}"/>
+					<p:inputText id="nomePesquisa" value="#{usuarioPesquisaAction.usuario.nome}" styleClass="form-control"/>
 					<p:outputLabel for="emailPesquisa" value="E-mail"/>
-					<p:inputText id="emailPesquisa" value="#{usuarioPesquisaAction.usuario.email}"/>
-					<br/>
+					<p:inputText id="emailPesquisa" value="#{usuarioPesquisaAction.usuario.email}" styleClass="form-control"/>
 					
-					<p:commandButton value="Consultar" action="#{usuarioPesquisaAction.consultar}" process="table" update="table"/>
-					<p:spacer height="20"/>
+					<p:commandButton value="Consultar" 
+					action="#{usuarioPesquisaAction.consultar}" process="table" update="table"
+					styleClass="btn btn-default"/>
 					
 					<p:dataTable value="#{usuarioPesquisaAction.listaUsuarios}"
 						paginator="true" rows="5" paginatorPosition="bottom" editable="true" editMode="cell"
@@ -27,34 +29,26 @@
 						<p:column headerText="ID" width="10%">
 							<h:outputText value="#{user.idUsuario}"/>
 						</p:column>
-						<p:column filterBy="#{user.nome}" headerText="Nome" filterMatchMode="contains">
+						<p:column headerText="Nome">
 							<h:outputText value="#{user.nome}"/>
 						</p:column>
-						<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">
+						<p:column headerText="E-mail">
 							<h:outputText value="#{user.email}"/>
 						</p:column>
-						<p:column headerText="Status" filterBy="#{user.status.desc}">							
+						<p:column headerText="Status">							
 							<h:outputText value="#{user.status.desc}"/>
 						</p:column>
-						<p:column headerText="Editar">
+						<p:column headerText="Sexo">
+							<h:outputText value="#{user.sexo.desc}"/>
+						</p:column>
+						<p:column headerText="Ação">
 							<h:link value="Editar" outcome="pretty:editUsuario">
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idUsuario" value="#{user.idUsuario}"/>
 							</h:link>						
 						</p:column>
-						<p:column headerText="Sexo">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{user.sexo.desc}"/>
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{user.sexo}">
-										<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
-									</p:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
 					</p:dataTable>
+				</div>
 				</p:panel>	
 			</comp:form>			
 		</ui:define>

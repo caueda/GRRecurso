@@ -16,15 +16,18 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
 import br.com.grrecurso.core.search.FieldTextPresentation;
 import br.com.grrecurso.core.search.annotations.ConfiguracaoPesquisa;
+import br.com.grrecurso.core.search.annotations.FieldComboSelectFilter;
 import br.com.grrecurso.core.search.annotations.FieldTextFilter;
 import br.com.grrecurso.core.search.annotations.ResultGrid;
 import br.com.grrecurso.core.search.annotations.TituloPesquisa;
+import br.com.grrecurso.dominio.DominioAtivoInativo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -60,6 +63,14 @@ public class Role extends BaseEntity {
 	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)
 	@Column(name="descricao", length=400)	
 	private String descricao;	
+	
+	@ResultGrid(label="Status", ordem=4, align="center")
+	@FieldComboSelectFilter(label="Status", campo="status", classe=DominioAtivoInativo.class)
+	@Column(name="status")
+	@Type(type = DominioAtivoInativo.NOME)
+	private DominioAtivoInativo status;
+	
+	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="role_permissao", 
 		joinColumns= {@JoinColumn(name="id_role")},

@@ -1,5 +1,7 @@
 package br.com.grrecurso.dominio;
 
+import br.com.grrecurso.core.search.annotations.DominioId;
+
 public enum DominioSexo {
 	FEMININO('F', 1, "Feminino"),
 	MASCULINO('M', 2, "Masculino");
@@ -9,7 +11,6 @@ public enum DominioSexo {
 	Character charCodigo;
 	
 	public static final String NOME = "DominioSexo";
-	public static final String METHOD = "getCharCodigo";
 	
 	DominioSexo(Character charCodigo, int codigo, String desc){
 		this.codigo = codigo;
@@ -25,6 +26,7 @@ public enum DominioSexo {
 		return desc;
 	}
 	
+	@DominioId
 	public Character getCharCodigo() {
 		return charCodigo;
 	}

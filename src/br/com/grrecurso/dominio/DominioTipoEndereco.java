@@ -1,5 +1,7 @@
 package br.com.grrecurso.dominio;
 
+import br.com.grrecurso.core.search.annotations.DominioId;
+
 public enum DominioTipoEndereco {
 	CASA(1, "Casa"), 
 	CORRESPONDENCIA(2, "Correspondência"),
@@ -9,7 +11,6 @@ public enum DominioTipoEndereco {
 	String desc;
 	
 	public static final String NOME = "DominioTipoEndereco";
-	public static final String METHOD = "getCodigo";
 	
 	DominioTipoEndereco(Integer codigo, String desc){
 		this.codigo = codigo;
@@ -24,6 +25,7 @@ public enum DominioTipoEndereco {
 		return null;
 	}
 
+	@DominioId
 	public Integer getCodigo() {
 		return codigo;
 	}

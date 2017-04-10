@@ -2,14 +2,19 @@ package br.com.grrecurso.entities.usuario;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +37,7 @@ public class PerfilUsuario implements Serializable {
 	private String nome;
 	private DominioAtivoInativo status;
 	private Date dataCadastro;
+	private Set<Role> roles;
 	
 	public PerfilUsuario() {
 		super();
@@ -75,6 +81,17 @@ public class PerfilUsuario implements Serializable {
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="perfil_usuario_role", joinColumns={@JoinColumn(name="id_perfil_usuario")},
+	inverseJoinColumns={@JoinColumn(name="")})
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override

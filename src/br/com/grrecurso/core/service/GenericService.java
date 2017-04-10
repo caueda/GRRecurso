@@ -29,7 +29,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		hql.append("SELECT vo FROM " + clazzEntity.getName() + " vo WHERE 1=1 ");
 		for(Map.Entry<String, CriteriaBean> entry : filter.entrySet()){
 			CriteriaBean bean = entry.getValue();
-			hql.append(" and lower(vo." + entry.getKey() + ")" + bean.getOperacao().replace(":value", bean.getSingleValue()));
+			hql.append(" and lower(vo." + entry.getKey() + ")" + bean.getOperacao().replace(":value", bean.getSingleValue().toString()));
 		}
 		Query query = getSession().createQuery(hql.toString());
 		result = query.list();

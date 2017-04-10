@@ -2,6 +2,7 @@ package br.com.grrecurso.core.service;
 
 import java.io.Serializable;
 
+import br.com.grrecurso.core.search.FieldComboSelectOperations;
 import br.com.grrecurso.core.search.FieldTextOperations;
 
 public class TradutorSQL implements Serializable, Traduzivel {
@@ -13,7 +14,7 @@ public class TradutorSQL implements Serializable, Traduzivel {
 	
 	public String traduzir(String operacao){
 		String traducao=null;
-		if(operacao.contains("TEXT")){
+		if(operacao.startsWith("TEXT")){
 			FieldTextOperations e = Enum.valueOf(FieldTextOperations.class, operacao);
 			switch(e){
 				case TEXT_CONTAINS:
@@ -27,6 +28,13 @@ public class TradutorSQL implements Serializable, Traduzivel {
 					break;
 				case TEXT_IGUAL:
 					traducao = " = LOWER(':value')";
+					break;
+			}
+		} else if(operacao.startsWith("SELECT")){
+			FieldComboSelectOperations e = Enum.valueOf(FieldComboSelectOperations.class, operacao);
+			switch(e){
+				case SELECT_IGUAL:
+					traducao = " = ':value' ";
 					break;
 			}
 		}

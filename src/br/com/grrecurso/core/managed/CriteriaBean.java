@@ -8,16 +8,16 @@ public class CriteriaBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 4601795631454515983L;
 	private String nomeCampo;
-	private String singleValue;
-	private String rangeValueInicio;
-	private String rangeValueFim;
+	private Object singleValue;
+	private Object rangeValueInicio;
+	private Object rangeValueFim;
 	private String operacao;
 	
 	public CriteriaBean(){
 		super();
 	}
 
-	public CriteriaBean(String nomeCampo, String rangeValueInicio, String rangeValueFim, String operacao) {
+	public CriteriaBean(String nomeCampo, Object rangeValueInicio, Object rangeValueFim, String operacao) {
 		super();
 		this.nomeCampo = nomeCampo;
 		this.rangeValueInicio = rangeValueInicio;
@@ -25,7 +25,7 @@ public class CriteriaBean implements Serializable {
 		this.operacao = operacao;
 	}
 
-	public CriteriaBean(String nomeCampo, String singleValue, String operacao) {
+	public CriteriaBean(String nomeCampo, Object singleValue, String operacao) {
 		super();
 		this.nomeCampo = nomeCampo;
 		this.singleValue = singleValue;
@@ -41,11 +41,11 @@ public class CriteriaBean implements Serializable {
 		this.nomeCampo = nomeCampo;
 	}
 
-	public String getSingleValue() {
+	public Object getSingleValue() {
 		return singleValue;
 	}
 
-	public void setSingleValue(String singleValue) {
+	public void setSingleValue(Object singleValue) {
 		this.singleValue = singleValue;
 	}
 
@@ -57,19 +57,19 @@ public class CriteriaBean implements Serializable {
 		this.operacao = operacao;
 	}
 
-	public String getRangeValueInicio() {
+	public Object getRangeValueInicio() {
 		return rangeValueInicio;
 	}
 
-	public void setRangeValueInicio(String rangeValueInicio) {
+	public void setRangeValueInicio(Object rangeValueInicio) {
 		this.rangeValueInicio = rangeValueInicio;
 	}
 
-	public String getRangeValueFim() {
+	public Object getRangeValueFim() {
 		return rangeValueFim;
 	}
 
-	public void setRangeValueFim(String rangeValueFim) {
+	public void setRangeValueFim(Object rangeValueFim) {
 		this.rangeValueFim = rangeValueFim;
 	}
 }

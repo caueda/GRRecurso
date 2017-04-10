@@ -9,7 +9,6 @@ public class GRRecursoGenericEnumUserType  extends GenericEnumUserType {
     public static final String PACOTE_DOMINIOS = "br.com.grrecurso.dominio";
     
     public static final String ENUM_CLASS_NAME_PARAM = "enumClass";
-    public static final String ENUM_CLASS_VALUE_METHOD = "getValueMethod";
     
 
     protected void getEnumClassName(Properties properties) {

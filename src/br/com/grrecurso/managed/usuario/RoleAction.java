@@ -49,8 +49,11 @@ public class RoleAction extends AbstractManagedBean {
 		}
 	}
 	
+	
 	public String persistir() {
 //		printScopedReferences(beanManager);
+//		boolean isRole = JSFUtil.hasRole("Admin");
+//		boolean isOther = JSFUtil.hasRole("Tester");
 		if(isIncluir()) {
 			try {			
 				roleService.saveOrUpdate(this.role);			
