@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -40,6 +41,24 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		super(Usuario.class);
 	}
 	
+	@Override
+	public Usuario saveOrUpdate(Usuario entity) {
+		return super.saveOrUpdate(entity);
+	}
+
+	@Override
+	public Usuario loadById(Long id) {
+		
+		Usuario usuario = super.loadById(id);
+		
+		Hibernate.initialize(usuario.getModulos());
+		Hibernate.initialize(usuario.getEnderecos());
+		
+		return usuario;
+	}
+
+
+
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
 		Session session = getSession();

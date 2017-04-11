@@ -1,11 +1,15 @@
 package br.com.grrecurso.managed.usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.primefaces.model.DualListModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ocpsoft.pretty.faces.annotation.URLAction;
@@ -16,8 +20,10 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
+import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
+import br.com.grrecurso.service.modulo.ModuloService;
 
 @Named
 @URLBeanName(value="usuarioAction")
@@ -40,12 +46,23 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String novaSenha2;
 	private Long idUsuario;
 	
+	private DualListModel<Modulo> modulos;
+	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
+	
+	@EJB
+	private ModuloService moduloService;
 	
 	@PostConstruct
 	public void init() {
 		logger.info("[UsuarioAction.init] " + this.toString());
+		List<Modulo> modulosSource = moduloService.listaModulos();
+		List<Modulo> modulosTarget = new ArrayList<Modulo>();
+		if(this.usuario != null && this.usuario.getModulos() != null){
+			modulosTarget.addAll(usuario.getModulos());
+		}
+		modulos = new DualListModel<Modulo>(modulosSource, modulosTarget);
 	}
 	
 	@PreDestroy
@@ -93,11 +110,28 @@ public class UsuarioAction extends AbstractManagedBean {
 		return DominioSexo.values();
 	}
 	
+	public DualListModel<Modulo> getModulos() {
+		return modulos;
+	}
+
+	public void setModulos(DualListModel<Modulo> modulos) {
+		this.modulos = modulos;
+	}
+
 	@URLAction(mappingId="editUsuario")
 	public void exibirEdicao(){
 		if(!isIncluir() && getIdUsuario() != null) {
 			setTipoOperacao(ALTERAR);
 			setUsuario(usuarioSvcLocal.loadById(getIdUsuario()));
+			
+			List<Modulo> modulosSource = moduloService.listaModulosExcept(getIdUsuario());
+			List<Modulo> modulosTarget = new ArrayList<Modulo>();
+			
+			if(this.usuario != null && this.usuario.getModulos() != null){
+				modulosTarget.addAll(usuario.getModulos());
+			}
+			
+			modulos = new DualListModel<Modulo>(modulosSource, modulosTarget);
 		}
 	}
 	
@@ -141,6 +175,10 @@ public class UsuarioAction extends AbstractManagedBean {
 			try {			
 				String hashed = encrypt(this.usuario.getSenha());
 				this.usuario.setSenha(hashed);
+				
+				List<Modulo> targetList = getModulos().getTarget();
+				usuario.getModulos().clear();
+				usuario.getModulos().addAll(targetList);
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
 				incluirInfo("Usuário incluído com sucesso.");
 				setUsuario(new Usuario());
@@ -151,6 +189,9 @@ public class UsuarioAction extends AbstractManagedBean {
 			return "pretty:";
 		} else if(isAlterar()) {
 			try {			
+				List<Modulo> targetList = getModulos().getTarget();
+				usuario.getModulos().clear();
+				usuario.getModulos().addAll(targetList);
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
 				incluirInfo("Usuário alterado com sucesso.");
 				setUsuario(new Usuario());

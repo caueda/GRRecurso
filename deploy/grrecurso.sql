@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 19-Mar-2017 às 14:24
+-- Generation Time: 11-Abr-2017 às 14:15
 -- Versão do servidor: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -117,7 +117,23 @@ INSERT INTO `grrecursorevisionentity` (`id`, `timestamp`, `username`) VALUES
 (24, 1469890428262, 'developer@test.com'),
 (25, 1469890482694, 'developer@test.com'),
 (26, 1489924833566, 'api@admin.com'),
-(27, 1489925370187, 'api@admin.com');
+(27, 1489925370187, 'api@admin.com'),
+(28, 1491569990781, 'developer@test.com'),
+(29, 1491570733656, 'jonas@teste.com'),
+(30, 1491573120035, 'jonas@teste.com'),
+(31, 1491681436927, 'jonas@teste.com'),
+(32, 1491681517990, 'jonas@teste.com'),
+(33, 1491682113250, 'jonas@teste.com'),
+(34, 1491826238993, 'developer@test.com'),
+(35, 1491911409060, 'developer@test.com'),
+(36, 1491911468560, 'developer@test.com'),
+(37, 1491911537354, 'developer@test.com'),
+(38, 1491911727750, 'developer@test.com'),
+(39, 1491911783432, 'developer@test.com'),
+(40, 1491912000211, 'developer@test.com'),
+(41, 1491912085157, 'developer@test.com'),
+(42, 1491912119387, 'developer@test.com'),
+(43, 1491912175230, 'developer@test.com');
 
 -- --------------------------------------------------------
 
@@ -149,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(28);
+(44);
 
 -- --------------------------------------------------------
 
@@ -194,15 +210,25 @@ CREATE TABLE IF NOT EXISTS `modulo_aud` (
 --
 
 INSERT INTO `modulo_aud` (`id_modulo`, `REV`, `REVTYPE`, `nome`, `status`) VALUES
+(1, 35, 1, 'MT', 1),
+(1, 36, 1, 'MT', 1),
+(1, 37, 1, 'MT', 1),
+(1, 43, 1, 'MT', 1),
 (2, 16, 1, 'CBA', 1),
 (2, 17, 1, 'CBA', 1),
 (2, 21, 1, 'CBA', 1),
 (2, 22, 1, 'CBA', 1),
 (2, 23, 1, 'CBA', 1),
 (2, 25, 1, 'CBA', 1),
+(2, 35, 1, 'CBA', 1),
+(2, 36, 1, 'CBA', 1),
+(2, 37, 1, 'CBA', 1),
 (3, 18, 1, 'RR', 1),
 (3, 19, 1, 'RR', 1),
-(3, 24, 1, 'RR', 1);
+(3, 24, 1, 'RR', 1),
+(3, 35, 1, 'RR', 1),
+(3, 36, 1, 'RR', 1),
+(3, 37, 1, 'RR', 1);
 
 -- --------------------------------------------------------
 
@@ -238,6 +264,64 @@ CREATE TABLE IF NOT EXISTS `perfil_usuario_aud` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `perfil_usuario_role`
+--
+
+CREATE TABLE IF NOT EXISTS `perfil_usuario_role` (
+  `id_perfil_usuario` bigint(20) NOT NULL,
+  `roles_id_role` bigint(20) NOT NULL,
+  PRIMARY KEY (`id_perfil_usuario`,`roles_id_role`),
+  KEY `FK2ixwdgkaql1md8dexulh88e6g` (`roles_id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `perfil_usuario_role_aud`
+--
+
+CREATE TABLE IF NOT EXISTS `perfil_usuario_role_aud` (
+  `REV` int(11) NOT NULL,
+  `id_perfil_usuario` bigint(20) NOT NULL,
+  `roles_id_role` bigint(20) NOT NULL,
+  `REVTYPE` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`REV`,`id_perfil_usuario`,`roles_id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `permissao`
+--
+
+CREATE TABLE IF NOT EXISTS `permissao` (
+  `id_permissao` bigint(20) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(400) DEFAULT NULL,
+  `nome` varchar(200) NOT NULL,
+  `action` varchar(4000) DEFAULT NULL,
+  PRIMARY KEY (`id_permissao`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `permissao_aud`
+--
+
+CREATE TABLE IF NOT EXISTS `permissao_aud` (
+  `id_permissao` bigint(20) NOT NULL,
+  `REV` int(11) NOT NULL,
+  `REVTYPE` tinyint(4) DEFAULT NULL,
+  `descricao` varchar(400) DEFAULT NULL,
+  `nome` varchar(200) DEFAULT NULL,
+  `action` varchar(4000) DEFAULT NULL,
+  PRIMARY KEY (`id_permissao`,`REV`),
+  KEY `FKd10wq1opy3sf5959nhkl2hl8` (`REV`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `recurso`
 --
 
@@ -262,16 +346,18 @@ CREATE TABLE IF NOT EXISTS `role` (
   `id_role` bigint(20) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(400) DEFAULT NULL,
   `nome` varchar(200) NOT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_role`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Extraindo dados da tabela `role`
 --
 
-INSERT INTO `role` (`id_role`, `descricao`, `nome`) VALUES
-(1, 'Administrador', 'Admin'),
-(2, 'Testador', 'Tester');
+INSERT INTO `role` (`id_role`, `descricao`, `nome`, `status`) VALUES
+(1, 'Administrador', 'Admin', NULL),
+(2, 'Testador', 'Tester', NULL),
+(8, 'Deployer', 'Deployer', NULL);
 
 -- --------------------------------------------------------
 
@@ -285,6 +371,8 @@ CREATE TABLE IF NOT EXISTS `role_aud` (
   `REVTYPE` tinyint(4) DEFAULT NULL,
   `descricao` varchar(400) DEFAULT NULL,
   `nome` varchar(200) DEFAULT NULL,
+  `action` varchar(4000) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_role`,`REV`),
   KEY `FK6j2c2jlbe8u8vyh2w5umal2o4` (`REV`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -293,14 +381,47 @@ CREATE TABLE IF NOT EXISTS `role_aud` (
 -- Extraindo dados da tabela `role_aud`
 --
 
-INSERT INTO `role_aud` (`id_role`, `REV`, `REVTYPE`, `descricao`, `nome`) VALUES
-(1, 12, 1, 'Administrador1', 'Admin'),
-(1, 15, 1, 'Administrador', 'Admin'),
-(2, 6, 0, NULL, 'Tester'),
-(2, 7, 1, NULL, 'Testador'),
-(2, 8, 1, NULL, 'Tester'),
-(2, 13, 1, 'Role de teste', 'Tester'),
-(2, 14, 1, 'Testador', 'Tester');
+INSERT INTO `role_aud` (`id_role`, `REV`, `REVTYPE`, `descricao`, `nome`, `action`, `status`) VALUES
+(1, 12, 1, 'Administrador1', 'Admin', NULL, NULL),
+(1, 15, 1, 'Administrador', 'Admin', NULL, NULL),
+(2, 6, 0, NULL, 'Tester', NULL, NULL),
+(2, 7, 1, NULL, 'Testador', NULL, NULL),
+(2, 8, 1, NULL, 'Tester', NULL, NULL),
+(2, 13, 1, 'Role de teste', 'Tester', NULL, NULL),
+(2, 14, 1, 'Testador', 'Tester', NULL, NULL),
+(3, 28, 0, 'tet', 'teste', NULL, NULL),
+(4, 29, 0, 'teste jonas', 'teste jonas', NULL, NULL),
+(5, 30, 0, 'teste', 'teste', NULL, NULL),
+(6, 31, 0, 'teste', 'teste', NULL, NULL),
+(7, 32, 0, 'asdf', 'asdf', NULL, NULL),
+(8, 33, 0, 'Deployer', 'Deployer', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `role_permissao`
+--
+
+CREATE TABLE IF NOT EXISTS `role_permissao` (
+  `id_role` bigint(20) NOT NULL,
+  `id_permissao` bigint(20) NOT NULL,
+  PRIMARY KEY (`id_role`,`id_permissao`),
+  KEY `FKqlft3esjibh4q9ctt8nyslv0f` (`id_permissao`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `role_permissao_aud`
+--
+
+CREATE TABLE IF NOT EXISTS `role_permissao_aud` (
+  `REV` int(11) NOT NULL,
+  `id_role` bigint(20) NOT NULL,
+  `id_permissao` bigint(20) NOT NULL,
+  `REVTYPE` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`REV`,`id_role`,`id_permissao`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -348,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `sexo` char(1) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `UK_5171l57faosmj8myawaucatdw` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Extraindo dados da tabela `usuario`
@@ -358,7 +479,8 @@ INSERT INTO `usuario` (`id_usuario`, `data_login`, `email`, `nome`, `senha`, `st
 (1, '2016-06-27 07:50:20', 'developer@test.com', 'admin', '$2a$10$nWXHqZXTnt4LPMNpI/TEX.jwp7baCyqcrwVrY/9yR/9cblKaV5h8.', 1, b'0', 'M'),
 (2, NULL, 'weblogic@test.com', 'weblogic', '$2a$10$nWXHqZXTnt4LPMNpI/TEX.jwp7baCyqcrwVrY/9yR/9cblKaV5h8.', 1, b'0', 'F'),
 (3, NULL, 'oracle@test.com', 'oracle', '$2a$10$nWXHqZXTnt4LPMNpI/TEX.jwp7baCyqcrwVrY/9yR/9cblKaV5h8.', 0, b'0', 'M'),
-(4, NULL, 'jonas@teste.com', 'jonas', '$2a$10$nWXHqZXTnt4LPMNpI/TEX.jwp7baCyqcrwVrY/9yR/9cblKaV5h8.', 1, b'0', 'F');
+(4, NULL, 'jonas@teste.com', 'jonas', '$2a$10$nWXHqZXTnt4LPMNpI/TEX.jwp7baCyqcrwVrY/9yR/9cblKaV5h8.', 1, b'0', 'F'),
+(5, NULL, 'node.js@node.com', 'Node', '$2a$10$2AJIPN8Y/0t4XLTGszYJvOpYKneAivt4ciKNJdZWMTN0htrC30L1O', 1, b'0', 'F');
 
 -- --------------------------------------------------------
 
@@ -390,13 +512,23 @@ INSERT INTO `usuario_aud` (`id_usuario`, `REV`, `REVTYPE`, `data_login`, `edicao
 (1, 2, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, NULL, 0),
 (1, 4, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, NULL, 1),
 (1, 11, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 35, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 36, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 37, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 38, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 39, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 40, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 41, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 42, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
+(1, 43, 1, '2016-06-27 07:50:20', b'0', 'developer@test.com', 'admin', NULL, 'M', 1),
 (2, 3, 0, NULL, b'0', 'weblogic@test.com', 'weblogic', NULL, NULL, 1),
 (2, 10, 1, NULL, b'0', 'weblogic@test.com', 'weblogic', NULL, 'F', 1),
 (2, 26, 1, NULL, b'0', 'weblogic@test.com', 'weblogic1', NULL, 'F', 1),
 (2, 27, 1, NULL, b'0', 'weblogic@test.com', 'weblogic', NULL, 'F', 1),
 (3, 5, 0, NULL, b'0', 'oracle@test.com', 'oracle', NULL, NULL, 0),
 (3, 9, 1, NULL, b'0', 'oracle@test.com', 'oracle', NULL, 'M', 0),
-(4, 20, 0, NULL, b'0', 'jonas@teste.com', 'jonas', NULL, 'F', 1);
+(4, 20, 0, NULL, b'0', 'jonas@teste.com', 'jonas', NULL, 'F', 1),
+(5, 34, 0, NULL, b'0', 'node.js@node.com', 'Node', NULL, 'F', 1);
 
 -- --------------------------------------------------------
 
@@ -416,9 +548,8 @@ CREATE TABLE IF NOT EXISTS `usuario_modulos` (
 --
 
 INSERT INTO `usuario_modulos` (`id_usuario`, `id_modulo`) VALUES
-(1, 1),
-(1, 2),
-(1, 3);
+(4, 1),
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -433,6 +564,16 @@ CREATE TABLE IF NOT EXISTS `usuario_modulos_aud` (
   `REVTYPE` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`REV`,`id_usuario`,`id_modulo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `usuario_modulos_aud`
+--
+
+INSERT INTO `usuario_modulos_aud` (`REV`, `id_usuario`, `id_modulo`, `REVTYPE`) VALUES
+(37, 1, 1, 2),
+(37, 1, 2, 2),
+(37, 1, 3, 2),
+(43, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -479,7 +620,8 @@ CREATE TABLE IF NOT EXISTS `usuario_role` (
 --
 
 INSERT INTO `usuario_role` (`id_usuario`, `id_role`) VALUES
-(1, 1);
+(1, 1),
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -524,6 +666,25 @@ ALTER TABLE `perfil_usuario_aud`
   ADD CONSTRAINT `FK6gtahmk914tbfkq1y02twkno7` FOREIGN KEY (`REV`) REFERENCES `grrecursorevisionentity` (`id`);
 
 --
+-- Limitadores para a tabela `perfil_usuario_role`
+--
+ALTER TABLE `perfil_usuario_role`
+  ADD CONSTRAINT `FKeqkwli5q42gpoaao4okjqmupg` FOREIGN KEY (`id_perfil_usuario`) REFERENCES `perfil_usuario` (`id_perfil_usuario`),
+  ADD CONSTRAINT `FK2ixwdgkaql1md8dexulh88e6g` FOREIGN KEY (`roles_id_role`) REFERENCES `role` (`id_role`);
+
+--
+-- Limitadores para a tabela `perfil_usuario_role_aud`
+--
+ALTER TABLE `perfil_usuario_role_aud`
+  ADD CONSTRAINT `FK4mai656tyr2vqpxfn8wum8n5d` FOREIGN KEY (`REV`) REFERENCES `grrecursorevisionentity` (`id`);
+
+--
+-- Limitadores para a tabela `permissao_aud`
+--
+ALTER TABLE `permissao_aud`
+  ADD CONSTRAINT `FKd10wq1opy3sf5959nhkl2hl8` FOREIGN KEY (`REV`) REFERENCES `grrecursorevisionentity` (`id`);
+
+--
 -- Limitadores para a tabela `recurso`
 --
 ALTER TABLE `recurso`
@@ -534,6 +695,19 @@ ALTER TABLE `recurso`
 --
 ALTER TABLE `role_aud`
   ADD CONSTRAINT `FK6j2c2jlbe8u8vyh2w5umal2o4` FOREIGN KEY (`REV`) REFERENCES `grrecursorevisionentity` (`id`);
+
+--
+-- Limitadores para a tabela `role_permissao`
+--
+ALTER TABLE `role_permissao`
+  ADD CONSTRAINT `FK5b5m7nw3b6daj1tvpg0glxtc9` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
+  ADD CONSTRAINT `FKqlft3esjibh4q9ctt8nyslv0f` FOREIGN KEY (`id_permissao`) REFERENCES `permissao` (`id_permissao`);
+
+--
+-- Limitadores para a tabela `role_permissao_aud`
+--
+ALTER TABLE `role_permissao_aud`
+  ADD CONSTRAINT `FKi6a5angalalcihmcd5kise39b` FOREIGN KEY (`REV`) REFERENCES `grrecursorevisionentity` (`id`);
 
 --
 -- Limitadores para a tabela `solicitacao`

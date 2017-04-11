@@ -26,6 +26,17 @@
 					
 					<br/>
 					
+					<p:pickList id="modulos" value="#{usuarioAction.modulos}" var="modulo" effect="bounce"
+					 showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+					 itemValue="#{modulo}" itemLabel="#{modulo.nome}" responsive="true" converter="#{entityConverterImpl}" >
+						<f:facet name="sourceCaption">Disponíveis</f:facet>
+						<f:facet name="targetCaption">Vinculados</f:facet>
+						
+        				<p:column style="width:20%;">
+				            <h:outputText value="#{modulo.nome}" />
+				        </p:column>
+					</p:pickList>
+					
 					<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
 					<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>
 					
