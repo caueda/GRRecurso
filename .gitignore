@@ -2,6 +2,6 @@
 .tern-project
 .packaging
 .xdoclet
-.settings
+.settings/
 
 /target/
