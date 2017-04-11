@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DualListModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -44,6 +45,10 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String senhaAtual;
 	private String novaSenha1;
 	private String novaSenha2;
+	
+	//Caso em que o Adm irá alterar a senha de outro usuário
+	private String senhaUpdateAdm;
+	
 	private Long idUsuario;
 	
 	private DualListModel<Modulo> modulos;
@@ -54,11 +59,16 @@ public class UsuarioAction extends AbstractManagedBean {
 	@EJB
 	private ModuloService moduloService;
 	
+	private boolean isUsuarioLogadoAdm = false;
+	
 	@PostConstruct
 	public void init() {
 		logger.info("[UsuarioAction.init] " + this.toString());
 		List<Modulo> modulosSource = moduloService.listaModulos();
 		List<Modulo> modulosTarget = new ArrayList<Modulo>();
+		
+		setUsuarioLogadoAdm(hasRole("Admin"));
+		
 		if(this.usuario != null && this.usuario.getModulos() != null){
 			modulosTarget.addAll(usuario.getModulos());
 		}
@@ -120,6 +130,7 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	@URLAction(mappingId="editUsuario")
 	public void exibirEdicao(){
+		
 		if(!isIncluir() && getIdUsuario() != null) {
 			setTipoOperacao(ALTERAR);
 			setUsuario(usuarioSvcLocal.loadById(getIdUsuario()));
@@ -192,6 +203,9 @@ public class UsuarioAction extends AbstractManagedBean {
 				List<Modulo> targetList = getModulos().getTarget();
 				usuario.getModulos().clear();
 				usuario.getModulos().addAll(targetList);
+				if(isUsuarioLogadoAdm && StringUtils.isNotBlank(getSenhaUpdateAdm())){
+					usuario.setSenha(encrypt(getSenhaUpdateAdm()));
+				}
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
 				incluirInfo("Usuário alterado com sucesso.");
 				setUsuario(new Usuario());
@@ -213,5 +227,21 @@ public class UsuarioAction extends AbstractManagedBean {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public boolean isUsuarioLogadoAdm() {
+		return isUsuarioLogadoAdm;
+	}
+
+	public void setUsuarioLogadoAdm(boolean isUsuarioLogadoAdm) {
+		this.isUsuarioLogadoAdm = isUsuarioLogadoAdm;
+	}
+
+	public String getSenhaUpdateAdm() {
+		return senhaUpdateAdm;
+	}
+
+	public void setSenhaUpdateAdm(String senhaUpdateAdm) {
+		this.senhaUpdateAdm = senhaUpdateAdm;
 	}
 }

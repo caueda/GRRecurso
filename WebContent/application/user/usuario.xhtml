@@ -12,8 +12,12 @@
 				<p:panel id="panelUser">								
 					<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 					<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
+					
 					<comp:inputPassword id="senha" label="Senha" value="#{usuarioAction.usuario.senha}" required="true" 
 						requiredMessage="A senha é obrigatória." placeholder="******" rendered="#{usuarioAction.isIncluir()}"/>
+						
+					<comp:inputPassword id="senhaUpdateAdm" label="Alterar senha" value="#{usuarioAction.senhaUpdateAdm}" 
+						placeholder="******" rendered="#{usuarioAction.usuarioLogadoAdm}"/>
 					
 					<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
 						<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
@@ -28,7 +32,8 @@
 					
 					<p:pickList id="modulos" value="#{usuarioAction.modulos}" var="modulo" effect="bounce"
 					 showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
-					 itemValue="#{modulo}" itemLabel="#{modulo.nome}" responsive="true" converter="#{entityConverterImpl}" >
+					 itemValue="#{modulo}" itemLabel="#{modulo.nome}" responsive="true" converter="#{entityConverterImpl}" required="true"
+					 requiredMessage="Vincule ao menos um módulo para o usuário.">
 						<f:facet name="sourceCaption">Disponíveis</f:facet>
 						<f:facet name="targetCaption">Vinculados</f:facet>
 						

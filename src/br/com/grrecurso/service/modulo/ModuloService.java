@@ -44,7 +44,7 @@ public class ModuloService extends AbstractService<Modulo, Long> {
 		   .append(" where m not in ( ")
 		   .append("select m from " + Usuario.class.getSimpleName())
 		   .append(" u ")
-		   .append(" join u.modulos m )");
+		   .append(" join u.modulos m where u.idUsuario = " + idUsuario + ")");
 		Query q = getSession().createQuery(hql.toString());
 		return (List<Modulo>)q.list();
 	}

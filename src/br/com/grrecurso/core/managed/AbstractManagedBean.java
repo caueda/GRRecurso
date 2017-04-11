@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.RequestScoped;
@@ -27,9 +29,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
+import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractManagedBean implements Serializable {
@@ -247,5 +252,31 @@ public abstract class AbstractManagedBean implements Serializable {
 
 	public Conversation getConversation() {
 		return conversation;
+	}
+	
+	public String evalAsString(String p_expression)
+	{
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
+	    ELContext elContext = context.getELContext();
+	    ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, String.class);
+	    String result = (String) vex.getValue(elContext);
+	    return result;
+	}
+	
+	public GRRecursoUser getPrincipal(){
+		GRRecursoUser user = (GRRecursoUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return user;
+	}
+	
+	public boolean hasRole(String role){
+		if(getPrincipal() != null){
+			for(GrantedAuthority grantedAuthority : getPrincipal().getAuthorities()){
+				if(grantedAuthority.getAuthority().equals(role)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
