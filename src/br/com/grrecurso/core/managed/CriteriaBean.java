@@ -7,6 +7,7 @@ public class CriteriaBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4601795631454515983L;
+	private Class<?> clazz;
 	private String nomeCampo;
 	private Object singleValue;
 	private Object rangeValueInicio;
@@ -25,13 +26,27 @@ public class CriteriaBean implements Serializable {
 		this.operacao = operacao;
 	}
 
-	public CriteriaBean(String nomeCampo, Object singleValue, String operacao) {
+	public CriteriaBean(String nomeCampo, Object singleValue, String operacao) throws ClassNotFoundException {
 		super();
 		this.nomeCampo = nomeCampo;
 		this.singleValue = singleValue;
 		this.operacao = operacao;
+		if(singleValue instanceof String){
+			if(((String) singleValue).contains("#")){
+				String[] classValue = ((String) singleValue).split("#");
+				this.clazz = Class.forName(classValue[0]);
+				this.singleValue = classValue[1];
+			}
+		}
 	}
 
+	public Class<?> getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
 
 	public String getNomeCampo() {
 		return nomeCampo;

@@ -8,6 +8,7 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">
+			<h3 style="margin-top: 0">Usuário</h3>
 			<comp:form id="formApp" styleClass="form-horizontal">
 				<p:panel id="panelUser">								
 					<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
@@ -19,21 +20,17 @@
 					<comp:inputPassword id="senhaUpdateAdm" label="Alterar senha" value="#{usuarioAction.senhaUpdateAdm}" 
 						placeholder="******" rendered="#{usuarioAction.usuarioLogadoAdm}"/>
 					
-					<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
-						<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
-					</comp:inputSelectOneMenu>	
-					
 					<comp:inputSelectOneMenu id="sexo" label="Sexo" value="#{usuarioAction.usuario.sexo}" required="true"
 						requiredMessage="O sexo é obrigatório.">
 						<f:selectItems var="item" value="#{usuarioAction.listaSexo}" itemLabel="#{item.desc}"/>
 					</comp:inputSelectOneMenu>			
 					
 					<br/>
-					
+					<h3 style="margin-top: 0">Módulos</h3>
 					<p:pickList id="modulos" value="#{usuarioAction.modulos}" var="modulo" effect="bounce"
 					 showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
 					 itemValue="#{modulo}" itemLabel="#{modulo.nome}" responsive="true" converter="#{entityConverterImpl}" required="true"
-					 requiredMessage="Vincule ao menos um módulo para o usuário.">
+					 requiredMessage="Vincule ao menos um módulo para o usuário." addAllLabel="Adicionar Todos" removeAllLabel="Remover Todos">
 						<f:facet name="sourceCaption">Disponíveis</f:facet>
 						<f:facet name="targetCaption">Vinculados</f:facet>
 						
@@ -42,9 +39,14 @@
 				        </p:column>
 					</p:pickList>
 					
+					<comp:inputSelectOneMenu id="status" label="Situação" value="#{usuarioAction.usuario.status}" required="true" requiredMessage="A situação é obrigatória.">
+						<f:selectItems var="item" value="#{usuarioAction.listaStatus}" itemLabel="#{item.desc}"/>
+					</comp:inputSelectOneMenu>	
+					
+					<p:separator></p:separator>
 					<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
 					<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>
-					
+				
 				</p:panel>		  
 			</comp:form>  
 		</ui:define>

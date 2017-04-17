@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -64,11 +65,18 @@ public class Role extends BaseEntity {
 	@Column(name="descricao", length=400)	
 	private String descricao;	
 	
-	@ResultGrid(label="Status", ordem=4, align="center")
-	@FieldComboSelectFilter(label="Status", campo="status", classe=DominioAtivoInativo.class)
+	@FieldTextFilter(label="Usuário cadastro", campo="usuarioCadastro.nome", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)
+	@ResultGrid(label="Usuário Cadastro", ordem=4, align="left", campo="usuarioCadastro.nome")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_usuario")
+	private Usuario usuarioCadastro; 
+	
+	@ResultGrid(label="Status", ordem=5, align="center")
+	@FieldComboSelectFilter(label="Status", campo="status", classe=DominioAtivoInativo.class, obrigatorio=true)
 	@Column(name="status")
 	@Type(type = DominioAtivoInativo.NOME)
 	private DominioAtivoInativo status;
+	
 	
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)

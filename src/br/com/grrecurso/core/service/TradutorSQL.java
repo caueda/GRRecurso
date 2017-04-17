@@ -34,7 +34,7 @@ public class TradutorSQL implements Serializable, Traduzivel {
 			FieldComboSelectOperations e = Enum.valueOf(FieldComboSelectOperations.class, operacao);
 			switch(e){
 				case SELECT_IGUAL:
-					traducao = " = ':value' ";
+					traducao = " = :value ";
 					break;
 			}
 		}

@@ -32,6 +32,7 @@ import javax.inject.Named;
 
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.message.Message;
 import org.primefaces.component.panel.Panel;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
@@ -154,7 +155,9 @@ public class SearchEngine extends AbstractManagedBean {
 			buttonSearch.setValue("Pesquisar");
 			buttonSearch.setStyleClass("btn btn-default");
 			buttonSearch.setActionExpression(createMethodExpression("#{searchEngine.pesquisar}"));
-			
+			UIOutput br = new UIOutput();
+			br.setValue("<br/>");
+			mainPanel.getChildren().add(br);
 			mainPanel.getChildren().add(buttonSearch);
 			buildDataTable();
 		} catch (NoSuchFieldException e) {
@@ -181,11 +184,16 @@ public class SearchEngine extends AbstractManagedBean {
 		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
 		
 		for(ResultGridBean bean : columnsLabelsGrid){
-			if(requestParameters.containsKey(bean.getCampo())){
-				String value = (String)requestParameters.get(bean.getCampo());
+			if(requestParameters.containsKey(EvalExpression.getIdCampo(bean.getCampo()))){
+				String value = (String)requestParameters.get(EvalExpression.getIdCampo(bean.getCampo()));
 				if(value != null && !value.isEmpty()){
 					String operacao = (String)requestParameters.get(EvalExpression.getSufixoOperacao(bean.getCampo()));
-					filter.put(bean.getCampo(), new CriteriaBean(bean.getCampo(), value, traduzivel.traduzir(operacao) ));
+					try {
+						filter.put(bean.getCampo(), new CriteriaBean(bean.getCampo(), value, traduzivel.traduzir(operacao) ));
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -232,12 +240,13 @@ public class SearchEngine extends AbstractManagedBean {
 				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
-				label.setFor(campo);
+				label.setFor(EvalExpression.getIdCampo(campo));
 				components.add(label);
 					
 					HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
 					selectOneMenu.setId(EvalExpression.getSufixoOperacao(campo));
 					selectOneMenu.setLabel("Operação");
+					selectOneMenu.setRequired(filter.obrigatorio());
 					//selectOneMenu.setConverter(new EnumConverter());				
 					UISelectItems uiSelectItems = new UISelectItems();
 					List<SelectItem> opcoes = new ArrayList<SelectItem>();
@@ -250,12 +259,14 @@ public class SearchEngine extends AbstractManagedBean {
 					components.add(selectOneMenu);
 					
 					HtmlInputText inputText = new HtmlInputText();
-					inputText.setId(campo);
+					inputText.setId(EvalExpression.getIdCampo(campo));
 					inputText.setStyleClass("form-control");
 					inputText.setMaxlength(filter.maxLength());
 					inputText.setSize(filter.size());
 					inputText.setRequired(filter.obrigatorio());
+					inputText.setRequiredMessage("O " + campo + " deve ser informado.");					
 					components.add(inputText);
+					components.add(getMessage(EvalExpression.getIdCampo(campo)));
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
@@ -272,7 +283,7 @@ public class SearchEngine extends AbstractManagedBean {
 				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
-				label.setFor(campo);
+				label.setFor(EvalExpression.getIdCampo(campo));
 				components.add(label);
 					
 					HtmlSelectOneMenu selectOneMenuOperacao = new HtmlSelectOneMenu();
@@ -302,8 +313,12 @@ public class SearchEngine extends AbstractManagedBean {
 						//selectOneMenuOpcoes.setConverter(new EnumConverter());
 						try {
 							Enum[] values = getEnumValues(filter.classe());
+							SelectItem selecione = new SelectItem();
+							selecione.setLabel("Selecione");
+							selecione.setNoSelectionOption(true);
+							itemsOpcoes.add(selecione);
 							for(Enum e : values){
-								itemsOpcoes.add(new SelectItem(e, e.toString()));
+								itemsOpcoes.add(new SelectItem(e.getClass().getName() + "#" + e, e.toString()));
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -313,21 +328,30 @@ public class SearchEngine extends AbstractManagedBean {
 					uiSelectItemsOpcoes.setValue(itemsOpcoes);				
 					selectOneMenuOpcoes.getChildren().add(uiSelectItemsOpcoes);
 					selectOneMenuOpcoes.setStyleClass("form-control");
-					selectOneMenuOpcoes.setId(campo);
-					
-					
+					selectOneMenuOpcoes.setId(EvalExpression.getIdCampo(campo));
 					selectOneMenuOpcoes.setRequired(filter.obrigatorio());
+					selectOneMenuOpcoes.setRequiredMessage("O " + campo + " deve ser informado.");
 					
-					components.add(selectOneMenuOpcoes);
+					components.add(selectOneMenuOpcoes);					
+					components.add(getMessage(campo));
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
+				
+				
+				
 				components.add(endTag);
 				
 			}			
 		}
 		
 		return components;
+	}
+	
+	private Message getMessage(String forCampo){
+		Message message = new Message();
+		message.setFor(forCampo);
+		return message;
 	}
 
 	public Class getClazzEntity() {
