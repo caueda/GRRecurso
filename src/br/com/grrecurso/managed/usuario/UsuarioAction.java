@@ -19,6 +19,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.core.managed.AbstractManagedBean;
+import br.com.grrecurso.core.util.LocalUtil;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Modulo;
@@ -207,6 +208,18 @@ public class UsuarioAction extends AbstractManagedBean {
 					usuario.setSenha(encrypt(getSenhaUpdateAdm()));
 				}
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
+				
+				if(getIdUsuario().equals(LocalUtil.getPrincipal().getIdUsuario())) {
+					if(LocalUtil.getPrincipal().getModuleIds() != null){
+						LocalUtil.getPrincipal().getModuleIds().clear();
+					} else {
+						LocalUtil.getPrincipal().setModuleIds(new ArrayList<Long>());
+					}
+					for(Modulo m : usuario.getModulos()) {
+						LocalUtil.getPrincipal().getModuleIds().add(m.getId());
+					}
+				}
+				
 				incluirInfo("Usuário alterado com sucesso.");
 				setUsuario(new Usuario());
 				return "pretty:userPesquisa";

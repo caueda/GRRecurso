@@ -72,7 +72,7 @@ public class RolePesquisaAction extends AbstractManagedBean {
 	
 	public String pesquisar(){
 		try {
-			return pesquisar(Role.class.getName());
+			return pesquisar(Role.class);
 		} catch (ClassNotFoundException e) {
 			incluirError("Contate o administrador do sistema: " + e.getMessage());
 		}

@@ -19,6 +19,7 @@ import org.hibernate.criterion.Restrictions;
 import org.primefaces.model.SortOrder;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.grrecurso.core.util.LocalUtil;
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
@@ -48,7 +49,7 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 		Session session = em.unwrap(Session.class);		
 		Object callerPrincipal = null;
 		if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null){
-			callerPrincipal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			callerPrincipal = LocalUtil.getPrincipal();
 		}
 		List<Long> idModules = new ArrayList<Long>();
 		if(callerPrincipal != null && callerPrincipal instanceof GRRecursoUser){

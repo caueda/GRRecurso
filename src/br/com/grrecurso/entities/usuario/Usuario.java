@@ -67,8 +67,6 @@ public class Usuario implements Serializable {
 	@XmlTransient
 	private Set<PerfilUsuario> perfis;
 	@XmlTransient
-	private Set<Role> roles;
-	@XmlTransient
 	private DominioSexo sexo;
 	@XmlTransient
 	private boolean edicao;
@@ -174,18 +172,6 @@ public class Usuario implements Serializable {
 
 	public void setModulos(Set<Modulo> modulos) {
 		this.modulos = modulos;
-	}
-
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="usuario_role", joinColumns= {@JoinColumn(name="id_usuario")},
-			   inverseJoinColumns= {@JoinColumn(name="id_role")}
-	)
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public boolean isEdicao() {

@@ -7,8 +7,10 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://grrecurso.com.br/comp">				
 		<p:panel id="panelRole">	
+			
 			<comp:inputText id="nomeRole" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
 			<comp:inputTextarea id="descricaoRole" label="Descrição" value="#{roleAction.role.descricao}" cols="100" rows="4" required="false"/>
+			
 			<br/><br/>
 
 			<p:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{roleAction.persistir}" process="panelRole" update="panelRole"/>

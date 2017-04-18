@@ -77,8 +77,6 @@ public class Role extends BaseEntity {
 	@Type(type = DominioAtivoInativo.NOME)
 	private DominioAtivoInativo status;
 	
-	
-	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="role_permissao", 
 		joinColumns= {@JoinColumn(name="id_role")},

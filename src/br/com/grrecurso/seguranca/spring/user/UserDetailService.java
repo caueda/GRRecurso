@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.entities.usuario.Modulo;
+import br.com.grrecurso.entities.usuario.PerfilUsuario;
 import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -49,8 +50,10 @@ public class UserDetailService implements UserDetailsService {
 		boolean accountNonLocked = true;
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		for(Role role : usuario.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(role.getNome()));
+		for(PerfilUsuario perfil : usuario.getPerfis()) {
+			for(Role role : perfil.getRoles()) {
+				authorities.add(new SimpleGrantedAuthority(role.getNome()));
+			}
 		}
 		
 		GRRecursoUser grrecursoUser = new GRRecursoUser(email, password, enabled, accountNonExpired, credentialNonExpired,

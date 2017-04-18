@@ -11,7 +11,7 @@
 			<comp:form id="formApp" styleClass="form-horizontal">
 				<p:panel id="panelSolicitacao">	
 					<comp:inputText id="chamado" label="Nº Chamado" value="#{solicitacaoAction.solicitacao.chamado}" required="true" requiredMessage="O nº do chamado é obrigatório."/>
-					<comp:inputText id="descricao" label="Descrição" value="#{solicitacaoAction.solicitacao.descricao}" required="false"/>	
+					<comp:inputTextarea id="descricao" label="Descrição" value="#{solicitacaoAction.solicitacao.descricao}" required="false"/>	
 					
 					<comp:inputSelectOneMenu id="status" label="Situação da solicitação" value="#{solicitacaoAction.solicitacao.situacao}" required="true" requiredMessage="A situação da solicitação é obrigatória.">
 						<f:selectItems var="item" value="#{solicitacaoAction.listaSituacaoSolicitacao}" itemLabel="#{item.desc}"/>

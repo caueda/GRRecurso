@@ -53,6 +53,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		
 		Hibernate.initialize(usuario.getModulos());
 		Hibernate.initialize(usuario.getEnderecos());
+		Hibernate.initialize(usuario.getPerfis());		
 		
 		return usuario;
 	}
@@ -63,7 +64,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	public Usuario findByEmail(String email){
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(Usuario.class);
-		criteria.setFetchMode("roles", FetchMode.JOIN);
+		criteria.setFetchMode("perfis", FetchMode.JOIN);
 		criteria.setFetchMode("modulos", FetchMode.JOIN);
 		criteria.add(Restrictions.eq("email", email));
 		Usuario usuario = (Usuario)criteria.uniqueResult();

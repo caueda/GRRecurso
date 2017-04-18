@@ -7,10 +7,9 @@
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
-		<ui:define name="aplicacao">
-			<h3 style="margin-top: 0">Usuário</h3>
+		<ui:define name="aplicacao">			
 			<comp:form id="formApp" styleClass="form-horizontal">
-				<p:panel id="panelUser">								
+				<p:panel id="panelUser" header="Usuário" >								
 					<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 					<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
 					

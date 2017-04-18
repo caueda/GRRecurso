@@ -28,7 +28,8 @@
 <h:body>			
 	  <h:form id="menuForm" prependId="true">  
 	  		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>             	
-		    <p:growl id="messageMonitor" for="messageMonitor" showDetail="true" globalOnly="true"/>				                	     
+		    <p:growl id="messageMonitor" for="messageMonitor" showDetail="true" globalOnly="true"/>		
+		    		                	     
 		    <p:idleMonitor timeout="60000" >				        				        
 		        <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messageMonitor" />
 	     		<p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messageMonitor" />
@@ -46,6 +47,12 @@
 		            		<f:param name="tipoOperacao" value="incluir"/>
 		            	</p:menuitem>
 		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>		            			            	
+		        	</p:submenu>
+		        	<p:submenu label="Permissão" icon="ui-icon-person">
+		            	<p:menuitem value="Incluir" outcome="pretty:newPermissao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
+		            		<f:param name="tipoOperacao" value="incluir"/>
+		            	</p:menuitem>
+		            	<p:menuitem value="Consultar" outcome="pretty:permissaoRolePesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>		            			            	
 		        	</p:submenu>		            	
 		        </p:submenu>
 		        <p:submenu label="Solicitações">

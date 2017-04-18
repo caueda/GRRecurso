@@ -97,9 +97,14 @@ public abstract class AbstractManagedBean implements Serializable {
 		return evt.getComponent().getAttributes().get(attributeName);
 	}
 	
-	protected String pesquisar(String className) throws ClassNotFoundException{
-		addAttributeToFlash(SEARCH_OBJECT, className);
+	protected String pesquisar(Class<?> clazz) throws ClassNotFoundException{
+		addAttributeToFlash(SEARCH_OBJECT,clazz.getName());
 		return "/application/search/searchPrototype.jsf";
+	}
+	
+	protected String pesquisar(Class<?> clazz, String page) throws ClassNotFoundException{
+		addAttributeToFlash(SEARCH_OBJECT, clazz.getName());
+		return page;
 	}
 	
 	public <T> void addAttributeToFlash(String name, T value){
@@ -172,6 +177,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 	}
 	
+	@SuppressWarnings("el-syntax")
 	protected <T> T getBean(Class<T> clazz, String beanName) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext elContext = context.getELContext();

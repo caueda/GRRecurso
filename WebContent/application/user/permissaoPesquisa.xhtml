@@ -9,29 +9,29 @@
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao"> 
 			<comp:form id="formApp" styleClass="form-horizontal">  
-				<p:panel id="table" header="Filtro de Pesquisa - Role">
+				<p:panel id="table" header="Filtro de Pesquisa - Permissão">
 					<p:outputLabel for="nomePesquisa" value="Nome"/>
-					<p:inputText id="nomePesquisa" value="#{rolePesquisaAction.role.nome}"/>
+					<p:inputText id="nomePesquisa" value="#{permissaoPesquisaAction.permissao.nome}"/>
 					<br/>
 					
-					<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
-					<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
+					<p:commandButton value="Consultar" action="#{permissaoPesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
+					<p:commandButton value="Pesquisar" action="#{permissaoPesquisaAction.pesquisar}" immediate="true"/>
 					<br/>
 					
-					<p:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" emptyMessage="Nenhum papel encontrado." widgetVar="rolesTable">
+					<p:dataTable value="#{permissaoPesquisaAction.listaPermissao}" var="permissao" emptyMessage="Nenhuma permissão encontrado." widgetVar="permissaoTable">
 						<p:column headerText="ID" width="10%">
-							<h:outputText value="#{role.id}"/>
+							<h:outputText value="#{permissao.id}"/>
 						</p:column>
-						<p:column headerText="Papel">
-							<h:outputText value="#{role.nome}"/>
+						<p:column headerText="Permissão">
+							<h:outputText value="#{permissao.nome}"/>
 						</p:column>
 						<p:column headerText="Descrição">
-							<h:outputText value="#{role.descricao}"/>
+							<h:outputText value="#{permissao.descricao}"/>
 						</p:column>
 						<p:column headerText="Editar">
-							<h:link value="Editar" outcome="pretty:editRole">
+							<h:link value="Editar" outcome="pretty:editPermissao">
 								<f:param name="tipoOperacao" value="alterar"/>
-								<f:param name="idRole" value="#{role.id}"/>
+								<f:param name="idPermissao" value="#{permissao.id}"/>
 							</h:link>						
 						</p:column>
 					</p:dataTable>

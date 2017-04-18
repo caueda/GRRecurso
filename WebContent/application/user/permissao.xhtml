@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:comp="http://grrecurso.com.br/comp">
+<ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
+		<ui:define name="aplicacao">
+			<comp:form id="formApp" styleClass="form-horizontal">
+				<f:metadata>
+					<f:viewAction action="#{permissaoAction.exibirEdicao()}" onPostback="false"/>
+				</f:metadata>
+				<p:panel id="panelPermissao" header="Permissão">	
+					
+					<comp:inputText id="nomePermissao" label="Permissão" value="#{permissaoAction.permissao.nome}" required="true" requiredMessage="A permissão é obrigatório." placeholder="Nome da permissão..."/>
+					<comp:inputTextarea id="descricaoPermissao" label="Descrição" value="#{permissaoAction.permissao.descricao}" cols="100" rows="4" required="false"/>
+					
+					<br/><br/>
+		
+					<p:commandButton value="#{permissaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{permissaoAction.persistir}" process="panelPermissao" update="panelPermissao"/>
+					<p:button value="Cancelar" outcome="pretty:permissaoRolePesquisa" rendered="#{permissaoAction.isAlterar()}"/>
+					
+				</p:panel>		
+			</comp:form>
+		</ui:define>
+</ui:composition>
+</html>
