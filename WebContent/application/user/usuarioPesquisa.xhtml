@@ -8,8 +8,7 @@
   xmlns:comp="http://grrecurso.com.br/comp">
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao"> 
-			<comp:form id="formApp" styleClass="form-ho
-			rizontal">  
+			<comp:form id="formApp">  
 				<p:panel id="table" header="Filtro de Pesquisa">
 				<div class="form-group">
 					<p:outputLabel for="nomePesquisa" value="Nome"/>
@@ -17,15 +16,20 @@
 					<p:outputLabel for="emailPesquisa" value="E-mail"/>
 					<p:inputText id="emailPesquisa" value="#{usuarioPesquisaAction.usuario.email}" styleClass="form-control"/>
 					
-					<p:commandButton value="Consultar" 
-					action="#{usuarioPesquisaAction.consultar}" process="table" update="table"
-					styleClass="btn btn-default"/>
+					<br/><br/>
+					
+					<h:commandButton value="Consultar" 
+						action="#{usuarioPesquisaAction.consultar}" styleClass="btn btn-default">
+						<f:ajax execute="table" render="usersTable"/>						
+					</h:commandButton>
+					
+					<br/><br/>
 					
 					<p:dataTable value="#{usuarioPesquisaAction.listaUsuarios}"
 						paginator="true" rows="5" paginatorPosition="bottom" editable="true" editMode="cell"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 	                	rowsPerPageTemplate="3,5,10" lazy="true"
-						var="user" emptyMessage="Nenhum usuário encontrado." widgetVar="usersTable">
+						var="user" emptyMessage="Nenhum usuário encontrado." id="usersTable">
 						<p:column headerText="ID" width="10%">
 							<h:outputText value="#{user.idUsuario}"/>
 						</p:column>

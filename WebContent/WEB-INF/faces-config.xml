@@ -4,17 +4,19 @@
  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
  
  <application>
- 	<message-bundle>resources.application</message-bundle>
- 	<locale-config>
- 		<default-locale>en</default-locale>
- 	</locale-config></application>
- 	<factory>
-    	<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
-	</factory>
+ 	<resource-bundle>
+ 		<base-name>messages_pt_BR</base-name>
+ 		<var>message</var>
+ 	</resource-bundle>
+ </application>
+ 
+ <factory>
+   	<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+ </factory>
 
-	<converter>
-	  <converter-for-class>java.lang.Enum</converter-for-class>
-	  <converter-class>javax.faces.convert.EnumConverter</converter-class>
-	</converter>
+ <converter>
+ 	<converter-for-class>java.lang.Enum</converter-for-class>
+	<converter-class>javax.faces.convert.EnumConverter</converter-class>
+ </converter>
 	
 </faces-config>

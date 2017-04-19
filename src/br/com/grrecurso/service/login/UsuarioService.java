@@ -83,13 +83,14 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Usuario> list(Usuario usuarioPesquisa){
 		Session session = getSession();
+		
 		Criteria criteria = session.createCriteria(Usuario.class);
 		
 		if(StringUtils.isNotBlank(usuarioPesquisa.getNome())) {
-			criteria.add(Restrictions.like("nome", usuarioPesquisa.getNome()));
+			criteria.add(Restrictions.ilike("nome", usuarioPesquisa.getNome()));
 		} 
 		if(StringUtils.isNotBlank(usuarioPesquisa.getEmail())) {
-			criteria.add(Restrictions.like("email", usuarioPesquisa.getEmail()));
+			criteria.add(Restrictions.ilike("email", usuarioPesquisa.getEmail()));
 		}
 		
 		return (List<Usuario>)criteria.list();

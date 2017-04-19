@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:comp="http://grrecurso.com.br/comp"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<cc:interface>
+		<cc:valueHolder name="inputField"/>
+		<cc:attribute name="value"/>
+		<cc:attribute name="immediate"/>		
+		<cc:attribute name="rendered"/>
+		<cc:attribute name="action" method-signature="java.lang.String action()"/>
+		<cc:attribute name="update"/>
+		<cc:attribute name="process"/>
+		<cc:attribute name="styleClass" default="btn btn-default"/>
+	</cc:interface>
+	
+	<cc:implementation>			
+	
+			<h:commandButton action="#{ cc.attrs.action }" value="#{ cc.attrs.value }" styleClass="#{ cc.attrs.styleClass }">
+				<c:if test="#{ cc.attrs.update ne null and cc.attrs.process ne null}">
+					<f:ajax execute="#{ cc.attrs.process }" render="#{ cc.attrs.update }"/>
+				</c:if>
+				<c:if test="#{ cc.attrs.update ne null }">
+					<f:ajax render="#{ cc.attrs.update }"/>
+				</c:if>
+				<c:if test="#{ cc.attrs.process ne null }">
+					<f:ajax execute="#{ cc.attrs.process }"/>
+				</c:if>
+			</h:commandButton>
+						
+	</cc:implementation>
+</html>

@@ -14,9 +14,11 @@
 		<cc:attribute name="label"/>
 	</cc:interface>
 	
-	<cc:implementation>
-		<p:outputLabel for="#{cc.attrs.idDecorator}" value="#{cc.attrs.label}"/>
-		<cc:insertChildren></cc:insertChildren>
-		<p:message for="#{cc.attrs.idDecorator}"/>		
+	<cc:implementation>		
+		<div class="form-group">
+			<label for="#{cc.attrs.idDecorator}"><h:outputText value="#{cc.attrs.label}"/></label>
+			<cc:insertChildren></cc:insertChildren>
+			<p:message for="#{cc.attrs.idDecorator}"/>
+		</div>		
 	</cc:implementation>
 </html>

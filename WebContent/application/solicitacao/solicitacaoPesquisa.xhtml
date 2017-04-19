@@ -14,16 +14,22 @@
 					<p:inputText id="chamadoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.chamado}"/>
 					<p:outputLabel for="descricaoPesquisa" value="Descrição"/>
 					<p:inputText id="descricaoPesquisa" value="#{solicitacaoPesquisaAction.solicitacao.descricao}"/>
-					<br/>
+					<br/><br/>
 					
-					<p:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" process="table" update="table"/>
+					<h:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" 
+						process="table" update="table" styleClass="btn btn-default">
+						<f:ajax execute="table" render="solicitacoesTable"></f:ajax>
+					</h:commandButton>
+					
+					<br/><br/>
+					
 					<p:spacer height="20"/>
 					
-					<p:dataTable value="#{solicitacaoPesquisaAction.listaSolicitacoes}" var="solicitacao" emptyMessage="Nenhuma solicitação encontrada." widgetVar="solicitacoesTable">
+					<p:dataTable id="solicitacoesTable" value="#{solicitacaoPesquisaAction.listaSolicitacoes}" var="solicitacao" emptyMessage="Nenhuma solicitação encontrada.">
 						<p:column headerText="ID" width="10%">
 							<h:outputText value="#{solicitacao.idSolicitacao}"/>
 						</p:column>
-						<p:column filterBy="#{solicitacao.chamado}" headerText="Chamado" filterMatchMode="contains">
+						<p:column headerText="Chamado">
 							<h:outputText value="#{solicitacao.chamado}"/>
 						</p:column>
 						<p:column headerText="Descrição">
@@ -35,11 +41,13 @@
 						<p:column headerText="Módulo">
 							<h:outputText value="#{solicitacao.modulo.nome}"/>
 						</p:column>
-						<p:column headerText="Editar">
-							<h:link value="Editar" outcome="pretty:editSolicitacao">
-								<f:param name="tipoOperacao" value="alterar"/>
-								<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
-							</h:link>						
+						<p:column headerText="Editar" style="width:150px;">
+							<div class="btn-group btn-group-sm">								
+								<h:button value="Editar" outcome="pretty:editSolicitacao" styleClass="btn btn-default">
+									<f:param name="tipoOperacao" value="alterar"/>
+									<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
+								</h:button>		
+							</div>				
 						</p:column>
 					</p:dataTable>
 				</p:panel>

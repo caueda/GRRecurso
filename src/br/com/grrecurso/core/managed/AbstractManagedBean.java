@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
+import org.primefaces.context.RequestContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -145,6 +146,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
+//		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 	
 	protected void incluirError(String summary) {
@@ -162,6 +164,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
+//		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 	
 	protected void incluirWarning(String summary) {
@@ -175,6 +178,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		message.setDetail(detail);
 		FacesContext.getCurrentInstance().addMessage(MESSAGE, message);
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
+//		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 	
 	@SuppressWarnings("el-syntax")

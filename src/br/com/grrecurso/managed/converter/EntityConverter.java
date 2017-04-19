@@ -5,11 +5,13 @@ import java.lang.reflect.Field;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
+@FacesConverter(value="EntityConverter")
 @Named("entityConverterImpl")
 public class EntityConverter implements Converter {
 	
@@ -26,6 +28,7 @@ public class EntityConverter implements Converter {
 	}
 
 	public String getAsString(FacesContext fc, UIComponent component, Object object) {
+		if(object == null) return null;
 		try {
 			Class<? extends Object> clazz = object.getClass();
 			for (Field f : clazz.getDeclaredFields()) {

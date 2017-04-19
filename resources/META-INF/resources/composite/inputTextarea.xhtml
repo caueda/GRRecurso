@@ -7,7 +7,8 @@
 	xmlns:p="http://primefaces.org/ui"  
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-	xmlns:comp="http://grrecurso.com.br/comp">
+	xmlns:comp="http://grrecurso.com.br/comp"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<cc:interface>
 		<cc:valueHolder name="inputField"/>		
@@ -24,9 +25,12 @@
 	
 	<cc:implementation>		
 		<comp:inputDecorator idDecorator="inputField" label="#{cc.attrs.label}">
-			<p:inputTextarea id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" readonly="#{readonly}" 
-				requiredMessage="#{cc.attrs.requiredMessage}" placeholder="#{cc.attrs.placeholder}" rendered="#{cc.attrs.rendered}"
-				rows="#{cc.attrs.rows}" cols="#{cc.attrs.cols}"/>
+			
+			<h:inputTextarea id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" readonly="#{readonly}" 
+				requiredMessage="#{cc.attrs.requiredMessage}" a:placeholder="#{cc.attrs.placeholder}" rendered="#{cc.attrs.rendered}"
+				rows="#{cc.attrs.rows}" cols="#{cc.attrs.cols}"
+				styleClass="form-control"/>
+				
 		</comp:inputDecorator>
 	</cc:implementation>
 </html>

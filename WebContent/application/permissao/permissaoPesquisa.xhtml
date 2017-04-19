@@ -12,13 +12,16 @@
 				<p:panel id="table" header="Filtro de Pesquisa - Permissão">
 					<p:outputLabel for="nomePesquisa" value="Nome"/>
 					<p:inputText id="nomePesquisa" value="#{permissaoPesquisaAction.permissao.nome}"/>
-					<br/>
 					
-					<p:commandButton value="Consultar" action="#{permissaoPesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
-					<p:commandButton value="Pesquisar" action="#{permissaoPesquisaAction.pesquisar}" immediate="true"/>
-					<br/>
+					<br/><br/>
 					
-					<p:dataTable value="#{permissaoPesquisaAction.listaPermissao}" var="permissao" emptyMessage="Nenhuma permissão encontrado." widgetVar="permissaoTable">
+					<h:commandButton value="Consultar" action="#{permissaoPesquisaAction.consultar}" styleClass="btn btn-default">
+						<f:ajax execute="table" render="permissaoTable"></f:ajax>
+					</h:commandButton>
+					
+					<br/><br/>
+					
+					<p:dataTable value="#{permissaoPesquisaAction.listaPermissao}" var="permissao" emptyMessage="Nenhuma permissão encontrado." id="permissaoTable">
 						<p:column headerText="ID" width="10%">
 							<h:outputText value="#{permissao.id}"/>
 						</p:column>
@@ -28,11 +31,11 @@
 						<p:column headerText="Descrição">
 							<h:outputText value="#{permissao.descricao}"/>
 						</p:column>
-						<p:column headerText="Editar">
-							<h:link value="Editar" outcome="pretty:editPermissao">
+						<p:column headerText="Editar" style="width:150px;">
+							<h:button value="Editar" outcome="pretty:editPermissao" styleClass="btn btn-default">
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idPermissao" value="#{permissao.id}"/>
-							</h:link>						
+							</h:button>													
 						</p:column>
 					</p:dataTable>
 				</p:panel>	

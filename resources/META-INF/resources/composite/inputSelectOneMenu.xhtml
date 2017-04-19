@@ -7,7 +7,9 @@
 	xmlns:p="http://primefaces.org/ui"  
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-	xmlns:comp="http://grrecurso.com.br/comp">
+	xmlns:comp="http://grrecurso.com.br/comp"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	
 	<cc:interface>
 		<cc:valueHolder name="inputField"/>	
@@ -16,15 +18,19 @@
 		<cc:attribute name="required"/>		
 		<cc:attribute name="requiredMessage"/>
 		<cc:attribute name="rendered"/>
+		<cc:attribute name="converter"/>
 	</cc:interface>
 	
 	<cc:implementation>
-		<comp:inputDecorator idDecorator="inputField" label="#{cc.attrs.label}">				
-			<p:selectOneMenu id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
-				rendered="#{cc.attrs.rendered}">
-				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>					
+		<comp:inputDecorator idDecorator="inputField" label="#{cc.attrs.label}">							
+			<h:selectOneMenu id="inputField" value="#{cc.attrs.value}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
+				rendered="#{cc.attrs.rendered}" styleClass="form-control">
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 				<cc:insertChildren/>			
-			</p:selectOneMenu>
+				<c:if test="#{cc.attrs.converter ne null}">
+					<f:converter converterId="#{cc.attrs.converter}" />
+				</c:if>
+			</h:selectOneMenu>
 		</comp:inputDecorator>
 	</cc:implementation>
 </html>

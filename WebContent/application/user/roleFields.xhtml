@@ -6,15 +6,18 @@
   xmlns:p="http://primefaces.org/ui" 
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://grrecurso.com.br/comp">				
-		<p:panel id="panelRole">	
+		<p:panel id="panelRole" header="Role">	
 			
 			<comp:inputText id="nomeRole" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
 			<comp:inputTextarea id="descricaoRole" label="Descrição" value="#{roleAction.role.descricao}" cols="100" rows="4" required="false"/>
 			
 			<br/><br/>
 
-			<p:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{roleAction.persistir}" process="panelRole" update="panelRole"/>
-			<p:commandButton value="Cancelar" action="pretty:rolePesquisa" rendered="#{roleAction.isAlterar()}"/>
+			<h:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" styleClass="btn btn-default" 
+				action="#{roleAction.persistir}">
+				<f:ajax execute="panelRole" render="panelRole"/>
+			</h:commandButton>			
+			<h:commandButton value="Cancelar" action="pretty:rolePesquisa" rendered="#{roleAction.isAlterar()}" styleClass="btn btn-default"/>
 			
 		</p:panel>		    
 </html>
