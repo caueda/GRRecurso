@@ -21,7 +21,7 @@ import br.com.grrecurso.service.login.RoleService;
 @Named
 @ViewScoped
 @URLMappings( mappings= {
-		@URLMapping(id="rolePesquisa", pattern="/app/usuario/role/pesquisa", viewId="/application/user/rolePesquisa.jsf"),
+		@URLMapping(id="rolePesquisa", pattern="/app/usuario/role/criteria/pesquisa", viewId="/application/user/rolePesquisa.jsf"),
 })
 public class RolePesquisaAction extends AbstractManagedBean {	
 	/**

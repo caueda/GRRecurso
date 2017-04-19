@@ -19,7 +19,7 @@ import br.com.grrecurso.service.solicitacao.SolicitacaoService;
 @Named
 @ViewScoped
 @URLMappings( mappings= {
-		@URLMapping(id="solicitacaoPesquisa", pattern="/app/solicitacao/q/pesquisa", viewId="/application/solicitacao/solicitacaoPesquisa.jsf"),
+		@URLMapping(id="solicitacaoPesquisa", pattern="/app/solicitacao/criteria/pesquisa", viewId="/application/solicitacao/solicitacaoPesquisa.jsf"),
 		
 })
 public class SolicitacaoPesquisaAction extends AbstractManagedBean {	

@@ -20,7 +20,7 @@
 					<br/><br/>
 		
 					<p:commandButton value="#{permissaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{permissaoAction.persistir}" process="panelPermissao" update="panelPermissao"/>
-					<p:button value="Cancelar" outcome="pretty:permissaoRolePesquisa" rendered="#{permissaoAction.isAlterar()}"/>
+					<p:button value="Cancelar" outcome="pretty:permissaoPesquisa" rendered="#{permissaoAction.isAlterar()}"/>
 					
 				</p:panel>		
 			</comp:form>

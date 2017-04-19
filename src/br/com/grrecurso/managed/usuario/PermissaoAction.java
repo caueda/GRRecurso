@@ -19,9 +19,9 @@ import br.com.grrecurso.service.login.PermissaoService;
 @ViewScoped
 @URLBeanName("permissaoAction")
 @URLMappings( mappings= {
-		@URLMapping(id="newPermissao", pattern="/app/permissao/#{tipoOperacao : permissaoAction.tipoOperacao}", viewId="/application/user/permissao.jsf"),
+		@URLMapping(id="newPermissao", pattern="/app/permissao/#{tipoOperacao : permissaoAction.tipoOperacao}", viewId="/application/permissao/permissao.jsf"),
 		@URLMapping(id="editPermissao", pattern="/app/permissao/#{tipoOperacao : permissaoAction.tipoOperacao}/id/#{idPermissao : permissaoAction.idPermissao}", 
-		onPostback=false, viewId="/application/user/permissao.jsf"),
+		onPostback=false, viewId="/application/permissao/permissao.jsf"),
 })
 public class PermissaoAction extends AbstractManagedBean {	
 	
