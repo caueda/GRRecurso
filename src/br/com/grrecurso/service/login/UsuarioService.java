@@ -29,6 +29,7 @@ import org.primefaces.model.SortOrder;
 import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
 
+@SuppressWarnings("unchecked")
 @Stateless
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -79,7 +80,6 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		em.merge(usuario);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Usuario> list(Usuario usuarioPesquisa){
 		Session session = getSession();
@@ -96,13 +96,40 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		return (List<Usuario>)criteria.list();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@GET
+	@Path("/listall")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Usuario> listaAll(){
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(Usuario.class);
 		return (List<Usuario>)criteria.list();
+	}
+	
+	@GET
+	@Path("/{first}/{size}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public List<Usuario> listaAllPaginated(@PathParam("first") int first, @PathParam("size") int size){
+		Session session = getSession();
+		
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.setMaxResults(size);
+		criteria.setFirstResult(first);
+		
+		
+		return (List<Usuario>)criteria.list();
+	}
+	
+	@Path("/count")
+	@GET()
+	@Produces({MediaType.APPLICATION_JSON})
+	public Long count(){		
+		
+		StringBuilder hql = new StringBuilder();
+		hql.append("select count(vo) ");
+		hql.append("  from " + Usuario.class.getSimpleName()).append(" vo ");
+		Query query = getSession().createQuery(hql.toString());
+		
+		return (Long) query.uniqueResult();
 	}
 	
 	@GET

@@ -37,7 +37,6 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	
 	protected GRRecursoUser principal;
 	
-	protected Usuario usuarioLogado;
 	
 	private Class<T> clazz;
 	
