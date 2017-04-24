@@ -106,6 +106,16 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	}
 	
 	@GET
+	@Path("/listallLogado")
+	@Produces({MediaType.APPLICATION_JSON})
+	public List<Usuario> listaAllLogado(){
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.add(Restrictions.isNotNull("dataLogin"));
+		return (List<Usuario>)criteria.list();
+	}
+	
+	@GET
 	@Path("/{first}/{size}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Usuario> listaAllPaginated(@PathParam("first") int first, @PathParam("size") int size){

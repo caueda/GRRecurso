@@ -1,6 +1,7 @@
 package br.com.grrecurso.seguranca.spring.handlers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,8 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 		if (principal instanceof UserDetails) {
 			userName = ((GRRecursoUser) principal).getUsername();
 			Usuario usuario = usuarioSvcLocal.findByEmail(userName);
+			usuario.setDataLogin(new Date());
+			usuarioSvcLocal.saveOrUpdate(usuario);
 			if(usuario != null) {
 				logger.debug("Usuário: " + usuario.getNome());
 				UserBean userBean = new UserBean(usuario);
