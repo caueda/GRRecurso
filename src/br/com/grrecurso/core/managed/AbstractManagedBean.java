@@ -29,7 +29,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.grrecurso.entities.usuario.UserBean;
@@ -278,13 +277,18 @@ public abstract class AbstractManagedBean implements Serializable {
 		return user;
 	}
 	
-	public boolean hasRole(String role){
-		if(getPrincipal() != null){
-			for(GrantedAuthority grantedAuthority : getPrincipal().getAuthorities()){
-				if(grantedAuthority.getAuthority().equals(role)){
-					return true;
-				}
-			}
+	public boolean hasPermissao(String permissao){
+		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
+			GRRecursoUser user = (GRRecursoUser) getPrincipal();
+			return (user.getPermissoes().containsKey(permissao));			
+		}
+		return false;
+	}
+	
+	public boolean hasRole(String role) {
+		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
+			GRRecursoUser user = (GRRecursoUser) getPrincipal();
+			return (user.getRoles().containsKey(role));			
 		}
 		return false;
 	}

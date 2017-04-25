@@ -31,9 +31,9 @@
 					<br/>
 					
 					<h:commandButton value="#{solicitacaoAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{solicitacaoAction.persistir}" 
-							process="panelSolicitacao" update="panelSolicitacao" styleClass="btn btn-default"/>
+							process="panelSolicitacao" update="panelSolicitacao" styleClass="btn btn-primary"/>
 					<h:commandButton value="Cancelar" action="pretty:solicitacaoPesquisa" rendered="#{solicitacaoAction.isAlterar()}" 
-							styleClass="btn btn-default"/>
+							styleClass="btn btn-secondary"/>
 					
 				</p:panel>	
 			</comp:form>	    

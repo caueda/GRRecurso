@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -43,6 +44,7 @@ public class SolicitacaoPesquisaAction extends AbstractManagedBean {
 		System.out.println("[SolicitacaoPesquisaAction.destroy] " + this.toString());
 	}
 
+	@PreAuthorize("hasRole('ROLE_TESTER')")
 	public void consultar() {
 		setListaSolicitacoes(solicitacaoService.list(getSolicitacao()));
 //		printScopedReferences(beanManager);

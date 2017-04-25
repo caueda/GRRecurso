@@ -32,7 +32,8 @@
 							<h:outputText value="#{permissao.descricao}"/>
 						</p:column>
 						<p:column headerText="Editar" style="width:150px;">
-							<h:button value="Editar" outcome="pretty:editPermissao" styleClass="btn btn-default">
+							<h:button value="Editar" outcome="pretty:editPermissao" styleClass="btn btn-default"
+								rendered="#{permissao.id != 1}">
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idPermissao" value="#{permissao.id}"/>
 							</h:button>													

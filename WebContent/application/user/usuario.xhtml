@@ -9,7 +9,9 @@
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 		<ui:define name="aplicacao">			
 			<comp:form id="formApp" styleClass="form-horizontal">
-				<p:panel id="panelUser" header="Usuário" >								
+				
+				<p:panel id="panelUser" header="Usuário">
+												
 					<comp:inputText id="nomeUsuario" label="Nome" value="#{usuarioAction.usuario.nome}" required="true" requiredMessage="O nome é obrigatório." placeholder="Seu nome..."/>
 					<comp:inputText id="email" label="E-mail" value="#{usuarioAction.usuario.email}" required="true" requiredMessage="O E-mail é obrigatório." placeholder="Seu E-mail"/>	
 					
@@ -43,8 +45,14 @@
 					</comp:inputSelectOneMenu>	
 					
 					<p:separator></p:separator>
-					<p:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" action="#{usuarioAction.persistir}" process="panelUser" update="panelUser"/>
-					<p:commandButton value="Cancelar" action="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"/>
+					
+					<h:commandButton value="#{usuarioAction.isIncluir() ? 'Incluir' : 'Alterar'}" 
+						action="#{usuarioAction.persistir}" styleClass="btn btn-primary">
+						<f:ajax execute="panelUser" render="panelUser"/>						
+					</h:commandButton>
+					
+					<h:button value="Cancelar" outcome="pretty:userPesquisa" rendered="#{usuarioAction.isAlterar()}"
+						styleClass="btn btn-secondary"/>
 				
 				</p:panel>		  
 			</comp:form>  

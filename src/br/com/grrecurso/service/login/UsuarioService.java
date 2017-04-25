@@ -19,7 +19,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,6 +27,7 @@ import org.primefaces.model.SortOrder;
 
 import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.message.BeanMessage;
 
 @SuppressWarnings("unchecked")
 @Stateless
@@ -60,15 +60,23 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	}
 
 
-
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
-		Session session = getSession();
-		Criteria criteria = session.createCriteria(Usuario.class);
-		criteria.setFetchMode("perfis", FetchMode.JOIN);
-		criteria.setFetchMode("modulos", FetchMode.JOIN);
-		criteria.add(Restrictions.eq("email", email));
-		Usuario usuario = (Usuario)criteria.uniqueResult();
+		
+		StringBuilder hql = new StringBuilder();
+		hql.append("select vo from " + Usuario.class.getSimpleName()).append(" vo ")
+		   .append(" join fetch vo.perfis perfil ")
+		   .append(" join fetch perfil.roles role ")		   
+		   .append(" join fetch vo.modulos ")
+		   .append(" where vo.email = :email ");
+		
+		Query query = getSession().createQuery(hql.toString());
+		query.setParameter("email", email);
+		
+		query.list();
+		
+		Usuario usuario = (Usuario)query.uniqueResult();
+		
 		em.detach(usuario);
 		return usuario;
 	}
@@ -155,15 +163,19 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	@POST
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public String processarUpdate(Usuario usuario) {
+	public BeanMessage processarUpdate(Usuario usuario) {
 		Session session = getSession();
-		Usuario load = (Usuario)session.load(Usuario.class,usuario.getIdUsuario());
-		load.setNome(usuario.getNome());
-		load.setEmail(usuario.getEmail());
-		session.update(load);
-		return "OK";
+		try {
+			Usuario load = (Usuario)session.load(Usuario.class,usuario.getIdUsuario());
+			load.setNome(usuario.getNome());
+			load.setEmail(usuario.getEmail());
+			session.update(load);
+		} catch(Exception e) {
+			return new BeanMessage(-1, "Erro", "Contacte o administrador. Erro: " + e.getMessage());
+		}
+		return new BeanMessage(100, "Sucesso", "Usuário alterado com sucesso!");
 	}
 	
 	public int count(String sortField, SortOrder sortOrder, Map<String, Object> filters) {

@@ -1,7 +1,9 @@
 package br.com.grrecurso.seguranca.spring.user;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.PerfilUsuario;
+import br.com.grrecurso.entities.usuario.Permissao;
 import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -50,9 +53,17 @@ public class UserDetailService implements UserDetailsService {
 		boolean accountNonLocked = true;
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		
+		Map<String, String> permissoes = new HashMap<String, String>();
+		Map<String, String> roles = new HashMap<String, String>();
+		
 		for(PerfilUsuario perfil : usuario.getPerfis()) {
-			for(Role role : perfil.getRoles()) {
+			for(Role role : perfil.getRoles()) {				
 				authorities.add(new SimpleGrantedAuthority(role.getNome()));
+				roles.put(role.getNome(), role.getNome());
+				for(Permissao permissao : role.getPermissoes()) {
+					permissoes.put(permissao.getNome(), permissao.getNome());
+				}
 			}
 		}
 		
@@ -63,6 +74,12 @@ public class UserDetailService implements UserDetailsService {
 			grrecursoUser.getModuleIds().add(modulo.getIdModulo());
 		}
 		grrecursoUser.setIdUsuario(usuario.getIdUsuario());
+		
+		grrecursoUser.getPermissoes().clear();
+		grrecursoUser.getPermissoes().putAll(permissoes);
+		
+		grrecursoUser.getRoles().clear();
+		grrecursoUser.getRoles().putAll(roles);
 		
 		return grrecursoUser;
 	}

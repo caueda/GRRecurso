@@ -17,7 +17,7 @@
 					<br/><br/>
 					
 					<h:commandButton value="Consultar" action="#{solicitacaoPesquisaAction.consultar}" 
-						process="table" update="table" styleClass="btn btn-default">
+						process="table" update="table" styleClass="btn btn-primary btn-sm">
 						<f:ajax execute="table" render="solicitacoesTable"></f:ajax>
 					</h:commandButton>
 					
@@ -43,7 +43,7 @@
 						</p:column>
 						<p:column headerText="Editar" style="width:150px;">
 							<div class="btn-group btn-group-sm">								
-								<h:button value="Editar" outcome="pretty:editSolicitacao" styleClass="btn btn-default">
+								<h:button value="Editar" outcome="pretty:editSolicitacao" styleClass="btn btn-primary">
 									<f:param name="tipoOperacao" value="alterar"/>
 									<f:param name="idSolicitacao" value="#{solicitacao.idSolicitacao}"/>
 								</h:button>		

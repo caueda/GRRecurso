@@ -1,6 +1,7 @@
 package br.com.grrecurso.managed.usuario;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +24,10 @@ import br.com.grrecurso.core.util.LocalUtil;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Modulo;
+import br.com.grrecurso.entities.usuario.PerfilUsuario;
+import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.entities.usuario.Usuario;
+import br.com.grrecurso.service.login.PerfilUsuarioService;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
 import br.com.grrecurso.service.modulo.ModuloService;
 
@@ -60,6 +64,9 @@ public class UsuarioAction extends AbstractManagedBean {
 	@EJB
 	private ModuloService moduloService;
 	
+	@EJB
+	private PerfilUsuarioService perfilUsuarioService;
+	
 	private boolean isUsuarioLogadoAdm = false;
 	
 	@PostConstruct
@@ -68,7 +75,7 @@ public class UsuarioAction extends AbstractManagedBean {
 		List<Modulo> modulosSource = moduloService.listaModulos();
 		List<Modulo> modulosTarget = new ArrayList<Modulo>();
 		
-		setUsuarioLogadoAdm(hasRole("Admin"));
+		setUsuarioLogadoAdm(hasRole(Role.ROLE_ADMIN));
 		
 		if(this.usuario != null && this.usuario.getModulos() != null){
 			modulosTarget.addAll(usuario.getModulos());
@@ -181,6 +188,10 @@ public class UsuarioAction extends AbstractManagedBean {
 		return "pretty:";
 	}
 	
+	public List<PerfilUsuario> getListaPerfilUsuarios(){
+		return perfilUsuarioService.listAll();
+	}
+	
 	public String persistir() {
 //		printScopedReferences(beanManager);
 		if(isIncluir()) {
@@ -188,8 +199,18 @@ public class UsuarioAction extends AbstractManagedBean {
 				String hashed = encrypt(this.usuario.getSenha());
 				this.usuario.setSenha(hashed);
 				
+				if(this.usuario.getPerfis() == null) {
+					this.usuario.setPerfis(new HashSet<PerfilUsuario>());
+				}
+				
+				this.usuario.getPerfis().add(perfilUsuarioService.loadPerfilBase());
+				
 				List<Modulo> targetList = getModulos().getTarget();
-				usuario.getModulos().clear();
+				if(usuario.getModulos() != null) {
+					usuario.getModulos().clear();
+				} else {
+					usuario.setModulos(new HashSet<Modulo>());
+				}
 				usuario.getModulos().addAll(targetList);
 				usuarioSvcLocal.saveOrUpdate(this.usuario);			
 				incluirInfo("Usuário incluído com sucesso.");

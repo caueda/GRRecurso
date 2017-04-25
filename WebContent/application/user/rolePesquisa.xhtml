@@ -29,10 +29,12 @@
 							<h:outputText value="#{role.descricao}"/>
 						</p:column>
 						<p:column headerText="Editar">
-							<h:link value="Editar" outcome="pretty:editRole">
+						
+							<h:button value="Editar" outcome="pretty:editRole" styleClass="btn btn-primary">
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idRole" value="#{role.id}"/>
-							</h:link>						
+							</h:button>
+													
 						</p:column>
 					</p:dataTable>
 				</p:panel>	

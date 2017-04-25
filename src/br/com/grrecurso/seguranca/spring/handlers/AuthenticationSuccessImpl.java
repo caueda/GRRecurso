@@ -41,7 +41,6 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 			usuario.setDataLogin(new Date());
 			usuarioSvcLocal.saveOrUpdate(usuario);
 			if(usuario != null) {
-				logger.debug("Usuário: " + usuario.getNome());
 				UserBean userBean = new UserBean(usuario);
 				if(session != null) {
 					session.setAttribute(UserBean.USER_LOGGED, userBean);

@@ -19,7 +19,7 @@
 					<br/><br/>
 					
 					<h:commandButton value="Consultar" 
-						action="#{usuarioPesquisaAction.consultar}" styleClass="btn btn-default">
+						action="#{usuarioPesquisaAction.consultar}" styleClass="btn btn-primary">
 						<f:ajax execute="table" render="usersTable"/>						
 					</h:commandButton>
 					
@@ -46,10 +46,10 @@
 							<h:outputText value="#{user.sexo.desc}"/>
 						</p:column>
 						<p:column headerText="Ação">
-							<h:link value="Editar" outcome="pretty:editUsuario">
+							<h:button value="Editar" outcome="pretty:editUsuario" styleClass="btn btn-primary">								
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idUsuario" value="#{user.idUsuario}"/>
-							</h:link>						
+							</h:button>						
 						</p:column>
 					</p:dataTable>
 				</div>

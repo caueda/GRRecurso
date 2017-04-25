@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +28,10 @@ import br.com.grrecurso.dominio.DominioAtivoInativo;
 @Entity
 @Audited
 @Table(name="perfil_usuario")
+@NamedQueries({
+	@NamedQuery(name="PerfilUsuario.listAll", query="select vo from PerfilUsuario vo order by vo.nome "),
+	@NamedQuery(name="PerfilUsuario.loadById",query="select vo from PerfilUsuario vo where vo.idPerfilUsuario = :idPerfilUsuario")
+})
 public class PerfilUsuario implements Serializable {
 
 	/**
@@ -85,7 +91,7 @@ public class PerfilUsuario implements Serializable {
 	
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="perfil_usuario_role", joinColumns={@JoinColumn(name="id_perfil_usuario")},
-	inverseJoinColumns={@JoinColumn(name="")})
+	inverseJoinColumns={@JoinColumn(name="id_role")})
 	public Set<Role> getRoles() {
 		return roles;
 	}

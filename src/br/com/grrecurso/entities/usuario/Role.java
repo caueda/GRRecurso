@@ -43,13 +43,12 @@ import lombok.EqualsAndHashCode;
 @ConfiguracaoPesquisa(rowsPerPageTemplate="5,10")
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class Role extends BaseEntity {	
+public class Role extends BaseEntity implements IRole {	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8669464839547735734L;
 	
-	public static final String ADMIN = "admin";
 	
 	@Id
 	@Column(name="id_role")
