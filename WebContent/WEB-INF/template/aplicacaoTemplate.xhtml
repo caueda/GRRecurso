@@ -44,7 +44,10 @@
 		            	<f:param name="tipoOperacao" value="incluir"/>
 		            </p:menuitem>
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
-		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked" update="#{p:component('areaAplicacao')}"/>
+		            
+		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked" update="#{p:component('areaAplicacao')}"
+		               rendered="#{aplicacao.hasPermissao('permissao.completa')}"/>
+		            
 		            <p:submenu label="Papel" icon="ui-icon-person">
 		            	<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
 		            		<f:param name="tipoOperacao" value="incluir"/>
@@ -69,7 +72,7 @@
 		        		icon="ui-icon-power" update="#{p:component('areaAplicacao')}"/>
 		        </p:submenu>
 		        <f:facet name="options">
-		        	<h:outputLabel value="#{sessionScope['userLogged'].nome}"/>
+		        	<h:outputLabel value="usuário: #{sessionScope['userLogged'].nome}"/>
 		        </f:facet>		        
 		    </p:menubar>		    
 		</h:form>

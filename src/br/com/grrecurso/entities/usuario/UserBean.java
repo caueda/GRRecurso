@@ -26,6 +26,7 @@ public class UserBean implements Serializable {
 		this.idUsuario = usuario.getIdUsuario();
 		this.email = usuario.getEmail();
 		this.dataLogin = usuario.getDataLogin();
+		this.nome = usuario.getNome();
 	}
 	
 	public void setUsuario(Usuario usuario) throws IllegalArgumentException {
