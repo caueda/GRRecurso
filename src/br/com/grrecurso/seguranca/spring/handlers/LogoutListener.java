@@ -24,10 +24,10 @@ public class LogoutListener implements ApplicationListener<SessionDestroyedEvent
         GRRecursoUser ud;
         for (SecurityContext securityContext : lstSecurityContext)
         {
-            ud = (GRRecursoUser) securityContext.getAuthentication().getPrincipal();
-            Usuario user = usuarioSvcLocal.loadById(ud.getIdUsuario());
-            user.setDataLogin(null);
-            usuarioSvcLocal.saveOrUpdate(user);
+            ud = (GRRecursoUser) securityContext.getAuthentication().getPrincipal();           
+            Usuario update = new Usuario();
+            update.setIdUsuario(ud.getIdUsuario());
+            usuarioSvcLocal.updateDataLoginNULL(update);
         }
     }
 

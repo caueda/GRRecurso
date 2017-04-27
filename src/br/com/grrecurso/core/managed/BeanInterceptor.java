@@ -3,14 +3,14 @@ package br.com.grrecurso.core.managed;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import br.com.grrecurso.core.managed.exception.PermissionException;
-import br.com.grrecurso.core.security.annotation.ValidarPermissoes;
-import br.com.grrecurso.core.security.annotation.ValidarRoles;
+import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 import br.com.grrecurso.core.service.GenericService;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
@@ -34,42 +34,63 @@ public class BeanInterceptor implements Serializable {
 	@AroundInvoke
     public Object checkPermission(InvocationContext ctx) throws Exception {
         
-		Method m = ctx.getMethod();
-		
-		String methodName = m.getDeclaringClass().getName() + "." + m.getName();
-		
-		if(m.isAnnotationPresent(ValidarPermissoes.class)) {
+
+		if(principal != null) {
+			Method m = ctx.getMethod();
+			
+			String methodName = m.getDeclaringClass().getName() + "." + m.getName();		
+			
 			boolean contemPermissao = false;
-			ValidarPermissoes valP = m.getAnnotation(ValidarPermissoes.class);
-			if(valP.permissoes().length == 0) {				
+			
+			if(!m.isAnnotationPresent(IgnorarPermissoes.class)) {		
 				if(genericService.isPermitido(principal.getIdUsuario(), methodName)) {
 					contemPermissao = true;
+				}			 
+				if(!contemPermissao) {
+					PermissionException e = new PermissionException("Usuário sem a Permissão necessária para : [" + methodName + "].");
+					FacesContext faces = FacesContext.getCurrentInstance();
+					if(faces != null) {
+						faces.getExternalContext().getRequestMap().put(e.getClass().getSimpleName(), e.getMessage());
+					}
+					throw e;
 				}
-			} else {
-				for(String permissao : valP.permissoes()) {
-					if(genericService.isPermitido(principal.getIdUsuario(), permissao)) {
+			}
+			
+			/*
+			if(m.isAnnotationPresent(ValidarPermissoes.class)) {
+				boolean contemPermissao = false;
+				ValidarPermissoes valP = m.getAnnotation(ValidarPermissoes.class);
+				if(valP.permissoes().length == 0) {				
+					if(genericService.isPermitido(principal.getIdUsuario(), methodName)) {
 						contemPermissao = true;
+					}
+				} else {
+					for(String permissao : valP.permissoes()) {
+						if(genericService.isPermitido(principal.getIdUsuario(), permissao)) {
+							contemPermissao = true;
+							break;
+						}
+					}
+				}
+				if(!contemPermissao) {
+					throw new PermissionException("Usuário sem a Permissão necessária para : [" + methodName + "].");
+				}
+			}
+			
+			if(m.isAnnotationPresent(ValidarRoles.class)) {
+				boolean contemRole = false;
+				ValidarRoles valR = m.getAnnotation(ValidarRoles.class);
+				for(String role : valR.roles()) {
+					if(principal.getRoles().containsKey(role)) {
+						contemRole = true;
 						break;
 					}
 				}
-			}
-			if(!contemPermissao) {
-				throw new PermissionException("Usuário sem a Permissão necessária para : [" + methodName + "].");
-			}
-		}
-		
-		if(m.isAnnotationPresent(ValidarRoles.class)) {
-			boolean contemRole = false;
-			ValidarRoles valR = m.getAnnotation(ValidarRoles.class);
-			for(String role : valR.roles()) {
-				if(principal.getRoles().containsKey(role)) {
-					contemRole = true;
-					break;
+				if(!contemRole) {
+					throw new PermissionException("Usuário sem a Role necessária para : [" + methodName + "].");
 				}
 			}
-			if(!contemRole) {
-				throw new PermissionException("Usuário sem a Role necessária para : [" + methodName + "].");
-			}
+			*/
 		}
 		
 		Object methodReturn = ctx.proceed();

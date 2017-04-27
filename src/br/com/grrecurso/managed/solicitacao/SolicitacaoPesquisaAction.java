@@ -17,7 +17,6 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.core.managed.BeanInterceptor;
 import br.com.grrecurso.core.managed.exception.PermissionException;
-import br.com.grrecurso.core.security.annotation.ValidarPermissoes;
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.service.solicitacao.SolicitacaoService;
 
@@ -43,7 +42,7 @@ public class SolicitacaoPesquisaAction extends AbstractManagedBean {
 	@EJB
 	private SolicitacaoService solicitacaoService;
 	
-	//@ValidarPermissoes
+
 	@URLAction(mappingId="solicitacaoPesquisa", onPostback=false)
 	public void exibirPesquisa() throws PermissionException {
 		

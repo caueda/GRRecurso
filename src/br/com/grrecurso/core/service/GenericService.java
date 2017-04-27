@@ -16,6 +16,7 @@ import org.hibernate.jdbc.ReturningWork;
 
 import br.com.grrecurso.core.managed.CriteriaBean;
 import br.com.grrecurso.core.persistence.GenericEntity;
+import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 
 @Stateless
 public class GenericService extends AbstractService<GenericEntity, Long> {
@@ -29,6 +30,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		super(GenericEntity.class);
 	}
 	
+	@IgnorarPermissoes
 	public boolean isInRole(Long idUsuario, String role) {
 		Integer count = getSession().doReturningWork(new ReturningWork<Integer>() {
 			@Override
@@ -58,6 +60,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		return count.intValue() > 0;
 	}
 	
+	@IgnorarPermissoes
 	public boolean isPermitido(Long idUsuario, String permissao) {
 		Integer count = getSession().doReturningWork(new ReturningWork<Integer>() {
 			@Override

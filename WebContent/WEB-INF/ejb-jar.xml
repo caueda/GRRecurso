@@ -18,10 +18,22 @@
 			<ejb-name>*</ejb-name>						
 			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>
 		</interceptor-binding>	
+		  
+		<interceptor-binding>			
+			<ejb-name>GenericService</ejb-name>			
+			<exclude-default-interceptors>true</exclude-default-interceptors>
+			<method>
+				<method-name>isPermitido</method-name>				
+			</method>									
+		</interceptor-binding>
 		
 		<interceptor-binding>			
-			<ejb-name>GenericService</ejb-name>						
+			<ejb-name>GenericService</ejb-name>			
 			<exclude-default-interceptors>true</exclude-default-interceptors>
-		</interceptor-binding>	
+			<method>
+				<method-name>isInRole</method-name>				
+			</method>									
+		</interceptor-binding>
+			
 	</assembly-descriptor>
 </ejb-jar>

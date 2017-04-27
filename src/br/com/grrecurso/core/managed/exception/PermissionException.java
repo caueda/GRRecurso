@@ -1,5 +1,8 @@
 package br.com.grrecurso.core.managed.exception;
 
+import javax.ejb.ApplicationException;
+
+@ApplicationException(inherited=true, rollback=true)
 public class PermissionException extends Exception {
 
 	/**

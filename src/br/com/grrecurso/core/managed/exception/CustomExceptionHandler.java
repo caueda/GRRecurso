@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import com.ocpsoft.pretty.PrettyContext;
+
 @SuppressWarnings("all")
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
  
@@ -42,15 +44,30 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     public void handle() throws FacesException {
  
         final Iterator<ExceptionQueuedEvent> iterator = getUnhandledExceptionQueuedEvents().iterator();
+        
+        FacesContext faces = FacesContext.getCurrentInstance();
+        
+        String message = null;
+        if(faces != null && faces.getExternalContext().getRequestMap().get(PermissionException.class.getSimpleName()) != null) {
+        	message = faces.getExternalContext().getRequestMap().get(PermissionException.class.getSimpleName()).toString();
+        }
+        
         while (iterator.hasNext()) {
             ExceptionQueuedEvent event = iterator.next();
-            ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
+            ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();            
  
             Throwable exception = context.getException();
- 
+            
+            String phaseId = PrettyContext.getCurrentInstance().getCurrentViewId();
+            
             try { 
             	
-            	String messageDetail = exception.getMessage();
+            	String messageDetail = null;
+            	if(message == null) {
+            		messageDetail = exception.getMessage();
+            	} else {
+            		messageDetail = message;
+            	}
             	
             	if(messageDetail.contains(PermissionException.class.getName())) {
             		messageDetail = getPermissionException(exception).getMessage();

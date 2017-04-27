@@ -31,6 +31,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.Work;
 import org.primefaces.model.SortOrder;
 
+import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.message.BeanMessage;
@@ -53,6 +54,29 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		return super.saveOrUpdate(entity);
 	}
 	
+	@IgnorarPermissoes
+	public void updateDataLoginNULL(Usuario entity) {
+		getSession().evict(entity);
+		getSession().doWork(new Work() {
+
+			@Override
+			public void execute(Connection conn) throws SQLException {
+				StringBuilder sql = new StringBuilder();
+				sql.append("update ")
+				   .append(" Usuario ")
+				   .append(" set data_login=? ")
+				   .append(" where id_usuario=? ")
+				;
+				PreparedStatement ps = conn.prepareStatement(sql.toString());
+				ps.setTimestamp(1,  null);				
+				ps.setLong(2, entity.getIdUsuario());
+				ps.executeUpdate();
+			}
+			
+		});
+	}
+	
+	@IgnorarPermissoes
 	public void updateDataLogin(Usuario entity) {
 		getSession().evict(entity);
 		getSession().doWork(new Work() {
@@ -86,7 +110,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		return usuario;
 	}
 
-
+	@IgnorarPermissoes
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Usuario findByEmail(String email){
 		

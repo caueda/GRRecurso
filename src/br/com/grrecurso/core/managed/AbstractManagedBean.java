@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
 
 import br.com.grrecurso.core.managed.exception.PermissionException;
+import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 import br.com.grrecurso.core.service.GenericService;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
@@ -70,75 +71,76 @@ public abstract class AbstractManagedBean implements Serializable {
 		super();
 	}
 	
+	@IgnorarPermissoes
 	public boolean isIncluir() {
 		return getTipoOperacao().equals(INCLUIR);
 	}
-	
+	@IgnorarPermissoes
 	public boolean isAlterar() {
 		return getTipoOperacao().equals(ALTERAR);
 	}
-	
+	@IgnorarPermissoes
 	public boolean isPesquisar() {
 		return getTipoOperacao().equals(PESQUISAR);
 	}
-	
+	@IgnorarPermissoes
 	public boolean isExcluir() {
 		return getTipoOperacao().equals(EXCLUIR);
 	}
-	
+	@IgnorarPermissoes
 	public String redirect(String url) {
 		return url + "?faces-redirect=true";
 	}
-	
+	@IgnorarPermissoes
 	public String redirectWithViewParameters(String url){
 		return redirect(url) + "&includeViewParams=true";
 	}
-	
+	@IgnorarPermissoes
 	public Object getAttribute(ActionEvent evt, String attributeName){
 		return evt.getComponent().getAttributes().get(attributeName);
 	}
-	
+	@IgnorarPermissoes
 	protected String pesquisar(Class<?> clazz) throws ClassNotFoundException{
 		addAttributeToFlash(SEARCH_OBJECT,clazz.getName());
 		return "/application/search/searchPrototype.jsf";
 	}
-	
+	@IgnorarPermissoes
 	protected String pesquisar(Class<?> clazz, String page) throws ClassNotFoundException{
 		addAttributeToFlash(SEARCH_OBJECT, clazz.getName());
 		return page;
 	}
-	
+	@IgnorarPermissoes
 	public <T> void addAttributeToFlash(String name, T value){
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.put(name, value);
 	}
-	
+	@IgnorarPermissoes
 	public <T> T getAttributeFromFlash(String name){
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		return (T)flash.get(name);
 	}
 	
-	
+	@IgnorarPermissoes
 	public String getURL(final HttpServletRequest req) {
 		return "http://" + req.getLocalAddr() + ":" + req.getLocalPort() + req.getContextPath() + "/";
 	}
-	
+	@IgnorarPermissoes
 	protected HttpSession getHttpSession(boolean value) {
 		return (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(value);
 	}
-	
+	@IgnorarPermissoes
 	protected Map<String, Object> getApplicationMap() {
 		return (Map<String, Object>)FacesContext.getCurrentInstance().getExternalContext().getApplicationMap();
 	}
-	
+	@IgnorarPermissoes
 	protected HttpServletRequest getRequest() {
 		return (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirInfo(String summary) {
 		incluirInfo(summary, "", true);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirInfo(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -148,15 +150,15 @@ public abstract class AbstractManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 //		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirError(String summary) {
 		incluirError(summary, "", true);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirError(String summary, String detail){
 		incluirError(summary, detail, true);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirError(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -166,11 +168,11 @@ public abstract class AbstractManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 //		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirWarning(String summary) {
 		incluirWarning(summary, "", true);
 	}
-	
+	@IgnorarPermissoes
 	protected void incluirWarning(String summary, String detail, boolean keepMessage) {
 		FacesMessage message = new FacesMessage();
 		message.setSeverity(FacesMessage.SEVERITY_WARN);
@@ -180,7 +182,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(keepMessage);
 //		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
-	
+	@IgnorarPermissoes
 	@SuppressWarnings("el-syntax")
 	protected <T> T getBean(Class<T> clazz, String beanName) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -188,14 +190,14 @@ public abstract class AbstractManagedBean implements Serializable {
 		T bean = (T)context.getApplication().getExpressionFactory().createValueExpression(elContext, "#{" + beanName + "}", clazz);
 		return bean;
 	}
-
+	@IgnorarPermissoes
 	public String getTipoOperacao() {
 		if(this.tipoOperacao == null) {
 			setTipoOperacao(StringUtils.EMPTY);
 		}
 		return this.tipoOperacao;
 	}
-
+	@IgnorarPermissoes
 	public void setTipoOperacao(String tipoOperacao) {
 		this.tipoOperacao = tipoOperacao;
 	}
@@ -251,11 +253,11 @@ public abstract class AbstractManagedBean implements Serializable {
 		}
 		logger.info("[End] Scoped attributes");
     }
-
+    @IgnorarPermissoes
 	public Conversation getConversation() {
 		return conversation;
 	}
-	
+    @IgnorarPermissoes
 	public String evalAsString(String p_expression)
 	{
 	    FacesContext context = FacesContext.getCurrentInstance();
@@ -265,11 +267,11 @@ public abstract class AbstractManagedBean implements Serializable {
 	    String result = (String) vex.getValue(elContext);
 	    return result;
 	}
-	
+    @IgnorarPermissoes
 	public GRRecursoUser getPrincipal(){		
 		return this.principal;
 	}
-	
+    @IgnorarPermissoes
 	public boolean hasAtLeastOnePermissao(String ... permissoes) {
 		for(String permissao : permissoes) {
 			if(hasPermissao(permissao)) {
@@ -278,7 +280,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		}
 		return false;
 	}
-	
+    @IgnorarPermissoes
 	public void validarHasPermissao(String ... permissoes) throws PermissionException {
 		if(permissoes == null || permissoes.length == 0) {
 			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasPermissao [" + "O parâmetro permissões não deve ser vazio].");
@@ -287,7 +289,7 @@ public abstract class AbstractManagedBean implements Serializable {
 			throw new PermissionException("Usuário não possui a devida Permissão para esta funcionalidade.");
 		}
 	}
-	
+    @IgnorarPermissoes
 	public void validarHasRole(String ... roles) throws PermissionException {
 		if(roles == null || roles.length == 0) {
 			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasRole [" +  "O parâmetro roles não deve ser vazio].");
@@ -296,7 +298,7 @@ public abstract class AbstractManagedBean implements Serializable {
 			throw new PermissionException("O usuário não possui a devida Role para esta funcionalidade.");
 		}
 	}
-	
+    @IgnorarPermissoes
 	public boolean hasPermissao(String permissao){
 		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
 			GRRecursoUser user = (GRRecursoUser) getPrincipal();
@@ -304,7 +306,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		}
 		return false;
 	}
-	
+    @IgnorarPermissoes
 	public boolean hasRole(String role) {
 		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
 			GRRecursoUser user = (GRRecursoUser) getPrincipal();
@@ -312,7 +314,7 @@ public abstract class AbstractManagedBean implements Serializable {
 		}
 		return false;
 	}
-	
+    @IgnorarPermissoes
 	public boolean hasAtLeastOneRole(String ... roles) {
 		for(String role : roles) {
 			if(hasRole(role)) {

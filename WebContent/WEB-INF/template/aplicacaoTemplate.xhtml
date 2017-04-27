@@ -40,7 +40,8 @@
 		    
 		    <p:menubar>		    	
 		        <p:submenu label="Usuário">
-		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
+		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}"
+		            	rendered="#{aplicacao.hasPermissao('itemMenuIncluirUsuario')}">
 		            	<f:param name="tipoOperacao" value="incluir"/>
 		            </p:menuitem>
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
