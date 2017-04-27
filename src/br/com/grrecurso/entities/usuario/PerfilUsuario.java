@@ -28,7 +28,7 @@ import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
 @Table(name="perfil_usuario")
-@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+@Audited
 @NamedQueries({
 	@NamedQuery(name="PerfilUsuario.listAll", query="select vo from PerfilUsuario vo order by vo.nome "),
 	@NamedQuery(name="PerfilUsuario.loadById",query="select vo from PerfilUsuario vo where vo.idPerfilUsuario = :idPerfilUsuario")

@@ -49,7 +49,7 @@ public class Permissao extends BaseEntity {
 	private Long id;
 	@ResultGrid(label="Nome", ordem=2, align="left")
 	@FieldTextFilter(label="Nome", apresentacao=FieldTextPresentation.TEXT, operacao= {FieldTextOperations.TEXT_CONTAINS, FieldTextOperations.TEXT_ENDS_WITH, FieldTextOperations.TEXT_IGUAL})
-	@Column(name="nome", length=200, nullable=false)
+	@Column(name="nome", length=200, nullable=false, unique=true)
 	private String nome;
 	@ResultGrid(label="Descrição", ordem=3, align="left")
 	@FieldTextFilter(label="Descrição", apresentacao=FieldTextPresentation.TEXT, operacao=FieldTextOperations.TEXT_CONTAINS)

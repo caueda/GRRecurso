@@ -3,6 +3,7 @@ package br.com.grrecurso.core.managed;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
@@ -51,7 +52,8 @@ public class BeanInterceptor implements Serializable {
 					FacesContext faces = FacesContext.getCurrentInstance();
 					if(faces != null) {
 						faces.getExternalContext().getRequestMap().put(e.getClass().getSimpleName(), e.getMessage());
-					}
+						faces.addMessage(null, new FacesMessage(e.getMessage(), e.getMessage()));
+					} 
 					throw e;
 				}
 			}

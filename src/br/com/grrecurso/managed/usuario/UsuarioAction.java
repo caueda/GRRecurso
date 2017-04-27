@@ -59,6 +59,7 @@ public class UsuarioAction extends AbstractManagedBean {
 	private Long idUsuario;
 	
 	private DualListModel<Modulo> modulos;
+	private DualListModel<PerfilUsuario> perfis;
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
@@ -74,15 +75,24 @@ public class UsuarioAction extends AbstractManagedBean {
 	@PostConstruct
 	public void init() {
 		logger.info("[UsuarioAction.init] " + this.toString());
+		
 		List<Modulo> modulosSource = moduloService.listaModulos();
 		List<Modulo> modulosTarget = new ArrayList<Modulo>();
+		
+		List<PerfilUsuario> perfilSource = perfilUsuarioService.listAll();
+		List<PerfilUsuario> perfilTarget = new ArrayList<PerfilUsuario>();
 		
 		setUsuarioLogadoAdm(hasRole(Role.ROLE_ADMIN));
 		
 		if(this.usuario != null && this.usuario.getModulos() != null){
 			modulosTarget.addAll(usuario.getModulos());
 		}
+		
+		if(this.usuario != null && this.usuario.getPerfis() != null) {
+			perfilTarget.addAll(usuario.getPerfis());
+		}
 		modulos = new DualListModel<Modulo>(modulosSource, modulosTarget);
+		perfis = new DualListModel<PerfilUsuario>(perfilSource, perfilTarget);
 	}
 	
 	@PreDestroy
@@ -137,6 +147,14 @@ public class UsuarioAction extends AbstractManagedBean {
 	public void setModulos(DualListModel<Modulo> modulos) {
 		this.modulos = modulos;
 	}
+	
+	public DualListModel<PerfilUsuario> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(DualListModel<PerfilUsuario> perfis) {
+		this.perfis = perfis;
+	}
 
 	@URLAction(mappingId="editUsuario")
 	public void exibirEdicao(){
@@ -148,11 +166,19 @@ public class UsuarioAction extends AbstractManagedBean {
 			List<Modulo> modulosSource = moduloService.listaModulosExcept(getIdUsuario());
 			List<Modulo> modulosTarget = new ArrayList<Modulo>();
 			
+			List<PerfilUsuario> perfilSource = perfilUsuarioService.listaPerfisUsuarioExcept(getIdUsuario());
+			List<PerfilUsuario> perfilTarget = new ArrayList<PerfilUsuario>();
+			
 			if(this.usuario != null && this.usuario.getModulos() != null){
 				modulosTarget.addAll(usuario.getModulos());
 			}
 			
-			modulos = new DualListModel<Modulo>(modulosSource, modulosTarget);
+			if(this.usuario != null && this.usuario.getPerfis() != null) {
+				perfilTarget.addAll(usuario.getPerfis());
+			}
+			
+			this.modulos = new DualListModel<Modulo>(modulosSource, modulosTarget);
+			this.perfis = new DualListModel<PerfilUsuario>(perfilSource, perfilTarget);
 		}
 	}
 	
@@ -194,10 +220,6 @@ public class UsuarioAction extends AbstractManagedBean {
 		return "pretty:";
 	}
 	
-	public List<PerfilUsuario> getListaPerfilUsuarios(){
-		return perfilUsuarioService.listAll();
-	}
-	
 	public String persistir() {
 //		printScopedReferences(beanManager);
 		if(isIncluir()) {
@@ -207,19 +229,27 @@ public class UsuarioAction extends AbstractManagedBean {
 				
 				if(this.usuario.getPerfis() == null) {
 					this.usuario.setPerfis(new HashSet<PerfilUsuario>());
-				}
+				}				
 				
-				this.usuario.getPerfis().add(perfilUsuarioService.loadPerfilBase());
-				
-				List<Modulo> targetList = getModulos().getTarget();
+				List<Modulo> moduloTargetList = getModulos().getTarget();
+				List<PerfilUsuario> perfilTargetList = getPerfis().getTarget();
 				if(usuario.getModulos() != null) {
 					usuario.getModulos().clear();
 				} else {
 					usuario.setModulos(new HashSet<Modulo>());
 				}
-				usuario.getModulos().addAll(targetList);
-				usuarioSvcLocal.saveOrUpdate(this.usuario);			
+				if(usuario.getPerfis() != null) {
+					usuario.getPerfis().clear();
+				} else {
+					usuario.setPerfis(new HashSet<PerfilUsuario>());
+				}
+				usuario.getModulos().addAll(moduloTargetList);
+				usuario.getPerfis().addAll(perfilTargetList);
+				
+				usuarioSvcLocal.saveOrUpdate(this.usuario);
+				
 				incluirInfo("Usuário incluído com sucesso.");
+				
 				setUsuario(new Usuario());
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -228,9 +258,14 @@ public class UsuarioAction extends AbstractManagedBean {
 			return "pretty:";
 		} else if(isAlterar()) {
 			try {			
-				List<Modulo> targetList = getModulos().getTarget();
+				List<Modulo> moduloTargetList = getModulos().getTarget();
 				usuario.getModulos().clear();
-				usuario.getModulos().addAll(targetList);
+				usuario.getModulos().addAll(moduloTargetList);
+				
+				List<PerfilUsuario> perfilTargetList = getPerfis().getTarget();
+				usuario.getPerfis().clear();
+				usuario.getPerfis().addAll(perfilTargetList);
+				
 				if(isUsuarioLogadoAdm && StringUtils.isNotBlank(getSenhaUpdateAdm())){
 					usuario.setSenha(encrypt(getSenhaUpdateAdm()));
 				}

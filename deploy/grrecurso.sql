@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 27-Abr-2017 às 20:54
+-- Generation Time: 28-Abr-2017 às 00:57
 -- Versão do servidor: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -276,7 +276,8 @@ INSERT INTO `grrecursorevisionentity` (`id`, `timestamp`, `username`) VALUES
 (183, 1493316669388, 'admin@admin.com'),
 (184, 1493316704473, 'admin@admin.com'),
 (185, 1493316728274, 'weblogic@oracle.com'),
-(186, 1493317599104, 'admin@admin.com');
+(186, 1493317599104, 'admin@admin.com'),
+(187, 1493333762785, 'weblogic@oracle.com');
 
 -- --------------------------------------------------------
 
@@ -308,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(187);
+(188);
 
 -- --------------------------------------------------------
 
@@ -483,6 +484,7 @@ INSERT INTO `modulo_aud` (`id_modulo`, `REV`, `REVTYPE`, `nome`, `status`) VALUE
 (1, 184, 1, 'MT', 1),
 (1, 185, 1, 'MT', 1),
 (1, 186, 1, 'MT', 1),
+(1, 187, 1, 'MT', 1),
 (2, 16, 1, 'CBA', 1),
 (2, 17, 1, 'CBA', 1),
 (2, 21, 1, 'CBA', 1),
@@ -847,6 +849,7 @@ INSERT INTO `perfil_usuario_aud` (`id_perfil_usuario`, `REV`, `REVTYPE`, `data_c
 (1, 184, 1, '2017-04-24 00:00:00', 'Perfil Base', 1),
 (1, 185, 1, '2017-04-24 00:00:00', 'Perfil Base', 1),
 (1, 186, 1, '2017-04-24 00:00:00', 'Perfil Base', 1),
+(1, 187, 1, '2017-04-24 00:00:00', 'Perfil Base', 1),
 (6, 87, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
 (6, 88, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
 (6, 89, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
@@ -879,6 +882,7 @@ INSERT INTO `perfil_usuario_aud` (`id_perfil_usuario`, `REV`, `REVTYPE`, `data_c
 (6, 179, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
 (6, 180, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
 (6, 185, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
+(6, 187, 1, '2017-04-25 00:00:00', 'Perfil Analista', 1),
 (7, 96, 1, '2017-04-25 00:00:00', 'Perfil Master', 1),
 (7, 97, 1, '2017-04-25 00:00:00', 'Perfil Master', 1),
 (7, 98, 1, '2017-04-25 00:00:00', 'Perfil Master', 1),
@@ -965,7 +969,8 @@ INSERT INTO `perfil_usuario_role` (`id_perfil_usuario`, `id_role`) VALUES
 (1, 1),
 (2, 1),
 (6, 2),
-(7, 9);
+(7, 9),
+(6, 10);
 
 -- --------------------------------------------------------
 
@@ -995,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `permissao` (
   `action` varchar(4000) DEFAULT NULL,
   `tipo_permissao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_permissao`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Extraindo dados da tabela `permissao`
@@ -1005,7 +1010,11 @@ INSERT INTO `permissao` (`id_permissao`, `descricao`, `nome`, `action`, `tipo_pe
 (1, 'Autênticar no sistema.', 'autenticar.sistema', 'autenticar.sistema', 2),
 (2, 'Item de menu para Consulta de solicitação', 'itemMenuSolicitacaoPesquisa', 'itemMenuSolicitacaoPesquisa', 1),
 (3, 'Item de menu - Alterar Senha', 'itemMenuAlterarSenha', 'itemMenuAlterarSenha', 1),
-(7, 'Exibir Pesquisa Solicitação', 'br.com.grrecurso.managed.solicitacao.SolicitacaoPesquisaAction.exibirPesquisa', 'br.com.grrecurso.managed.solicitacao.SolicitacaoPesquisaAction.exibirPesquisa', 2);
+(7, 'Exibir Pesquisa Solicitação', 'br.com.grrecurso.managed.solicitacao.SolicitacaoPesquisaAction.exibirPesquisa', 'br.com.grrecurso.managed.solicitacao.SolicitacaoPesquisaAction.exibirPesquisa', 2),
+(8, 'Listar Módulos', 'br.com.grrecurso.service.modulo.ModuloService.listaModulos', 'br.com.grrecurso.service.modulo.ModuloService.listaModulos', 2),
+(9, 'Menu Incluir Usuário', 'itemMenuIncluirUsuario', 'itemMenuIncluirUsuario', 1),
+(10, 'Listar Perfil de Usuário', 'br.com.grrecurso.service.login.PerfilUsuarioService.listAll', 'br.com.grrecurso.service.login.PerfilUsuarioService.listAll', 2),
+(11, 'Salvar usuário', 'br.com.grrecurso.service.login.UsuarioService.saveOrUpdate', 'br.com.grrecurso.service.login.UsuarioService.saveOrUpdate', 2);
 
 -- --------------------------------------------------------
 
@@ -1064,7 +1073,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `id_usuario` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_role`),
   KEY `FKk6ea4m1syechgjskwykqqftam` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Extraindo dados da tabela `role`
@@ -1074,7 +1083,8 @@ INSERT INTO `role` (`id_role`, `descricao`, `nome`, `status`, `id_usuario`) VALU
 (1, 'Básico', 'ROLE_BASE', 1, 1),
 (2, 'Consulta de Solicitação', 'ROLE_SOLICITACAO', 1, 1),
 (8, 'Deployer', 'ROLE_DEPLOYER', 1, 1),
-(9, 'Administrador', 'ROLE_ADMIN', 1, NULL);
+(9, 'Administrador', 'ROLE_ADMIN', 1, NULL),
+(10, 'Cadastro de Usuário', 'ROLE_INCLUIR_USUARIO', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1135,7 +1145,11 @@ INSERT INTO `role_permissao` (`id_role`, `id_permissao`) VALUES
 (1, 1),
 (2, 2),
 (9, 3),
-(2, 7);
+(2, 7),
+(10, 8),
+(10, 9),
+(10, 10),
+(10, 11);
 
 -- --------------------------------------------------------
 
@@ -1202,15 +1216,16 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `sexo` char(1) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `UK_5171l57faosmj8myawaucatdw` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Extraindo dados da tabela `usuario`
 --
 
 INSERT INTO `usuario` (`id_usuario`, `data_login`, `email`, `nome`, `senha`, `status`, `edicao`, `sexo`) VALUES
-(1, '2017-04-27 14:46:32', 'admin@admin.com', 'Administrador', '$2a$10$WjoNCUkQWA/kfIjdn/b1keAvXgNCKuT8.YTCQbxeSRfeHCAT4Z3rm', 1, b'0', 'M'),
-(6, '2017-04-27 14:12:08', 'weblogic@oracle.com', 'Weblogic', '$2a$10$NjiFjw1eSPdOaNTFf9byVuzz2xoe0/idUgEfnDm2UaPDG3Pw9SLXu', 1, b'0', 'M');
+(1, NULL, 'admin@admin.com', 'Administrador', '$2a$10$WjoNCUkQWA/kfIjdn/b1keAvXgNCKuT8.YTCQbxeSRfeHCAT4Z3rm', 1, b'0', 'M'),
+(6, '2017-04-27 18:47:46', 'weblogic@oracle.com', 'Weblogic', '$2a$10$NjiFjw1eSPdOaNTFf9byVuzz2xoe0/idUgEfnDm2UaPDG3Pw9SLXu', 1, b'0', 'M'),
+(8, NULL, 'oc4j@oracle.com', 'oc4j', '$2a$10$vs6oV6wlsxmjLKsFYx6HkOCYqdJe0vMOXorzKOzvHoszazKQ8wDLS', 1, b'0', 'M');
 
 -- --------------------------------------------------------
 
@@ -1392,7 +1407,8 @@ INSERT INTO `usuario_aud` (`id_usuario`, `REV`, `REVTYPE`, `data_login`, `edicao
 (6, 178, 1, NULL, b'0', 'weblogic@oracle.com', 'Weblogic', NULL, 'M', 1),
 (6, 179, 1, '2017-04-27 13:28:16', b'0', 'weblogic@oracle.com', 'Weblogic', NULL, 'M', 1),
 (6, 180, 1, NULL, b'0', 'weblogic@oracle.com', 'Weblogic', NULL, 'M', 1),
-(6, 185, 1, NULL, b'0', 'weblogic@oracle.com', 'Weblogic', NULL, 'M', 1);
+(6, 185, 1, NULL, b'0', 'weblogic@oracle.com', 'Weblogic', NULL, 'M', 1),
+(8, 187, 0, NULL, b'0', 'oc4j@oracle.com', 'oc4j', NULL, 'M', 1);
 
 -- --------------------------------------------------------
 
@@ -1416,7 +1432,8 @@ INSERT INTO `usuario_modulos` (`id_usuario`, `id_modulo`) VALUES
 (1, 3),
 (6, 1),
 (6, 3),
-(6, 2);
+(6, 2),
+(8, 1);
 
 -- --------------------------------------------------------
 
@@ -1449,7 +1466,8 @@ INSERT INTO `usuario_modulos_aud` (`REV`, `id_usuario`, `id_modulo`, `REVTYPE`) 
 (83, 6, 1, 0),
 (90, 6, 2, 0),
 (90, 6, 3, 0),
-(101, 1, 2, 2);
+(101, 1, 2, 2),
+(187, 8, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1472,7 +1490,9 @@ INSERT INTO `usuario_perfil_usuario` (`id_usuario`, `id_perfil_usuario`) VALUES
 (1, 1),
 (6, 1),
 (6, 6),
-(1, 7);
+(1, 7),
+(8, 1),
+(8, 6);
 
 -- --------------------------------------------------------
 
@@ -1493,7 +1513,9 @@ CREATE TABLE IF NOT EXISTS `usuario_perfil_usuario_aud` (
 --
 
 INSERT INTO `usuario_perfil_usuario_aud` (`REV`, `id_usuario`, `id_perfil_usuario`, `REVTYPE`) VALUES
-(83, 6, 1, 0);
+(83, 6, 1, 0),
+(187, 8, 1, 0),
+(187, 8, 6, 0);
 
 --
 -- Constraints for dumped tables

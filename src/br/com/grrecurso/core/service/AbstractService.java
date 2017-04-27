@@ -19,9 +19,9 @@ import org.hibernate.criterion.Restrictions;
 import org.primefaces.model.SortOrder;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 import br.com.grrecurso.core.util.LocalUtil;
 import br.com.grrecurso.entities.Solicitacao;
-import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
 public abstract class AbstractService<T, ID extends Serializable> implements Serializable {
@@ -70,20 +70,20 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<T> listAll(){
+	protected List<T> listAll(){
 		Criteria criteria = getSession().createCriteria(this.clazz);
 		return criteria.list();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T loadById(ID id){
+	protected T loadById(ID id){
 		String idAttribute = getIdAnnotatedAttribute(this.clazz);
 		Criteria criteria = getSession().createCriteria(this.clazz);
 		criteria.add(Restrictions.eq(idAttribute, id));
 		return (T)criteria.uniqueResult();
 	}
 	
-	public String getIdAnnotatedAttribute(Class<?> clazz){
+	protected String getIdAnnotatedAttribute(Class<?> clazz){
 		String idAttribute = null;
 		for (Field f : clazz.getDeclaredFields()) {
 			if (f.isAnnotationPresent(Id.class)) {				
@@ -104,11 +104,12 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 		return idAttribute;
 	}
 	
-	public T saveOrUpdate(T entity){
+	protected T saveOrUpdate(T entity){
 		getSession().saveOrUpdate(entity);
 		return entity;
 	}
 	
+	@IgnorarPermissoes
 	@SuppressWarnings("unchecked")
 	public List<T> list(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         Criteria criteria = getSession().createCriteria(clazz);

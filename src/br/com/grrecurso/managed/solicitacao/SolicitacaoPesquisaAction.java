@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 import org.omnifaces.cdi.ViewScoped;
 
@@ -15,7 +14,6 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.core.managed.AbstractManagedBean;
-import br.com.grrecurso.core.managed.BeanInterceptor;
 import br.com.grrecurso.core.managed.exception.PermissionException;
 import br.com.grrecurso.entities.Solicitacao;
 import br.com.grrecurso.service.solicitacao.SolicitacaoService;
@@ -27,7 +25,7 @@ import br.com.grrecurso.service.solicitacao.SolicitacaoService;
 		@URLMapping(id="solicitacaoPesquisa", pattern="/app/solicitacao/criteria/pesquisa", viewId="/application/solicitacao/solicitacaoPesquisa.jsf"),
 		
 })
-@Interceptors({BeanInterceptor.class})
+/*@Interceptors({BeanInterceptor.class})*/
 public class SolicitacaoPesquisaAction extends AbstractManagedBean {
 	/**
 	 * 

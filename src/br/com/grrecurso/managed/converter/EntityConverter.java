@@ -1,6 +1,8 @@
 package br.com.grrecurso.managed.converter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -13,6 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @FacesConverter(value="EntityConverter")
 @Named("entityConverterImpl")
+@SuppressWarnings("all")
 public class EntityConverter implements Converter {
 	
 	@PersistenceContext
@@ -36,6 +39,16 @@ public class EntityConverter implements Converter {
 					f.setAccessible(true);
 					Long id = (Long) f.get(object);
 					return clazz.getCanonicalName() + ":" + id.toString();
+				}
+			}
+			for(Method m : clazz.getDeclaredMethods()) {
+				if(m.isAnnotationPresent(Id.class)) {
+					try {
+						Object r = m.invoke(object, null);
+						return clazz.getCanonicalName() + ":" + r.toString();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException e) {

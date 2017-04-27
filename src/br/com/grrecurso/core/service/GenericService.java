@@ -75,7 +75,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 						"  JOIN role_permissao rp on rp.id_role = r.id_role\n" + 
 						"  JOIN permissao p on p.id_permissao = rp.id_permissao\n" + 
 						" WHERE u.id_usuario = ?\n" + 
-						"   AND lower(p.nome) = lower(?)";
+						"   AND lower(p.action) = lower(?)";
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ps.setLong(1, idUsuario);
 				ps.setString(2, permissao);

@@ -1,16 +1,20 @@
 package br.com.grrecurso.entities;
 
 import org.hibernate.envers.RevisionListener;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
-import br.com.grrecurso.seguranca.spring.util.SpringSecUtil;
 
 public class GRRecursoRevisionEntityListener implements RevisionListener {
 	private GRRecursoUser principal = null;
 	@Override
 	public void newRevision(Object revisionEntity) {		 
 		 try {
-			 principal = SpringSecUtil.getPrincipal();
+				
+			 if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+				 principal = (GRRecursoUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			 }
+				
 			 if(principal == null) {
 				 throw new Exception("Requisição sem usuário logado.");
 			 }

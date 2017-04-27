@@ -10,6 +10,8 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.Query;
 
+import org.hibernate.SQLQuery;
+
 import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.core.service.BusinessException;
 import br.com.grrecurso.entities.usuario.PerfilUsuario;
@@ -31,6 +33,11 @@ public class PerfilUsuarioService extends AbstractService<PerfilUsuario, Long> {
 	private void init(){
 	}
 	
+	@Override
+	public List<PerfilUsuario> listAll() {
+		return super.listAll();
+	}
+
 	public PerfilUsuario loadPerfilBase() throws BusinessException {
 		PerfilUsuario perfilBase = null;
 		
@@ -43,6 +50,29 @@ public class PerfilUsuarioService extends AbstractService<PerfilUsuario, Long> {
 		}
 		
 		return perfilBase;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PerfilUsuario> listaPerfisUsuarioExcept(Long idUsuario){
+		StringBuilder hql = new StringBuilder();
+		hql.append("select pu.* ")
+		   .append(" from perfil_usuario pu ")
+		   .append(" where pu.id_perfil_usuario not in ")
+		   .append("(")
+		   .append(" select pu.id_perfil_usuario ")
+		   .append("  from usuario_perfil_usuario upu ")
+		   .append("  join perfil_usuario pu on upu.id_perfil_usuario = pu.id_perfil_usuario ")
+		   .append(" where upu.id_usuario = ").append(idUsuario.toString())
+		   .append(")")
+		   ;
+		
+		SQLQuery query = getSession().createSQLQuery(hql.toString());
+		
+		query.addEntity(PerfilUsuario.class);
+		
+		List<PerfilUsuario> perfis = query.list();
+		
+		return perfis;
 	}
 	
 	@SuppressWarnings("unchecked")
