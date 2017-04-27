@@ -29,6 +29,35 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		super(GenericEntity.class);
 	}
 	
+	public boolean isInRole(Long idUsuario, String role) {
+		Integer count = getSession().doReturningWork(new ReturningWork<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				String sql = 
+						"SELECT count(r.id_role) qtde\n" + 
+						"  FROM usuario u\n" + 
+						"  JOIN usuario_perfil_usuario upu on u.id_usuario = upu.id_usuario\n" + 
+						"  JOIN perfil_usuario pu on pu.id_perfil_usuario = upu.id_perfil_usuario\n" + 
+						"  JOIN perfil_usuario_role pur on pur.id_perfil_usuario = pu.id_perfil_usuario\n" + 
+						"  JOIN role r on r.id_role = pur.id_role\n" +						 
+						" WHERE u.id_usuario = ?\n" + 
+						"   AND lower(r.nome) = lower(?)";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setLong(1, idUsuario);
+				ps.setString(2, role);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				if(rs.next()) {
+					return rs.getInt("qtde");
+				}
+				return 0;
+			}
+		});
+		
+		return count.intValue() > 0;
+	}
+	
 	public boolean isPermitido(Long idUsuario, String permissao) {
 		Integer count = getSession().doReturningWork(new ReturningWork<Integer>() {
 			@Override

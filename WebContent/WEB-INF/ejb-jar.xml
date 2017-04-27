@@ -4,5 +4,24 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                              http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd"
     version="3.2">
-    <module-name>GRRecurso</module-name>
+    <module-name>grrecurso-ejb</module-name>
+    <display-name>grrecurso-service</display-name>
+    
+    <interceptors>		
+		<interceptor>
+			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>		
+		</interceptor>	
+	</interceptors>
+	
+	<assembly-descriptor>		
+		<interceptor-binding>			
+			<ejb-name>*</ejb-name>						
+			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>
+		</interceptor-binding>	
+		
+		<interceptor-binding>			
+			<ejb-name>GenericService</ejb-name>						
+			<exclude-default-interceptors>true</exclude-default-interceptors>
+		</interceptor-binding>	
+	</assembly-descriptor>
 </ejb-jar>

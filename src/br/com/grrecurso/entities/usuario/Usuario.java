@@ -129,7 +129,8 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 	
-	@Column(name="data_login")
+	@NotAudited
+	@Column(name="data_login")	
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDataLogin() {
 		return dataLogin;

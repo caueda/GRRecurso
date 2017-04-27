@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
 
 import br.com.grrecurso.core.managed.exception.PermissionException;
+import br.com.grrecurso.core.service.GenericService;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
@@ -48,6 +49,8 @@ public abstract class AbstractManagedBean implements Serializable {
 	@Inject
 	private Conversation conversation;
 	
+	@Inject GenericService genericService;
+	
 	/*
 	 * Id do componente messages do aplicacaoTemplate.xhtml
 	 */
@@ -59,7 +62,7 @@ public abstract class AbstractManagedBean implements Serializable {
 	public static final String EXCLUIR = "excluir";
 	
 	@Inject @UsuarioLogado
-	protected GRRecursoUser principal;
+	protected GRRecursoUser principal;	
 	
 	private String tipoOperacao;
 	
@@ -277,12 +280,18 @@ public abstract class AbstractManagedBean implements Serializable {
 	}
 	
 	public void validarHasPermissao(String ... permissoes) throws PermissionException {
+		if(permissoes == null || permissoes.length == 0) {
+			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasPermissao [" + "O parâmetro permissões não deve ser vazio].");
+		}
 		if(!hasAtLeastOnePermissao(permissoes)) {			
 			throw new PermissionException("Usuário não possui a devida Permissão para esta funcionalidade.");
 		}
 	}
 	
 	public void validarHasRole(String ... roles) throws PermissionException {
+		if(roles == null || roles.length == 0) {
+			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasRole [" +  "O parâmetro roles não deve ser vazio].");
+		}
 		if(!hasAtLeastOneRole(roles)) {			
 			throw new PermissionException("O usuário não possui a devida Role para esta funcionalidade.");
 		}
@@ -291,7 +300,7 @@ public abstract class AbstractManagedBean implements Serializable {
 	public boolean hasPermissao(String permissao){
 		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
 			GRRecursoUser user = (GRRecursoUser) getPrincipal();
-			return (user.getPermissoes().containsKey(permissao));			
+			return genericService.isPermitido(user.getIdUsuario(), permissao);						
 		}
 		return false;
 	}

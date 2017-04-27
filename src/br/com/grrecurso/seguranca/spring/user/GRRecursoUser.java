@@ -20,7 +20,7 @@ public class GRRecursoUser extends User {
 	private String nome;
 	private String email;
 	
-	private Map<String, String> permissoes = new HashMap<String, String>();
+	private Map<String, String> permissaoItemMenu = new HashMap<String, String>();
 	private Map<String, String> roles = new HashMap<String, String>();
 	
 	public GRRecursoUser(String username, String password, boolean enabled, boolean accountNonExpired,
@@ -45,8 +45,8 @@ public class GRRecursoUser extends User {
 		this.idUsuario = idUsuario;
 	}
 
-	public Map<String, String> getPermissoes() {
-		return permissoes;
+	public Map<String, String> getPermissaoItemMenu() {
+		return this.permissaoItemMenu;
 	}
 
 	public Map<String, String> getRoles() {

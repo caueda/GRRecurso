@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
+import br.com.grrecurso.dominio.DominioTipoPermissao;
 import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.PerfilUsuario;
 import br.com.grrecurso.entities.usuario.Permissao;
@@ -54,7 +55,7 @@ public class UserDetailService implements UserDetailsService {
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		Map<String, String> permissoes = new HashMap<String, String>();
+		Map<String, String> permissaoItemMenu = new HashMap<String, String>();
 		Map<String, String> roles = new HashMap<String, String>();
 		
 		for(PerfilUsuario perfil : usuario.getPerfis()) {
@@ -62,7 +63,9 @@ public class UserDetailService implements UserDetailsService {
 				authorities.add(new SimpleGrantedAuthority(role.getNome()));
 				roles.put(role.getNome(), role.getNome());
 				for(Permissao permissao : role.getPermissoes()) {
-					permissoes.put(permissao.getNome(), permissao.getNome());
+					if(permissao.getTipoPermissao().equals(DominioTipoPermissao.ITEM_MENU)) {
+						permissaoItemMenu.put(permissao.getNome(), permissao.getNome());
+					}
 				}
 			}
 		}
@@ -75,8 +78,8 @@ public class UserDetailService implements UserDetailsService {
 		}
 		grrecursoUser.setIdUsuario(usuario.getIdUsuario());
 		
-		grrecursoUser.getPermissoes().clear();
-		grrecursoUser.getPermissoes().putAll(permissoes);
+		grrecursoUser.getPermissaoItemMenu().clear();
+		grrecursoUser.getPermissaoItemMenu().putAll(permissaoItemMenu);
 		
 		grrecursoUser.getRoles().clear();
 		grrecursoUser.getRoles().putAll(roles);

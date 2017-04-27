@@ -28,9 +28,9 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
 		UsuarioSvcLocal usuarioSvcLocal = null;
 		JndiTemplate jndi = new JndiTemplate();
         try {
-        	usuarioSvcLocal = (UsuarioSvcLocal) jndi.lookup("java:app/GRRecurso/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal");
+        	usuarioSvcLocal = (UsuarioSvcLocal) jndi.lookup("java:app/grrecurso-ejb/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal");
         } catch (NamingException e) {
-            logger.error("NamingException for java:app/GRRecurso/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal", e);
+            logger.error("NamingException for java:app/grrecurso-ejb/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal", e);
         }
         return usuarioSvcLocal;
 	}

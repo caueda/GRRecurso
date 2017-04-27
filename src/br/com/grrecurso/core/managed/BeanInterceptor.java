@@ -8,9 +8,9 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import br.com.grrecurso.core.managed.annotation.ValidarPermissoes;
-import br.com.grrecurso.core.managed.annotation.ValidarRoles;
 import br.com.grrecurso.core.managed.exception.PermissionException;
+import br.com.grrecurso.core.security.annotation.ValidarPermissoes;
+import br.com.grrecurso.core.security.annotation.ValidarRoles;
 import br.com.grrecurso.core.service.GenericService;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
@@ -41,13 +41,13 @@ public class BeanInterceptor implements Serializable {
 		if(m.isAnnotationPresent(ValidarPermissoes.class)) {
 			boolean contemPermissao = false;
 			ValidarPermissoes valP = m.getAnnotation(ValidarPermissoes.class);
-			if(valP.permissoes().length == 0) {
-				if(principal.getPermissoes().containsKey(methodName)) {
+			if(valP.permissoes().length == 0) {				
+				if(genericService.isPermitido(principal.getIdUsuario(), methodName)) {
 					contemPermissao = true;
 				}
 			} else {
 				for(String permissao : valP.permissoes()) {
-					if(principal.getPermissoes().containsKey(permissao)) {
+					if(genericService.isPermitido(principal.getIdUsuario(), permissao)) {
 						contemPermissao = true;
 						break;
 					}

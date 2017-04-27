@@ -1,4 +1,4 @@
-package br.com.grrecurso.core.managed.annotation;
+package br.com.grrecurso.core.security.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -17,4 +17,9 @@ public interface UsuarioSvcLocal extends UsuarioSvcRemote {
 	public void alterarSenha(Long idUsuario, String novaSenha);
 	public List<Usuario> list(Usuario usuarioPesquisa);
 	public Usuario findByEmail(String email);
+	/**
+	 * Não gera log no Envers.
+	 * @param entity
+	 */
+	public void updateDataLogin(Usuario entity);
 }

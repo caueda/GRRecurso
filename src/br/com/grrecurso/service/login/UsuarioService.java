@@ -1,5 +1,10 @@
 package br.com.grrecurso.service.login;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +28,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.jdbc.Work;
 import org.primefaces.model.SortOrder;
 
 import br.com.grrecurso.core.service.AbstractService;
@@ -45,6 +51,27 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	@Override
 	public Usuario saveOrUpdate(Usuario entity) {
 		return super.saveOrUpdate(entity);
+	}
+	
+	public void updateDataLogin(Usuario entity) {
+		getSession().evict(entity);
+		getSession().doWork(new Work() {
+
+			@Override
+			public void execute(Connection conn) throws SQLException {
+				StringBuilder sql = new StringBuilder();
+				sql.append("update ")
+				   .append(" Usuario ")
+				   .append(" set data_login=? ")
+				   .append(" where id_usuario=? ")
+				;
+				PreparedStatement ps = conn.prepareStatement(sql.toString());
+				ps.setTimestamp(1,  new Timestamp(new Date().getTime()));				
+				ps.setLong(2, entity.getIdUsuario());
+				ps.executeUpdate();
+			}
+			
+		});
 	}
 
 	@Override

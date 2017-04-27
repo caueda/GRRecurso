@@ -36,7 +36,7 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 			userName = ((GRRecursoUser) principal).getUsername();
 			Usuario usuario = usuarioSvcLocal.findByEmail(userName);
 			usuario.setDataLogin(new Date());
-			usuarioSvcLocal.saveOrUpdate(usuario);			
+			usuarioSvcLocal.updateDataLogin(usuario);			
 		} else {
 			userName = principal.toString();
 		}
