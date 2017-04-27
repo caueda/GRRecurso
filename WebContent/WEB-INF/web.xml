@@ -72,4 +72,9 @@
 	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
   </listener>
   
+  <error-page>
+  	<exception-type>br.com.grrecurso.core.managed.exception.PermissionException</exception-type>
+  	<location>/permissionDenied.jsf</location>
+  </error-page>
+  
 </web-app>

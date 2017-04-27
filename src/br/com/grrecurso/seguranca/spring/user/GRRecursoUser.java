@@ -17,9 +17,12 @@ public class GRRecursoUser extends User {
 	
 	private List<Long> moduleIds;
 	private Long idUsuario;
+	private String nome;
+	private String email;
+	
 	private Map<String, String> permissoes = new HashMap<String, String>();
 	private Map<String, String> roles = new HashMap<String, String>();
-
+	
 	public GRRecursoUser(String username, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
@@ -48,5 +51,21 @@ public class GRRecursoUser extends User {
 
 	public Map<String, String> getRoles() {
 		return roles;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

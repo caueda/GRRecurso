@@ -2,12 +2,11 @@ package br.com.grrecurso.producer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
-import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
+import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
+import br.com.grrecurso.seguranca.spring.util.SpringSecUtil;
 
 @RequestScoped
 public class GRRecursoProducer {	
@@ -17,13 +16,10 @@ public class GRRecursoProducer {
 	}
 	
 	@Produces @UsuarioLogado
-	public UserBean obtemUserBean() {
-		UserBean userBean = null;
-		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		if(session != null) {
-			userBean = (UserBean)session.getAttribute(UserBean.USER_LOGGED);
-			return userBean;
-		} 
-		return userBean;
+	public GRRecursoUser getPrincipal() {
+		
+		GRRecursoUser principal = SpringSecUtil.getPrincipal();
+		
+		return principal;
 	}
 }

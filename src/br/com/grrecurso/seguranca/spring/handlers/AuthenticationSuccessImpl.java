@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,7 +17,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import br.com.grrecurso.entities.usuario.UserBean;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
@@ -33,24 +31,16 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.Authentication auth) throws IOException, ServletException {
 		String userName = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		HttpSession session = request.getSession(false);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();		
 		if (principal instanceof UserDetails) {
 			userName = ((GRRecursoUser) principal).getUsername();
 			Usuario usuario = usuarioSvcLocal.findByEmail(userName);
 			usuario.setDataLogin(new Date());
-			usuarioSvcLocal.saveOrUpdate(usuario);
-			if(usuario != null) {
-				UserBean userBean = new UserBean(usuario);
-				if(session != null) {
-					session.setAttribute(UserBean.USER_LOGGED, userBean);
-				}
-			}
+			usuarioSvcLocal.saveOrUpdate(usuario);			
 		} else {
 			userName = principal.toString();
 		}
 		
-		System.out.println(userName);
 		redirectStrategy.sendRedirect(request, response, "/");
 	}	
 }

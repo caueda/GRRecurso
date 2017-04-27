@@ -81,6 +81,9 @@ public class UserDetailService implements UserDetailsService {
 		grrecursoUser.getRoles().clear();
 		grrecursoUser.getRoles().putAll(roles);
 		
+		grrecursoUser.setNome(usuario.getNome());
+		grrecursoUser.setEmail(usuario.getEmail());
+		
 		return grrecursoUser;
 	}
 }

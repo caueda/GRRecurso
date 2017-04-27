@@ -18,5 +18,9 @@
  	<converter-for-class>java.lang.Enum</converter-for-class>
 	<converter-class>javax.faces.convert.EnumConverter</converter-class>
  </converter>
-	
+
+ <factory>
+ 	<exception-handler-factory>br.com.grrecurso.core.managed.exception.CustomExceptionHandlerFactory</exception-handler-factory>
+ </factory>
+
 </faces-config>

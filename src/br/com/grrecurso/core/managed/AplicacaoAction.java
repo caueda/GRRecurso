@@ -1,11 +1,10 @@
 package br.com.grrecurso.core.managed;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
-import org.omnifaces.cdi.ViewScoped;
-
 @Named("aplicacao")
-@ViewScoped
+@RequestScoped
 public class AplicacaoAction extends AbstractManagedBean {	
 	/**
 	 * 
@@ -21,6 +20,4 @@ public class AplicacaoAction extends AbstractManagedBean {
 	public boolean hasRole(String role) {
 		return super.hasRole(role);
 	}	
-	
-	
 }

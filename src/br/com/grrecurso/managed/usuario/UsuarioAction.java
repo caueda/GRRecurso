@@ -51,6 +51,8 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String novaSenha1;
 	private String novaSenha2;
 	
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
 	//Caso em que o Adm irá alterar a senha de outro usuário
 	private String senhaUpdateAdm;
 	
@@ -154,22 +156,26 @@ public class UsuarioAction extends AbstractManagedBean {
 		}
 	}
 	
+	@URLAction(mappingId="userpassword", onPostback=false)
 	public void exibirAlterarSenha() {
-		if(userBean != null && userBean.getIdUsuario() != null) {			
-			setUsuario(usuarioSvcLocal.loadById(userBean.getIdUsuario()));		
+		if(this.getPrincipal().getIdUsuario() != null) {			
+			setUsuario(usuarioSvcLocal.loadById(principal.getIdUsuario()));		
 		}
 	}
 
 	public String encrypt(String senha) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashed = passwordEncoder.encode(senha);
 		return hashed;
+	}
+
+	public boolean isPasswordValid(String rawPassword, String encodedPassword) {
+		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
 	public String alterarSenha(){
 		try {
-			usuario = usuarioSvcLocal.loadById(userBean.getIdUsuario());
-			if(!getSenhaAtual().equals(getUsuario().getSenha())){
+			usuario = usuarioSvcLocal.loadById(this.getPrincipal().getIdUsuario());
+			if(!isPasswordValid(getSenhaAtual(), getUsuario().getSenha())) {
 				incluirError("A senha atual não confere.");
 				return "pretty:";
 			}
@@ -177,7 +183,7 @@ public class UsuarioAction extends AbstractManagedBean {
 				incluirError("Confirmação da nova senha inválida.");
 				return "pretty:";
 			}			
-			usuarioSvcLocal.alterarSenha(userBean.getIdUsuario(), encrypt(getNovaSenha1()));
+			usuarioSvcLocal.alterarSenha(this.getPrincipal().getIdUsuario(), encrypt(getNovaSenha1()));
 			incluirInfo("Senha alterada com sucesso");
 			setUsuario(new Usuario());
 			return "pretty:usermessage";

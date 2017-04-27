@@ -1,30 +1,27 @@
 package br.com.grrecurso.entities;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import org.hibernate.envers.RevisionListener;
 
-import br.com.grrecurso.entities.usuario.UserBean;
+import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
+import br.com.grrecurso.seguranca.spring.util.SpringSecUtil;
 
 public class GRRecursoRevisionEntityListener implements RevisionListener {
-	private UserBean userBean = null;
+	private GRRecursoUser principal = null;
 	@Override
-	public void newRevision(Object revisionEntity) {
-		 HttpSession session = null;
+	public void newRevision(Object revisionEntity) {		 
 		 try {
-			 session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-			 if(session != null){
-				 userBean = (UserBean)session.getAttribute(UserBean.USER_LOGGED);
-			 } 
+			 principal = SpringSecUtil.getPrincipal();
+			 if(principal == null) {
+				 throw new Exception("Requisição sem usuário logado.");
+			 }
 		 } catch(Exception e){
 			 //Chamada pela API-Restful não possui contexto JSF
-			 userBean = new UserBean();
-			 userBean.setEmail("api@admin.com");
-			 userBean.setIdUsuario(-1l);
-			 userBean.setNome("api");	
+			 principal = new GRRecursoUser("api", "", false, false, false, false, null);			 
+			 principal.setEmail("api@admin.com");
+			 principal.setIdUsuario(-1l);
+			 principal.setNome("api");	
 		 }
 		 GRRecursoRevisionEntity revEntity = (GRRecursoRevisionEntity) revisionEntity;
-		 revEntity.setUsername(userBean.getEmail());
+		 revEntity.setUsername(principal.getEmail());
 	}
 }

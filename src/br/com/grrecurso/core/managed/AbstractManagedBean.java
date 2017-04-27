@@ -29,9 +29,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ocpsoft.logging.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.com.grrecurso.entities.usuario.UserBean;
+import br.com.grrecurso.core.managed.exception.PermissionException;
 import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
@@ -60,7 +59,7 @@ public abstract class AbstractManagedBean implements Serializable {
 	public static final String EXCLUIR = "excluir";
 	
 	@Inject @UsuarioLogado
-	protected UserBean userBean;
+	protected GRRecursoUser principal;
 	
 	private String tipoOperacao;
 	
@@ -250,14 +249,6 @@ public abstract class AbstractManagedBean implements Serializable {
 		logger.info("[End] Scoped attributes");
     }
 
-	public UserBean getUserBean() {
-		return userBean;
-	}
-
-	public void setUserBean(UserBean userBean) {
-		this.userBean = userBean;
-	}
-
 	public Conversation getConversation() {
 		return conversation;
 	}
@@ -272,9 +263,29 @@ public abstract class AbstractManagedBean implements Serializable {
 	    return result;
 	}
 	
-	public GRRecursoUser getPrincipal(){
-		GRRecursoUser user = (GRRecursoUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return user;
+	public GRRecursoUser getPrincipal(){		
+		return this.principal;
+	}
+	
+	public boolean hasAtLeastOnePermissao(String ... permissoes) {
+		for(String permissao : permissoes) {
+			if(hasPermissao(permissao)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void validarHasPermissao(String ... permissoes) throws PermissionException {
+		if(!hasAtLeastOnePermissao(permissoes)) {			
+			throw new PermissionException("Usuário não possui a devida Permissão para esta funcionalidade.");
+		}
+	}
+	
+	public void validarHasRole(String ... roles) throws PermissionException {
+		if(!hasAtLeastOneRole(roles)) {			
+			throw new PermissionException("O usuário não possui a devida Role para esta funcionalidade.");
+		}
 	}
 	
 	public boolean hasPermissao(String permissao){
@@ -289,6 +300,15 @@ public abstract class AbstractManagedBean implements Serializable {
 		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){
 			GRRecursoUser user = (GRRecursoUser) getPrincipal();
 			return (user.getRoles().containsKey(role));			
+		}
+		return false;
+	}
+	
+	public boolean hasAtLeastOneRole(String ... roles) {
+		for(String role : roles) {
+			if(hasRole(role)) {
+				return true;
+			}
 		}
 		return false;
 	}
