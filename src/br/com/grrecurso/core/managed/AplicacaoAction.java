@@ -13,7 +13,7 @@ public class AplicacaoAction extends AbstractManagedBean {
 
 	@Override
 	public boolean hasPermissao(String permissao) {
-		return super.hasPermissao(permissao);
+		return super.hasPermissaoItemMenu(permissao);
 	}
 
 	@Override

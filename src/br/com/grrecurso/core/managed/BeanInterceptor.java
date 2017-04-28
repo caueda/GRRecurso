@@ -25,6 +25,8 @@ public class BeanInterceptor implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3275837191207429205L;	
+	
+	private final static int NAO = 0;
 
 	@Inject
 	private GenericService genericService;
@@ -33,10 +35,9 @@ public class BeanInterceptor implements Serializable {
 	protected GRRecursoUser principal;
 	
 	@AroundInvoke
-    public Object checkPermission(InvocationContext ctx) throws Exception {
-        
-
-		if(principal != null) {
+    public Object checkPermission(InvocationContext ctx) throws Exception {		
+		
+		if(principal != null && principal.getIsDesenvolvedor().intValue() == NAO) {
 			Method m = ctx.getMethod();
 			
 			String methodName = m.getDeclaringClass().getName() + "." + m.getName();		

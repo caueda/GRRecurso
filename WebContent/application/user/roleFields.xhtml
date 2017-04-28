@@ -12,6 +12,26 @@
 			<comp:inputTextarea id="descricaoRole" label="Descrição" value="#{roleAction.role.descricao}" cols="100" rows="4" required="false"/>
 			
 			<br/><br/>
+			
+			<p:dataTable value="#{roleAction.role.permissoes}" var="permissao" emptyMessage="Role sem permissões">
+				<p:column headerText="ID">
+					<h:outputText value="#{ permissao.id }"/>
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{ permissao.nome }"/>
+				</p:column>
+				<p:column headerText="Action">
+					<h:outputText value="#{ permissao.action }"/>
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{ permissao.tipoPermissao.desc }"/>
+				</p:column>				
+				<p:column headerText="Descrição">
+					<h:outputText value="#{ permissao.descricao }" />
+				</p:column>
+			</p:dataTable>
+
+			<br/><br/>
 
 			<h:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" styleClass="btn btn-default" 
 				action="#{roleAction.persistir}">

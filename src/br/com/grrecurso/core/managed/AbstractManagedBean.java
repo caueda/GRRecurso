@@ -43,6 +43,8 @@ public abstract class AbstractManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static final int SIM = 1;
+	
 	protected static final String SEARCH_OBJECT = "br.com.grrecurso.core.managed.SearchEngine";
 	
 	protected Logger logger = Logger.getLogger(this.getClass());
@@ -282,6 +284,9 @@ public abstract class AbstractManagedBean implements Serializable {
 	}
     @IgnorarPermissoes
 	public void validarHasPermissao(String ... permissoes) throws PermissionException {
+    	if(getPrincipal() != null && getPrincipal().getIsDesenvolvedor().intValue() == SIM) {
+    		return;
+    	}
 		if(permissoes == null || permissoes.length == 0) {
 			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasPermissao [" + "O parâmetro permissões não deve ser vazio].");
 		}
@@ -291,6 +296,9 @@ public abstract class AbstractManagedBean implements Serializable {
 	}
     @IgnorarPermissoes
 	public void validarHasRole(String ... roles) throws PermissionException {
+    	if(getPrincipal() != null && getPrincipal().getIsDesenvolvedor().intValue() == SIM) {
+    		return;
+    	}
 		if(roles == null || roles.length == 0) {
 			throw new IllegalArgumentException(this.getClass().getName() + ".validarHasRole [" +  "O parâmetro roles não deve ser vazio].");
 		}
@@ -298,6 +306,15 @@ public abstract class AbstractManagedBean implements Serializable {
 			throw new PermissionException("O usuário não possui a devida Role para esta funcionalidade.");
 		}
 	}
+    
+    @IgnorarPermissoes
+    public boolean hasPermissaoItemMenu(String permissao) {
+    	if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser) {
+    		return getPrincipal().getPermissaoItemMenu().containsKey(permissao);
+    	}
+    	return false;
+    }
+    
     @IgnorarPermissoes
 	public boolean hasPermissao(String permissao){
 		if(getPrincipal() != null && getPrincipal() instanceof GRRecursoUser){

@@ -1,3 +1,4 @@
+<%@page import="javax.ejb.Init"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
@@ -10,12 +11,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="_csrf" content="${_csrf.token}"/>
-  <base href="http://<%= request.getLocalName() + ":" + request.getLocalPort() + request.getContextPath() + "/" %>">
   <script src="resources/jQuery/jquery-1.12.1.min.js"></script>
   <script src="resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
   <script src="resources/jQuery/validate-1.1.2/jquery.validate.min.js"></script>
   
-  <title>GRRecurso</title>
+  <title>GRRecurso Login</title>
   <link rel="stylesheet" href="resources/login/css/style.css">
   <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.css">
   <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css">

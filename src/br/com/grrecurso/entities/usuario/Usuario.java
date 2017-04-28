@@ -75,6 +75,8 @@ public class Usuario implements Serializable {
 	@XmlTransient
 	private Set<Modulo> modulos;
 	
+	private Integer isDesenvolvedor = Integer.valueOf(0);
+	
 	public Usuario(){
 		super();
 	}
@@ -190,6 +192,15 @@ public class Usuario implements Serializable {
 
 	public void setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	@Column(name="is_desenv", nullable=false)
+	public Integer getIsDesenvolvedor() {
+		return isDesenvolvedor;
+	}
+
+	public void setIsDesenvolvedor(Integer isDesenvolvedor) {
+		this.isDesenvolvedor = isDesenvolvedor;
 	}
 
 	@Override

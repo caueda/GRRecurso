@@ -15,7 +15,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta name="_csrf" content="#{_csrf.token}"/>
-	<base href="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/"></base>
 	
     <!-- Bootstrap -->
     <h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css"></h:outputStylesheet>
@@ -54,7 +53,7 @@
 		            		<f:param name="tipoOperacao" value="incluir"/>
 		            	</p:menuitem>
 		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"
-		            		rendered="false"/>		            			            	
+		            		/>		            			            	
 		        	</p:submenu>
 		        	<p:submenu label="Permissão" icon="ui-icon-person">
 		            	<p:menuitem value="Incluir" outcome="pretty:newPermissao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
@@ -71,7 +70,7 @@
 		        	  rendered="#{aplicacao.hasPermissao('itemMenuSolicitacaoPesquisa')}"/>
 		        </p:submenu>
 		        <p:submenu label="Sistema">
-		        	<p:menuitem value="Logout" url="http://#{facesContext.externalContext.request.localAddr}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/logout"
+		        	<p:menuitem value="Logout" url="/logout"
 		        		icon="ui-icon-power" update="#{p:component('areaAplicacao')}"/>
 		        </p:submenu>
 		        <f:facet name="options">

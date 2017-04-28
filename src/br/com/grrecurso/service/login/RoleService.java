@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -46,7 +47,9 @@ public class RoleService extends AbstractService<Role, Long> {
 	public Role loadById(Long idRole){
 		Query query = em.createNamedQuery("Role.loadById");
 		query.setParameter("idRole", idRole);
-		return (Role)query.getSingleResult();
+		Role role = (Role)query.getSingleResult();
+		Hibernate.initialize(role.getPermissoes());
+		return role;
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

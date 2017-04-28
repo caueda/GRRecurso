@@ -19,6 +19,7 @@ public class GRRecursoUser extends User {
 	private Long idUsuario;
 	private String nome;
 	private String email;
+	private Integer isDesenvolvedor;
 	
 	private Map<String, String> permissaoItemMenu = new HashMap<String, String>();
 	private Map<String, String> roles = new HashMap<String, String>();
@@ -48,9 +49,17 @@ public class GRRecursoUser extends User {
 	public Map<String, String> getPermissaoItemMenu() {
 		return this.permissaoItemMenu;
 	}
+	
+	public void setPermissaoItemMenu(Map<String, String> permissaoItemMenu) {
+		this.permissaoItemMenu = permissaoItemMenu;
+	}
 
 	public Map<String, String> getRoles() {
 		return roles;
+	}
+	
+	public void setRoles(Map<String, String> roles) {
+		this.roles = roles;
 	}
 
 	public String getNome() {
@@ -67,5 +76,13 @@ public class GRRecursoUser extends User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Integer getIsDesenvolvedor() {
+		return isDesenvolvedor;
+	}
+
+	public void setIsDesenvolvedor(Integer isDesenvolvedor) {
+		this.isDesenvolvedor = isDesenvolvedor;
 	}
 }

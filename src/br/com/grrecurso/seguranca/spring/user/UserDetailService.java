@@ -29,6 +29,8 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 public class UserDetailService implements UserDetailsService {
 	protected Log logger = LogFactory.getLog(this.getClass());
 	
+	private static final int NAO = 0;
+	
 	@Autowired UsuarioSvcLocal usuarioSvcLocal;
 	
 	@Override
@@ -43,7 +45,7 @@ public class UserDetailService implements UserDetailsService {
 			throw new UsernameNotFoundException("Erro no banco de dados. Contacte o administrador do sistema.");
 		}
 		return obterUsuario(usuario);
-	}
+	}	
 	
 	public User obterUsuario(Usuario usuario) {
 		String email = usuario.getEmail();
@@ -58,13 +60,15 @@ public class UserDetailService implements UserDetailsService {
 		Map<String, String> permissaoItemMenu = new HashMap<String, String>();
 		Map<String, String> roles = new HashMap<String, String>();
 		
-		for(PerfilUsuario perfil : usuario.getPerfis()) {
-			for(Role role : perfil.getRoles()) {				
-				authorities.add(new SimpleGrantedAuthority(role.getNome()));
-				roles.put(role.getNome(), role.getNome());
-				for(Permissao permissao : role.getPermissoes()) {
-					if(permissao.getTipoPermissao().equals(DominioTipoPermissao.ITEM_MENU)) {
-						permissaoItemMenu.put(permissao.getNome(), permissao.getNome());
+		if(usuario.getIsDesenvolvedor().intValue() == NAO) {
+			for(PerfilUsuario perfil : usuario.getPerfis()) {
+				for(Role role : perfil.getRoles()) {				
+					authorities.add(new SimpleGrantedAuthority(role.getNome()));
+					roles.put(role.getNome(), role.getNome());
+					for(Permissao permissao : role.getPermissoes()) {
+						if(permissao.getTipoPermissao().equals(DominioTipoPermissao.ITEM_MENU)) {
+							permissaoItemMenu.put(permissao.getNome(), permissao.getNome());
+						}
 					}
 				}
 			}
@@ -76,13 +80,16 @@ public class UserDetailService implements UserDetailsService {
 		for(Modulo modulo : usuario.getModulos()){
 			grrecursoUser.getModuleIds().add(modulo.getIdModulo());
 		}
+		grrecursoUser.setIsDesenvolvedor(usuario.getIsDesenvolvedor());
 		grrecursoUser.setIdUsuario(usuario.getIdUsuario());
 		
-		grrecursoUser.getPermissaoItemMenu().clear();
-		grrecursoUser.getPermissaoItemMenu().putAll(permissaoItemMenu);
+		if(grrecursoUser.getIsDesenvolvedor().intValue() == NAO) {
+			grrecursoUser.setPermissaoItemMenu(permissaoItemMenu);
+		} else {
+			grrecursoUser.setPermissaoItemMenu(new FakeMap<String, String>());
+		}
 		
-		grrecursoUser.getRoles().clear();
-		grrecursoUser.getRoles().putAll(roles);
+		grrecursoUser.setRoles(roles);
 		
 		grrecursoUser.setNome(usuario.getNome());
 		grrecursoUser.setEmail(usuario.getEmail());
