@@ -14,6 +14,9 @@
 			<br/><br/>
 			
 			<p:dataTable value="#{roleAction.role.permissoes}" var="permissao" emptyMessage="Role sem permissões">
+				<f:facet name="header">
+					<h:outputText value="Lista de Permissões"/>
+				</f:facet>
 				<p:column headerText="ID">
 					<h:outputText value="#{ permissao.id }"/>
 				</p:column>
@@ -33,11 +36,11 @@
 
 			<br/><br/>
 
-			<h:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" styleClass="btn btn-default" 
+			<h:commandButton value="#{roleAction.isIncluir() ? 'Incluir' : 'Alterar'}" styleClass="btn btn-primary" 
 				action="#{roleAction.persistir}">
 				<f:ajax execute="panelRole" render="panelRole"/>
 			</h:commandButton>			
-			<h:commandButton value="Cancelar" action="pretty:rolePesquisa" rendered="#{roleAction.isAlterar()}" styleClass="btn btn-default"/>
+			<h:commandButton value="Cancelar" action="pretty:rolePesquisa" rendered="#{roleAction.isAlterar()}" styleClass="btn btn-secondary"/>
 			
 		</p:panel>		    
 </html>

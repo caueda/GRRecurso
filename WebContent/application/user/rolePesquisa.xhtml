@@ -12,31 +12,62 @@
 				<p:panel id="table" header="Filtro de Pesquisa - Role">
 					<p:outputLabel for="nomePesquisa" value="Nome"/>
 					<p:inputText id="nomePesquisa" value="#{rolePesquisaAction.role.nome}"/>
-					<br/>
 					
-					<p:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" process="table" update="#{p:component('table')}"/>
-					<p:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true"/>
-					<br/>
+					<br/><br/>
 					
-					<p:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" emptyMessage="Nenhum papel encontrado." widgetVar="rolesTable">
-						<p:column headerText="ID" width="10%">
-							<h:outputText value="#{role.id}"/>
-						</p:column>
-						<p:column headerText="Papel">
-							<h:outputText value="#{role.nome}"/>
-						</p:column>
-						<p:column headerText="Descrição">
-							<h:outputText value="#{role.descricao}"/>
-						</p:column>
-						<p:column headerText="Editar">
+					<h:panelGrid columns="2">
+						<h:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" styleClass="btn btn-primary btn-sm">
+							<f:ajax execute="table" render="table"/>
+						</h:commandButton>
 						
+						<h:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true" styleClass="btn btn-secondary btn-sm"/>					
+					</h:panelGrid>
+					
+					<br/><br/>
+					
+					<h:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" id="tableResult" 
+						title="Resultado" styleClass="table table-responsive table-bordered table-striped table-hover table-sm">
+						<f:facet name="header">
+							Resultados
+						</f:facet>						
+						<h:column width="10%">
+							<f:facet name="header">
+								<h:outputText value="Id"/>
+							</f:facet>							
+							<h:outputText value="#{role.id}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Nome"/>
+							</f:facet>					
+							<h:outputText value="#{role.nome}"/>
+						</h:column>						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Descrição"/>
+							</f:facet>					
+							<h:outputText value="#{role.descricao}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Status"/>
+							</f:facet>
+							<h:outputText value="#{ role.status.desc }"/>
+						</h:column> 
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Ação"/>
+							</f:facet>					
 							<h:button value="Editar" outcome="pretty:editRole" styleClass="btn btn-primary">
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idRole" value="#{role.id}"/>
 							</h:button>
-													
-						</p:column>
-					</p:dataTable>
+							<h:button value="Vincular" outcome="pretty:vincularPermissao" styleClass="btn btn-primary">
+								<f:param name="tipoOperacao" value="alterar"/>
+								<f:param name="idRole" value="#{role.id}"/>
+							</h:button>						
+						</h:column>
+					</h:dataTable>
 				</p:panel>	
 			</comp:form>			
 		</ui:define>
