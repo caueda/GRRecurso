@@ -1,7 +1,14 @@
 package br.com.grrecurso.seguranca.spring.configuration;
 
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,11 +19,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
 import br.com.grrecurso.seguranca.spring.user.UserDetailService;
+import br.com.grrecurso.service.login.UsuarioSvcLocal;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled=true, securedEnabled=true)
 @EnableWebSecurity
-public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	protected Log logger = LogFactory.getLog(this.getClass());
+	
 	@Autowired
 	AuthenticationSuccessImpl authenticationSuccessHandler;
 	@Autowired
@@ -32,6 +43,41 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 		System.out.println(b.encode("welcome1"));
 	}
 	*/
+	
+//	@Bean(name = "dataSource")
+//	public DriverManagerDataSource dataSource() {		
+//		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/grrecurso");
+//		driverManagerDataSource.setUsername("grrecurso");
+//		driverManagerDataSource.setPassword("welcome1");
+//		return driverManagerDataSource;
+//	}
+	
+	@Bean(name="usuarioSvcLocal")
+	public UsuarioSvcLocal usuarioSvcLocal() {
+		UsuarioSvcLocal usuarioSvcLocal = null;
+		JndiTemplate jndi = new JndiTemplate();
+        try {
+        	usuarioSvcLocal = (UsuarioSvcLocal) jndi.lookup("java:app/grrecurso-ejb/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal");
+        } catch (NamingException e) {
+            logger.error("NamingException for java:app/grrecurso-ejb/UsuarioService!br.com.grrecurso.service.login.UsuarioSvcLocal", e);
+        }
+        return usuarioSvcLocal;
+	}
+	
+	
+	@Bean(name = "dataSource")
+    public DataSource dataSourceJndi() {
+        DataSource dataSource = null;
+        JndiTemplate jndi = new JndiTemplate();
+        try {
+            dataSource = (DataSource) jndi.lookup("java:/jboss/GRRecursoPool");
+        } catch (NamingException e) {
+            logger.error("NamingException for java:comp/env/jdbc/yourname", e);
+        }
+        return dataSource;
+    }
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {

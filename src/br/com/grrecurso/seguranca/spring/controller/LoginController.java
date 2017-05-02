@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class LoginAppController {
+public class LoginController {
 	
     private SessionRegistry sessionRegistry = new SessionRegistryImpl();
 

@@ -44,7 +44,7 @@ public class SolicitacaoPesquisaAction extends AbstractManagedBean {
 	@URLAction(mappingId="solicitacaoPesquisa", onPostback=false)
 	public void exibirPesquisa() throws PermissionException {
 		
-		validarHasPermissao();
+//		validarHasPermissao();
 		
 	}
 	

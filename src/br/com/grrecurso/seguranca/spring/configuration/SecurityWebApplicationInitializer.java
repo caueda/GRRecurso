@@ -2,11 +2,20 @@ package br.com.grrecurso.seguranca.spring.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class SpringMvcInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer {
+/**
+ * SecurityConfig
+ * <ul>
+ * 	<li>Registra automaticamente o filtro springSecurityFilterChain para cada URL da aplicação</li>
+ *  <li>Adiciona o ContextLoaderListener que carrega o SecurityConfig.
+ * </ul>
+ * @author 
+ *
+ */
+public class SecurityWebApplicationInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer {
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { SpringConfiguration.class };
+        return new Class[] { WebSecurityConfig.class, WebMvcConfiguration.class };
     }
   
     @Override

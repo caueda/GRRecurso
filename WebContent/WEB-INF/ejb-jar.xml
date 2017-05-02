@@ -6,7 +6,7 @@
     version="3.2">
     <module-name>grrecurso-ejb</module-name>
     <display-name>grrecurso-service</display-name>
-    
+    <!-- 
     <interceptors>		
 		<interceptor>
 			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>		
@@ -33,7 +33,7 @@
 			<method>
 				<method-name>isInRole</method-name>				
 			</method>									
-		</interceptor-binding>
-			
+		</interceptor-binding>			
 	</assembly-descriptor>
+	-->
 </ejb-jar>
