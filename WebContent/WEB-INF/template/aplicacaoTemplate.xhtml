@@ -5,7 +5,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"  
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:mti="http://mti.mt.gov.br/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>	
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -43,6 +44,9 @@
 		            	rendered="#{aplicacao.hasPermissao('itemMenuIncluirUsuario')}">
 		            	<f:param name="tipoOperacao" value="incluir"/>
 		            </p:menuitem>
+		            
+		            <mti:menuItem permissao="itemMenuTeste" value="Consultar Teste" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
+		            
 		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
 		            
 		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked" update="#{p:component('areaAplicacao')}"
