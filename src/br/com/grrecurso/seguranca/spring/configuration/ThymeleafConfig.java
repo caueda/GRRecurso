@@ -3,7 +3,6 @@ package br.com.grrecurso.seguranca.spring.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -12,7 +11,6 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-@Configuration
 public class ThymeleafConfig {
     
     @Autowired
@@ -25,7 +23,7 @@ public class ThymeleafConfig {
         viewResolver.setOrder(1);
         viewResolver.setTemplateEngine(templateEngine);
         viewResolver.setCharacterEncoding("UTF-8");
-        viewResolver.setViewNames(new String[] {"*.html"});
+        viewResolver.setViewNames(new String[] {"*.jsp"});
     
         return viewResolver;
     }

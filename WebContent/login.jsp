@@ -1,22 +1,27 @@
+<%@page import="javax.ejb.Init"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="_csrf" content="${_csrf.token}"/>
-  <script src="resources/jQuery/jquery-1.12.1.min.js" th:src="@{/resources/jQuery/jquery-1.12.1.min.js}"></script>
-  <script src="resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js" th:src="@{/resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js}"></script>
-  <script src="resources/jQuery/validate-1.1.2/jquery.validate.min.js" th:src="@{/resources/jQuery/validate-1.1.2/jquery.validate.min.js}"></script>
+  <script src="resources/jQuery/jquery-1.12.1.min.js"></script>
+  <script src="resources/jQuery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+  <script src="resources/jQuery/validate-1.1.2/jquery.validate.min.js"></script>
   
   <title>GRRecurso Login</title>
-  <link rel="stylesheet" href="resources/login/css/style.css" th:href="@{/resources/login/css/style.css}">
-  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.css" th:href="@{/resources/jQuery/jquery-ui-1.11.4/jquery-ui.css}">
-  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css" th:href="@{/resources/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css}">
-  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.structure.css" th:href="@{/resources/jQuery/jquery-ui-1.11.4/jquery-ui.structure.css}">
+  <link rel="stylesheet" href="resources/login/css/style.css">
+  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.css">
+  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css">
+  <link rel="stylesheet" href="resources/jQuery/jquery-ui-1.11.4/jquery-ui.structure.css">
   
   <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script>
@@ -75,16 +80,23 @@
   </script>
 </head>
 <body>
+  <c:url value="/login" var="loginUrl"/>
   
   <p th:if="${param.error}" class="error">Wrong user or password</p>
   
-  <form action="@{/login}" class="login" method="post">
+  <form action="${loginUrl}" class="login" method="post">
   
-	<p th:if="${param.error}">Usuário ou senha inválida.</p>
+  	<c:if test="${param.error != null}">
+	<p>Usuário ou senha inválida.</p>
+    </c:if>
     
-    <p th:if="${param.logout != null}">Deslogado.</p>
+    <c:if test="${param.logout != null}">
+    <p>Deslogado.</p>
+  	</c:if>
   	
-    <p th:if="${param.maxSessionLimit}">O usuário já se encontra logado em outro browser ou máquina.</p>
+  	<c:if test="${param.maxSessionLimit != null}">
+    <p>O usuário já se encontra logado em outro browser ou máquina.</p>
+  	</c:if>
   	
     <p>
       <label for="email">Email:</label>
@@ -103,7 +115,7 @@
   </form>
   
  <div id="messageDialog" title="Basic dialog" style="display: none;">
- 	<p><span th:text="${mensagem}"></span></p>
+ 	<p><%= request.getAttribute("mensagem") %></p>
  </div>
   
 </body>
