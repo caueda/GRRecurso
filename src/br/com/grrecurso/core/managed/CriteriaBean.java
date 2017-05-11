@@ -9,16 +9,16 @@ public class CriteriaBean implements Serializable {
 	private static final long serialVersionUID = 4601795631454515983L;
 	private Class<?> clazz;
 	private String nomeCampo;
-	private Object singleValue;
-	private Object rangeValueInicio;
-	private Object rangeValueFim;
+	private String singleValue;
+	private String rangeValueInicio;
+	private String rangeValueFim;
 	private String operacao;
 	
 	public CriteriaBean(){
 		super();
 	}
 
-	public CriteriaBean(String nomeCampo, Object rangeValueInicio, Object rangeValueFim, String operacao) {
+	public CriteriaBean(String nomeCampo, String rangeValueInicio, String rangeValueFim, String operacao) {
 		super();
 		this.nomeCampo = nomeCampo;
 		this.rangeValueInicio = rangeValueInicio;
@@ -26,7 +26,7 @@ public class CriteriaBean implements Serializable {
 		this.operacao = operacao;
 	}
 
-	public CriteriaBean(String nomeCampo, Object singleValue, String operacao) throws ClassNotFoundException {
+	public CriteriaBean(String nomeCampo, String singleValue, String operacao) throws ClassNotFoundException {
 		super();
 		this.nomeCampo = nomeCampo;
 		this.singleValue = singleValue;
@@ -56,11 +56,11 @@ public class CriteriaBean implements Serializable {
 		this.nomeCampo = nomeCampo;
 	}
 
-	public Object getSingleValue() {
+	public String getSingleValue() {
 		return singleValue;
 	}
 
-	public void setSingleValue(Object singleValue) {
+	public void setSingleValue(String singleValue) {
 		this.singleValue = singleValue;
 	}
 
@@ -76,7 +76,7 @@ public class CriteriaBean implements Serializable {
 		return rangeValueInicio;
 	}
 
-	public void setRangeValueInicio(Object rangeValueInicio) {
+	public void setRangeValueInicio(String rangeValueInicio) {
 		this.rangeValueInicio = rangeValueInicio;
 	}
 
@@ -84,7 +84,7 @@ public class CriteriaBean implements Serializable {
 		return rangeValueFim;
 	}
 
-	public void setRangeValueFim(Object rangeValueFim) {
+	public void setRangeValueFim(String rangeValueFim) {
 		this.rangeValueFim = rangeValueFim;
 	}
 }

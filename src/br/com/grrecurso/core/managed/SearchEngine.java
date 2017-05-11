@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +53,6 @@ import br.com.grrecurso.core.service.Traduzivel;
 
 @Named
 @ViewScoped
-@SuppressWarnings("all")
 public class SearchEngine extends AbstractManagedBean {
 	
 	/**
@@ -75,6 +75,7 @@ public class SearchEngine extends AbstractManagedBean {
 	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
 	private DataTable dataTable = null;	
 	
+	private Set<String> filtros = new HashSet<String>();
 	private Traduzivel traduzivel = new TradutorSQL();
 	
 	@PostConstruct
@@ -153,7 +154,7 @@ public class SearchEngine extends AbstractManagedBean {
 			}
 			HtmlCommandButton buttonSearch = new HtmlCommandButton();
 			buttonSearch.setValue("Pesquisar");
-			buttonSearch.setStyleClass("btn btn-default");
+			buttonSearch.setStyleClass("btn btn-primary");
 			buttonSearch.setActionExpression(createMethodExpression("#{searchEngine.pesquisar}"));
 			UIOutput br = new UIOutput();
 			br.setValue("<br/>");
@@ -183,13 +184,13 @@ public class SearchEngine extends AbstractManagedBean {
 		Set<Map.Entry> entries = requestParameters.entrySet();
 		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
 		
-		for(ResultGridBean bean : columnsLabelsGrid){
-			if(requestParameters.containsKey(EvalExpression.getIdCampo(bean.getCampo()))){
-				String value = (String)requestParameters.get(EvalExpression.getIdCampo(bean.getCampo()));
+		for(String campo : filtros){
+			if(requestParameters.containsKey(EvalExpression.getIdCampo(campo))){
+				String value = (String)requestParameters.get(EvalExpression.getIdCampo(campo));
 				if(value != null && !value.isEmpty()){
-					String operacao = (String)requestParameters.get(EvalExpression.getSufixoOperacao(bean.getCampo()));
+					String operacao = (String)requestParameters.get(EvalExpression.getSufixoOperacao(campo));
 					try {
-						filter.put(bean.getCampo(), new CriteriaBean(bean.getCampo(), value, traduzivel.traduzir(operacao) ));
+						filter.put(campo, new CriteriaBean(campo, value, traduzivel.traduzir(operacao) ));
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -219,7 +220,8 @@ public class SearchEngine extends AbstractManagedBean {
 	}
 	
 	private List<UIComponent> getFieldComponents() throws NoSuchFieldException, SecurityException{
-		List<UIComponent> components = new ArrayList<UIComponent>();
+		List<UIComponent> listaComponentes = new ArrayList<UIComponent>();
+		
 		getColumnsGrid().clear();
 		for(Field f : getClazzEntity().getDeclaredFields()){
 			if(f.isAnnotationPresent(ResultGrid.class)){
@@ -231,17 +233,18 @@ public class SearchEngine extends AbstractManagedBean {
 				FieldTextFilter filter = f.getAnnotation(FieldTextFilter.class);
 				FieldTextPresentation apresentacao = filter.apresentacao();				
 				String campo = (filter.campo().isEmpty()) ? f.getName() : filter.campo();
+				this.filtros.add(campo);
 				FieldTextOperations[] operations = filter.operacao();
 				
 				UIOutput initTag = new UIOutput();
 				initTag.setValue("<div class=\"form-group\">");
-				components.add(initTag);
+				listaComponentes.add(initTag);
 				
 				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
 				label.setFor(EvalExpression.getIdCampo(campo));
-				components.add(label);
+				listaComponentes.add(label);
 					
 					HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
 					selectOneMenu.setId(EvalExpression.getSufixoOperacao(campo));
@@ -256,7 +259,7 @@ public class SearchEngine extends AbstractManagedBean {
 					uiSelectItems.setValue(opcoes);
 					selectOneMenu.getChildren().add(uiSelectItems);
 					
-					components.add(selectOneMenu);
+					listaComponentes.add(selectOneMenu);
 					
 					HtmlInputText inputText = new HtmlInputText();
 					inputText.setId(EvalExpression.getIdCampo(campo));
@@ -265,26 +268,26 @@ public class SearchEngine extends AbstractManagedBean {
 					inputText.setSize(filter.size());
 					inputText.setRequired(filter.obrigatorio());
 					inputText.setRequiredMessage("O " + campo + " deve ser informado.");					
-					components.add(inputText);
-					components.add(getMessage(EvalExpression.getIdCampo(campo)));
+					listaComponentes.add(inputText);
+					listaComponentes.add(getMessage(EvalExpression.getIdCampo(campo)));
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
-				components.add(endTag);
+				listaComponentes.add(endTag);
 				
 			} else if(f.isAnnotationPresent(FieldComboSelectFilter.class)){
 				FieldComboSelectFilter filter = f.getAnnotation(FieldComboSelectFilter.class);								
 				String campo = (filter.campo().isEmpty()) ? f.getName() : filter.campo();
-								
+				this.filtros.add(campo);			
 				UIOutput initTag = new UIOutput();
 				initTag.setValue("<div class=\"form-group\">");
-				components.add(initTag);
+				listaComponentes.add(initTag);
 				
 				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
 				label.setFor(EvalExpression.getIdCampo(campo));
-				components.add(label);
+				listaComponentes.add(label);
 					
 					HtmlSelectOneMenu selectOneMenuOperacao = new HtmlSelectOneMenu();
 					HtmlSelectOneMenu selectOneMenuOpcoes = new HtmlSelectOneMenu();
@@ -306,7 +309,7 @@ public class SearchEngine extends AbstractManagedBean {
 					uiSelectItemsOperacao.setValue(opcoesOperacao);
 					selectOneMenuOperacao.getChildren().add(uiSelectItemsOperacao);
 					
-					components.add(selectOneMenuOperacao);
+					listaComponentes.add(selectOneMenuOperacao);
 					
 					
 					if(filter.classe().isEnum()){
@@ -332,20 +335,20 @@ public class SearchEngine extends AbstractManagedBean {
 					selectOneMenuOpcoes.setRequired(filter.obrigatorio());
 					selectOneMenuOpcoes.setRequiredMessage("O " + campo + " deve ser informado.");
 					
-					components.add(selectOneMenuOpcoes);					
-					components.add(getMessage(campo));
+					listaComponentes.add(selectOneMenuOpcoes);					
+					listaComponentes.add(getMessage(campo));
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");
 				
 				
 				
-				components.add(endTag);
+				listaComponentes.add(endTag);
 				
 			}			
 		}
 		
-		return components;
+		return listaComponentes;
 	}
 	
 	private Message getMessage(String forCampo){
