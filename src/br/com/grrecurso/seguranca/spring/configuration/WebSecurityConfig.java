@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.grrecurso.seguranca.spring.handlers.AccessDeniedHandlerImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
 import br.com.grrecurso.seguranca.spring.user.UserDetailService;
@@ -32,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	AuthenticationSuccessImpl authenticationSuccessHandler;
 	@Autowired
 	AutenticationFailureImpl authenticationFailureHandler;
+	@Autowired
+	AccessDeniedHandlerImpl accessDeniedHandler;
 	
 //	@Autowired
 //	DataSource dataSource;
@@ -109,7 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
 				.and().csrf().ignoringAntMatchers("/public/api/**")
-				             .ignoringAntMatchers("/login")
+				             //.ignoringAntMatchers("/login")
 				//.disable().exceptionHandling()
 				.and()
 			.sessionManagement()
