@@ -16,15 +16,15 @@
 					<br/><br/>
 					
 					<h:panelGrid columns="2">
-						<h:commandButton value="Consultar" action="#{rolePesquisaAction.consultar}" styleClass="btn btn-primary btn-sm">
+						<h:commandButton value="Consultar" actionListener="#{rolePesquisaAction.consultar}" styleClass="btn btn-primary btn-sm">
 							<f:ajax execute="table" render="table"/>
 						</h:commandButton>
 						
-						<h:commandButton value="Pesquisar" action="#{rolePesquisaAction.pesquisar}" immediate="true" styleClass="btn btn-secondary btn-sm"/>					
+						<h:button value="Consultar Gen" outcome="pretty:roleConsulta"  styleClass="btn btn-secondary btn-sm"/>
+											
 					</h:panelGrid>
 					
 					<br/><br/>
-					
 					<h:dataTable value="#{rolePesquisaAction.listaRoles}" var="role" id="tableResult" 
 						title="Resultado" styleClass="table table-responsive table-bordered table-striped table-hover table-sm">
 						<f:facet name="header">
@@ -62,10 +62,7 @@
 								<f:param name="tipoOperacao" value="alterar"/>
 								<f:param name="idRole" value="#{role.id}"/>
 							</h:button>
-							<h:button value="Vincular" outcome="pretty:vincularPermissao" styleClass="btn btn-primary">
-								<f:param name="tipoOperacao" value="alterar"/>
-								<f:param name="idRole" value="#{role.id}"/>
-							</h:button>						
+											
 						</h:column>
 					</h:dataTable>
 				</p:panel>	

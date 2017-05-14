@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
-import org.omnifaces.cdi.ViewScoped;
+import javax.faces.view.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLAction;
 import com.ocpsoft.pretty.faces.annotation.URLBeanName;

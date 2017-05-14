@@ -10,7 +10,8 @@ public @interface FieldComboSelectFilter {
 	String label();
 	String campo() default "";
 	FieldComboSelectOperations[] operacao() default FieldComboSelectOperations.SELECT_IGUAL;
-	Class<?> classe();
+	Class<?> enumSource() default Object.class;
+	String sourceValues() default "";
 	boolean obrigatorio() default false;
 	boolean fixo() default false;
 }

@@ -45,8 +45,6 @@ public abstract class AbstractManagedBean implements Serializable {
 	
 	private static final int SIM = 1;
 	
-	protected static final String SEARCH_OBJECT = "br.com.grrecurso.core.managed.SearchEngine";
-	
 	protected Logger logger = Logger.getLogger(this.getClass());
 	
 	@Inject
@@ -101,16 +99,7 @@ public abstract class AbstractManagedBean implements Serializable {
 	public Object getAttribute(ActionEvent evt, String attributeName){
 		return evt.getComponent().getAttributes().get(attributeName);
 	}
-	@IgnorarPermissoes
-	protected String pesquisar(Class<?> clazz) throws ClassNotFoundException{
-		addAttributeToFlash(SEARCH_OBJECT,clazz.getName());
-		return "/application/search/searchPrototype.jsf";
-	}
-	@IgnorarPermissoes
-	protected String pesquisar(Class<?> clazz, String page) throws ClassNotFoundException{
-		addAttributeToFlash(SEARCH_OBJECT, clazz.getName());
-		return page;
-	}
+	
 	@IgnorarPermissoes
 	public <T> void addAttributeToFlash(String name, T value){
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();

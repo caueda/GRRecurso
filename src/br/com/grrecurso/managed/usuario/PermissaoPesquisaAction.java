@@ -6,10 +6,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.omnifaces.cdi.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -70,14 +70,5 @@ public class PermissaoPesquisaAction extends AbstractManagedBean {
 
 	public void setPermissao(Permissao permissao) {
 		this.permissao = permissao;
-	}
-	
-	public String pesquisar(){
-		try {
-			return pesquisar(Permissao.class);
-		} catch (ClassNotFoundException e) {
-			incluirError("Contate o administrador do sistema: " + e.getMessage());
-		}
-		return null;
 	}
 }

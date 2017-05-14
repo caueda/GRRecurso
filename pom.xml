@@ -11,9 +11,41 @@
 	<properties>
 		<springframework.version>4.1.6.RELEASE</springframework.version>
 		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
+		<weld.version>2.0.3.Final</weld.version>
+		<juel.version>2.2.6</juel.version>
 	</properties>
 
 	<dependencies>
+		<!-- Weld -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet-core</artifactId>
+			<version>${weld.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.weld</groupId>
+			<artifactId>weld-core-impl</artifactId>
+			<version>${weld.version}</version>
+		</dependency>
+		<!-- WTF... -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
+		<!-- Java Expression Language -->
+		<dependency>
+			<groupId>de.odysseus.juel</groupId>
+			<artifactId>juel-api</artifactId>
+			<version>${juel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.odysseus.juel</groupId>
+			<artifactId>juel-impl</artifactId>
+			<version>${juel.version}</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-spec-api -->
 		<dependency>
 			<groupId>org.wildfly</groupId>
@@ -134,12 +166,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.0.1.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>4.0.1.RELEASE</version>
 		</dependency>
 
 		<dependency>
@@ -153,38 +185,38 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>4.1.0.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>4.1.0.RELEASE</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
 		<dependency>
-		    <groupId>org.thymeleaf</groupId>
-		    <artifactId>thymeleaf-spring4</artifactId>
-		    <version>3.0.5.RELEASE</version>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
 		<dependency>
-		    <groupId>org.thymeleaf.extras</groupId>
-		    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-		    <version>3.0.2.RELEASE</version>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>3.0.2.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time -->
 		<dependency>
-		    <groupId>org.thymeleaf.extras</groupId>
-		    <artifactId>thymeleaf-extras-java8time</artifactId>
-		    <version>3.0.0.RELEASE</version>
-		</dependency>		
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+			<version>3.0.0.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-conditionalcomments -->
 		<dependency>
-		    <groupId>org.thymeleaf.extras</groupId>
-		    <artifactId>thymeleaf-extras-conditionalcomments</artifactId>
-		    <version>2.1.2.RELEASE</version>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-conditionalcomments</artifactId>
+			<version>2.1.2.RELEASE</version>
 		</dependency>
-		
+
 
 	</dependencies>
 

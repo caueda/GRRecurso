@@ -16,6 +16,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
+import javax.enterprise.inject.Instance;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -28,8 +29,6 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.SelectItem;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
@@ -51,8 +50,6 @@ import br.com.grrecurso.core.service.GenericService;
 import br.com.grrecurso.core.service.TradutorSQL;
 import br.com.grrecurso.core.service.Traduzivel;
 
-@Named
-@ViewScoped
 public class SearchEngine extends AbstractManagedBean {
 	
 	/**
@@ -70,7 +67,7 @@ public class SearchEngine extends AbstractManagedBean {
 	private String varAttr = "row";
 	
 	private Panel mainPanel;
-	private Class<? extends BaseEntity> clazzEntity;
+	protected Class<? extends BaseEntity> clazzEntity;
 	private List<?> listaResultados = new ArrayList<>();
 	private List<ResultGridBean> columnsLabelsGrid = new ArrayList<ResultGridBean>();
 	private DataTable dataTable = null;	
@@ -78,12 +75,22 @@ public class SearchEngine extends AbstractManagedBean {
 	private Set<String> filtros = new HashSet<String>();
 	private Traduzivel traduzivel = new TradutorSQL();
 	
+	protected void preInit(){
+		
+	}
+	protected void posInit(){
+		
+	}
+	
+	public SearchEngine(){
+		super();
+	}
+	
 	@PostConstruct
 	public void initBuild(){
-		String className = getAttributeFromFlash(SEARCH_OBJECT);
+		preInit();
 		mainPanel = new Panel();
 		try {
-			Class clazzEntity = Class.forName(className);
 			entidade = clazzEntity.getSimpleName();
 			mainPanel.setHeader(tituloPesquisa + entidade);
 			
@@ -105,14 +112,13 @@ public class SearchEngine extends AbstractManagedBean {
 				}
 			}
 			
-			setClazzEntity(clazzEntity);
-			
-		} catch (ClassNotFoundException e) {			
+		} catch (Exception e) {			
 			HtmlOutputLabel error = new HtmlOutputLabel();
 			error.setValue("Erro, contacte o administrador do sistema. " + e.getMessage());
 			mainPanel.getChildren().add(error);
 		}
 		build();
+		posInit();
 	}
 	
 	/**
@@ -155,7 +161,9 @@ public class SearchEngine extends AbstractManagedBean {
 			HtmlCommandButton buttonSearch = new HtmlCommandButton();
 			buttonSearch.setValue("Pesquisar");
 			buttonSearch.setStyleClass("btn btn-primary");
-			buttonSearch.setActionExpression(createMethodExpression("#{searchEngine.pesquisar}"));
+			String actionClassName = this.getClass().getSimpleName();
+			actionClassName = actionClassName.substring(0,1).toLowerCase() + actionClassName.substring(1);
+			buttonSearch.setActionExpression(createMethodExpression("#{" + actionClassName + ".pesquisar}"));
 			UIOutput br = new UIOutput();
 			br.setValue("<br/>");
 			mainPanel.getChildren().add(br);
@@ -286,9 +294,11 @@ public class SearchEngine extends AbstractManagedBean {
 				//Inseri o label do campo do filtro de pesquisa
 				HtmlOutputLabel label = new HtmlOutputLabel();
 				label.setValue(filter.label());
+				//Monta um Id para o componente input a partir do "campo"
 				label.setFor(EvalExpression.getIdCampo(campo));
 				listaComponentes.add(label);
-					
+
+				//Monta o menu com as operações disponíveis (Igual_a, Diferente_de, etc)
 					HtmlSelectOneMenu selectOneMenuOperacao = new HtmlSelectOneMenu();
 					HtmlSelectOneMenu selectOneMenuOpcoes = new HtmlSelectOneMenu();
 					selectOneMenuOperacao.setId(EvalExpression.getSufixoOperacao(campo));
@@ -312,10 +322,10 @@ public class SearchEngine extends AbstractManagedBean {
 					listaComponentes.add(selectOneMenuOperacao);
 					
 					
-					if(filter.classe().isEnum()){
+					if(filter.enumSource().isEnum()){
 						//selectOneMenuOpcoes.setConverter(new EnumConverter());
 						try {
-							Enum[] values = getEnumValues(filter.classe());
+							Enum[] values = getEnumValues(filter.enumSource());
 							SelectItem selecione = new SelectItem();
 							selecione.setLabel("Selecione");
 							selecione.setNoSelectionOption(true);
@@ -323,6 +333,26 @@ public class SearchEngine extends AbstractManagedBean {
 							for(Enum e : values){
 								itemsOpcoes.add(new SelectItem(e.getClass().getName() + "#" + e, e.toString()));
 							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else if(!filter.sourceValues().isEmpty()){
+						try {
+							String expressionSourceValue = filter.sourceValues();
+							Object obj = null;
+							
+							
+							obj = getBean("moduloService");
+							
+							if(obj != null) return null;
+							
+//							SelectItem selecione = new SelectItem();
+//							selecione.setLabel("Selecione");
+//							selecione.setNoSelectionOption(true);
+//							itemsOpcoes.add(selecione);
+//							for(Enum e : values){
+//								itemsOpcoes.add(new SelectItem(e.getClass().getName() + "#" + e, e.toString()));
+//							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -351,17 +381,23 @@ public class SearchEngine extends AbstractManagedBean {
 		return listaComponentes;
 	}
 	
+	protected Object getBean(String beanName){
+		ELContext elContext = getELContext();
+		Object bean = elContext.getELResolver().getValue(elContext, null, beanName);
+		return bean;
+	}
+	
 	private Message getMessage(String forCampo){
 		Message message = new Message();
 		message.setFor(forCampo);
 		return message;
 	}
 
-	public Class getClazzEntity() {
+	public Class<? extends BaseEntity> getClazzEntity() {
 		return clazzEntity;
 	}
 
-	private void setClazzEntity(Class clazzEntity) {
+	protected void setClazzEntity(Class<? extends BaseEntity> clazzEntity) {
 		this.clazzEntity = clazzEntity;
 	}
 
