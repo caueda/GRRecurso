@@ -16,7 +16,6 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
-import javax.enterprise.inject.Instance;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -341,8 +340,11 @@ public class SearchEngine extends AbstractManagedBean {
 							String expressionSourceValue = filter.sourceValues();
 							Object obj = null;
 							
-							
-							obj = getBean("moduloService");
+//							FacesContext context = FacesContext.getCurrentInstance();
+//						    ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
+//						    ELContext elContext = context.getELContext();
+//						    ValueExpression vex = expressionFactory.createValueExpression(elContext, "#{roleConsultaAction.listaModulos}", Object.class);
+//						    Object result = vex.getValue(elContext);
 							
 							if(obj != null) return null;
 							
