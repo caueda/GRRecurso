@@ -10,10 +10,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
+import br.com.grrecurso.core.interceptor.annotation.WebAccess;
 import br.com.grrecurso.core.managed.AbstractManagedBean;
 import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Role;
@@ -25,6 +25,7 @@ import br.com.grrecurso.service.modulo.ModuloService;
 @URLMappings( mappings= {
 		@URLMapping(id="rolePesquisa", pattern="/app/usuario/role/criteria/pesquisa", viewId="/application/user/rolePesquisa.jsf"),		
 })
+@WebAccess
 public class RolePesquisaAction extends AbstractManagedBean {	
 	/**
 	 * 

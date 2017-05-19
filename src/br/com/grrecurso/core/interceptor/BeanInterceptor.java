@@ -1,4 +1,4 @@
-package br.com.grrecurso.core.managed;
+package br.com.grrecurso.core.interceptor;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -7,7 +7,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import br.com.grrecurso.core.managed.exception.PermissionException;
@@ -17,8 +16,6 @@ import br.com.grrecurso.producer.qualifiers.UsuarioLogado;
 import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
 
-@SuppressWarnings("cdi-missing-interceptor-binding")
-@Interceptor
 public class BeanInterceptor implements Serializable {
 
     /**

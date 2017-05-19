@@ -9,14 +9,14 @@
     <!-- 
     <interceptors>		
 		<interceptor>
-			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>		
+			<interceptor-class>br.com.grrecurso.core.interceptor.BeanInterceptor</interceptor-class>		
 		</interceptor>	
 	</interceptors>
 	
 	<assembly-descriptor>		
 		<interceptor-binding>			
 			<ejb-name>*</ejb-name>						
-			<interceptor-class>br.com.grrecurso.core.managed.BeanInterceptor</interceptor-class>
+			<interceptor-class>br.com.grrecurso.core.interceptor.BeanInterceptor</interceptor-class>
 		</interceptor-binding>	
 		  
 		<interceptor-binding>			
