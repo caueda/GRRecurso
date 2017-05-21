@@ -1,81 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>GRRecurso</display-name>
- <context-param>
- 	<param-name>sistema.NOME</param-name>
- 	<param-value>GRRecurso</param-value>
- </context-param> 
- <context-param>
-   <param-name>com.ocpsoft.pretty.BASE_PACKAGES</param-name>
-   <param-value>br.com.grrecurso.managed</param-value>
- </context-param>
- 
- <context-param>
- 	<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
- 	<param-value>true</param-value>
- </context-param>
- <context-param>
-  <param-name>org.jboss.weld.development</param-name>
-  <param-value>true</param-value>
- </context-param>
-  <!--   
-  <context-param>
-    <param-name>org.omnifaces.VIEW_SCOPE_MANAGER_MAX_ACTIVE_VIEW_SCOPES</param-name>
-    <param-value>1</param-value>
-  </context-param>
-  <context-param>
-    <param-name>com.sun.faces.numberOfLogicalViews</param-name>
-    <param-value>1</param-value>
-  </context-param>  
-  -->
-  <!--  
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  -->
-  
-  <context-param>
-    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <!--  
-  <context-param>
-  	<param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
-  	<param-value>/WEB-INF/resources</param-value>
-  </context-param>
-  -->
-  <welcome-file-list>
-    <welcome-file>home.jsf</welcome-file>
-  </welcome-file-list>
-  <error-page>
-    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-    <location>/login.jsp</location>
-  </error-page>
-  
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>javax.ws.rs.core.Application</servlet-name>
-    <url-pattern>/public/api/rest/*</url-pattern>
-  </servlet-mapping>
-  
-  <listener>
-	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
-  </listener>
-  
-  <error-page>
-  	<exception-type>br.com.grrecurso.core.managed.exception.PermissionException</exception-type>
-  	<location>/permissionDenied.jsf</location>
-  </error-page>
-  
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>GRRecurso</display-name>
+	<context-param>
+		<param-name>sistema.NOME</param-name>
+		<param-value>GRRecurso</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.ocpsoft.pretty.BASE_PACKAGES</param-name>
+		<param-value>br.com.grrecurso.managed</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/springsecurity.taglib.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.jboss.weld.development</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<!-- <context-param> <param-name>org.omnifaces.VIEW_SCOPE_MANAGER_MAX_ACTIVE_VIEW_SCOPES</param-name> 
+		<param-value>1</param-value> </context-param> <context-param> <param-name>com.sun.faces.numberOfLogicalViews</param-name> 
+		<param-value>1</param-value> </context-param> -->
+	<!-- <context-param> <param-name>javax.faces.PROJECT_STAGE</param-name> 
+		<param-value>Development</param-value> </context-param> -->
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<!-- <context-param> <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name> 
+		<param-value>/WEB-INF/resources</param-value> </context-param> -->
+	<welcome-file-list>
+		<welcome-file>home.jsf</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login.jsp</location>
+	</error-page>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<url-pattern>/public/api/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+
+	<error-page>
+		<exception-type>br.com.grrecurso.core.managed.exception.PermissionException</exception-type>
+		<location>/permissionDenied.jsf</location>
+	</error-page>
+
 </web-app>

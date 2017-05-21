@@ -104,6 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
+				.antMatchers("/app/usuario/**").hasAnyRole("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -113,11 +114,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(authenticationFailureHandler)
 				.and().csrf().ignoringAntMatchers("/public/api/**")
 				             //.ignoringAntMatchers("/login")
-				//.disable().exceptionHandling()
+				//.disable().exceptionHandling()				
 				.and()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
 				;
+		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 //		http
 //		.authorizeRequests()
 //			.anyRequest().authenticated()
