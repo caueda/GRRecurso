@@ -41,6 +41,6 @@ public class AuthenticationSuccessImpl implements AuthenticationSuccessHandler {
 			userName = principal.toString();
 		}
 		
-		redirectStrategy.sendRedirect(request, response, "/");
+		redirectStrategy.sendRedirect(request, response, "/home.jsf");
 	}	
 }

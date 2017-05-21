@@ -12,6 +12,7 @@ import org.springframework.jndi.JndiTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -100,11 +101,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/resources/**").permitAll()
+				/* Nega o acesso via /application/../pagina.jsf */
+				.antMatchers("/application/**").denyAll()
+				
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
-				.antMatchers("/app/usuario/**").hasAnyRole("ROLE_ADMIN")
+//				.antMatchers("/app/usuario/role/**").hasRole("ADMIN")
+				.antMatchers("/app/usuario/role/**").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -113,19 +117,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
 				.and().csrf().ignoringAntMatchers("/public/api/**")
-				             //.ignoringAntMatchers("/login")
-				//.disable().exceptionHandling()				
 				.and()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
 				;
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-//		http
-//		.authorizeRequests()
-//			.anyRequest().authenticated()
-//			.and()
-//		.formLogin()
-//			.and()
-//		.httpBasic();
+		http.logout().deleteCookies("JSESSIONID");
+	}
+
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/resources/**");
+		super.configure(web);
 	}
 }
