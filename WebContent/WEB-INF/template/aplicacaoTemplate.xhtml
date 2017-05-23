@@ -1,90 +1,146 @@
-<?xml version='1.0' encoding='UTF-8' ?>  
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html
-	xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"  
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:my="http://myown/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:my="http://myown/ui">
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>	
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<meta http-equiv="Cache-Control"
+		content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
-	<meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<meta name="_csrf" content="#{_csrf.token}"/>
-	
-    <!-- Bootstrap -->
-    <h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css"></h:outputStylesheet>
-    <h:outputStylesheet library="bootstrap" name="css/bootstrap-responsive.css"></h:outputStylesheet>
-    
-    
-    <title><ui:insert name="titulo">#{initParam['Sistema.NOME']}</ui:insert></title>
-    
-    <script>
-    
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="_csrf" content="#{_csrf.token}" />
+
+	<!-- Bootstrap -->
+	<h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet library="bootstrap"
+		name="css/bootstrap-responsive.css"></h:outputStylesheet>
+
+
+	<title><ui:insert name="titulo">#{initParam['Sistema.NOME']}</ui:insert></title>
+
+	<script>
+	 function handleAjaxRequest(xhr, status, args){
+         var xmlDoc = xhr.responseXML;
+         errorNodes = xmlDoc.getElementsByTagName('error-name');
+         if (errorNodes.length == 0) return;
+         errorName = errorNodes[0].childNodes[0].nodeValue;
+
+
+         alert(errorName);
+         
+         switch (errorName) {
+             case 'class javax.faces.application.ViewExpiredException': 
+                 alert ('Session expired, redirecting to login page!');                 
+             break;
+         }
+         window.location = '#{request.contextPath}/';
+     }    
     </script>
-</h:head>	
-<h:body>			
-	  <h:form id="menuForm" prependId="true">  
-	  		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>             	
-		    <p:growl id="messageMonitor" for="messageMonitor" showDetail="true" globalOnly="true"/>		
-		    		                	     
-		    <p:idleMonitor timeout="60000" >				        				        
-		        <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messageMonitor" />
-	     		<p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messageMonitor" />
-		    </p:idleMonitor>	
-		    
-		    <p:menubar>		    	
-		        <p:submenu label="Usuário">
-		            <p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
-		            	<f:param name="tipoOperacao" value="incluir"/>
-		            </p:menuitem>
-		            
-		            <p:menuitem value="Consultar" outcome="pretty:userPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
-		            
-		            <p:menuitem value="Alterar senha" outcome="pretty:userpassword" ajax="true" icon="ui-icon-locked" update="#{p:component('areaAplicacao')}"/>
-		            
-		            <p:submenu label="Papel" icon="ui-icon-person">
-		            	<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
-		            		<f:param name="tipoOperacao" value="incluir"/>
-		            	</p:menuitem>
-		            	<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
-		            	<p:menuitem value="Consultar 2" outcome="pretty:roleConsulta"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>		            			            	
-		        	</p:submenu>
-		        	<p:submenu label="Permissão" icon="ui-icon-person">
-		            	<p:menuitem value="Incluir" outcome="pretty:newPermissao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
-		            		<f:param name="tipoOperacao" value="incluir"/>
-		            	</p:menuitem>
-		            	<p:menuitem value="Consultar" outcome="pretty:permissaoPesquisa"  ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>		            			            	
-		        	</p:submenu>		            	
-		        </p:submenu>
-		        <p:submenu label="Solicitações">
-		        	<p:menuitem value="Incluir" outcome="pretty:newSolicitacao" ajax="true" icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
-		        		<f:param name="tipoOperacao" value="incluir"/>
-		        	</p:menuitem>
-		        	<p:menuitem value="Consultar" outcome="pretty:solicitacaoPesquisa" ajax="true" icon="ui-icon-search" update="#{p:component('areaAplicacao')}"/>
-		        </p:submenu>
-		        <p:submenu label="Sistema">
-		        	<p:menuitem value="Logout" url="/logout"
-		        		icon="ui-icon-power" update="#{p:component('areaAplicacao')}"/>
-		        </p:submenu>
-		        <f:facet name="options">
-		        	<h:outputLabel value="usuário: #{aplicacao.principal.nome}"/>
-		        </f:facet>		        
-		    </p:menubar>		    
-		</h:form>
-				
-        <p:messages id="messages" autoUpdate="true" closable="true"/>
-        <p:panel id="areaAplicacao">
-       		<ui:insert name="aplicacao"></ui:insert>
-        </p:panel>
-        <ui:debug hotkey="k" rendered="true"/>
-        
-        <h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
+</h:head>
+<h:body>
+	<h:form id="menuForm" prependId="true">
+		<input type="hidden" name="#{_csrf.parameterName}"
+			value="#{_csrf.token}" />
+		<p:growl id="messageMonitor" for="messageMonitor" showDetail="true"
+			globalOnly="true" />
+
+		<p:idleMonitor timeout="60000">
+			<p:ajax event="idle" listener="#{idleMonitorView.onIdle}"
+				update="messageMonitor" />
+			<p:ajax event="active" listener="#{idleMonitorView.onActive}"
+				update="messageMonitor" />
+		</p:idleMonitor>
+
+		<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;"
+			widgetVar="status" onerror="handleAjaxRequest(xhr, status, args);">
+			<f:facet name="default">
+				<h:outputText value="Status: StandBy" />
+			</f:facet>
+
+			<f:facet name="start">
+				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="Status: Completed" />				
+			</f:facet>
+
+			<f:facet name="error">
+				<h:outputText value="Erro" />
+			</f:facet>
+		</p:ajaxStatus>
+
+		<p:menubar>
+			<p:submenu label="Usuário">
+				<p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true"
+					icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
+					<f:param name="tipoOperacao" value="incluir" />
+				</p:menuitem>
+
+				<p:menuitem value="Consultar" outcome="pretty:userPesquisa"
+					ajax="true" icon="ui-icon-search"
+					update="#{p:component('areaAplicacao')}" />
+
+				<p:menuitem value="Alterar senha" outcome="pretty:userpassword"
+					ajax="true" icon="ui-icon-locked"
+					update="#{p:component('areaAplicacao')}" />
+
+				<p:submenu label="Papel" icon="ui-icon-person">
+					<p:menuitem value="Incluir" outcome="pretty:newRole" ajax="true"
+						icon="ui-icon-pencil" update="#{p:component('areaAplicacao')}">
+						<f:param name="tipoOperacao" value="incluir" />
+					</p:menuitem>
+					<p:menuitem value="Consultar" outcome="pretty:rolePesquisa"
+						ajax="true" icon="ui-icon-search"
+						update="#{p:component('areaAplicacao')}" />
+					<p:menuitem value="Consultar 2" outcome="pretty:roleConsulta"
+						ajax="true" icon="ui-icon-search"
+						update="#{p:component('areaAplicacao')}" />
+				</p:submenu>
+				<p:submenu label="Permissão" icon="ui-icon-person">
+					<p:menuitem value="Incluir" outcome="pretty:newPermissao"
+						ajax="true" icon="ui-icon-pencil"
+						update="#{p:component('areaAplicacao')}">
+						<f:param name="tipoOperacao" value="incluir" />
+					</p:menuitem>
+					<p:menuitem value="Consultar" outcome="pretty:permissaoPesquisa"
+						ajax="true" icon="ui-icon-search"
+						update="#{p:component('areaAplicacao')}" />
+				</p:submenu>
+			</p:submenu>
+			<p:submenu label="Solicitações">
+				<p:menuitem value="Incluir" outcome="pretty:newSolicitacao"
+					ajax="true" icon="ui-icon-pencil"
+					update="#{p:component('areaAplicacao')}">
+					<f:param name="tipoOperacao" value="incluir" />
+				</p:menuitem>
+				<p:menuitem value="Consultar" outcome="pretty:solicitacaoPesquisa"
+					ajax="true" icon="ui-icon-search"
+					update="#{p:component('areaAplicacao')}" />
+			</p:submenu>
+			<p:submenu label="Sistema">
+				<p:menuitem value="Logout" url="/logout" icon="ui-icon-power"
+					update="#{p:component('areaAplicacao')}" />
+			</p:submenu>
+			<f:facet name="options">
+				<h:outputLabel value="usuário: #{aplicacao.principal.nome}" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+	<p:messages id="messages" autoUpdate="true" closable="true" />
+	<p:panel id="areaAplicacao">
+		<ui:insert name="aplicacao"></ui:insert>
+	</p:panel>
+	<ui:debug hotkey="k" rendered="true" />
+
+	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
 </h:body>
 
 </html>

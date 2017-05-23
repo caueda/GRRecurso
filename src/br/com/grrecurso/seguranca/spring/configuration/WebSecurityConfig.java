@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.grrecurso.seguranca.spring.CustomAuthenticationEntryPointHandler;
 import br.com.grrecurso.seguranca.spring.handlers.AccessDeniedHandlerImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AutenticationFailureImpl;
 import br.com.grrecurso.seguranca.spring.handlers.AuthenticationSuccessImpl;
@@ -84,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 	
 	@Autowired
-	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {		
 		auth.userDetailsService(userDetailService)
 		    .passwordEncoder(new BCryptPasswordEncoder());
 //		auth.jdbcAuthentication().dataSource(dataSource)
@@ -104,7 +105,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/* Nega o acesso via /application/../pagina.jsf */
 				.antMatchers("/application/**").denyAll()
 				
+				.antMatchers("/resources/**").permitAll()
+				
 				.antMatchers("/loginFailed").permitAll()
+				.antMatchers("/loopback").permitAll()
+				
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
 //				.antMatchers("/app/usuario/role/**").hasRole("ADMIN")
@@ -116,12 +121,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email").passwordParameter("senha")				
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
-				.and().csrf().ignoringAntMatchers("/public/api/**")
+				//.and().csrf().ignoringAntMatchers("/public/api/**")
 				.and()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
 				;
+		http.csrf().disable();
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+		http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler());
 		http.logout().deleteCookies("JSESSIONID");
 	}
 

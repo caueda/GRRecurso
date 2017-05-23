@@ -67,6 +67,7 @@
 	}
 	
 	$(document).ready(function(){
+
 		var msg = $("#messageDialog");
 		
 		if(queryString.mensagem){
