@@ -23,7 +23,7 @@ public class CustomAuthenticationEntryPointHandler extends Http403ForbiddenEntry
 	    if (ajaxRedirect) {
 	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	        if (authentication == null) {
-	            response.sendError(404);
+	        	response.sendError(HttpServletResponse.SC_FORBIDDEN);
 	        }
 	    } else {
 	    	RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

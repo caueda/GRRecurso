@@ -24,24 +24,17 @@
 
 	<title><ui:insert name="titulo">#{initParam['Sistema.NOME']}</ui:insert></title>
 
-	<script>
-	 function handleAjaxRequest(xhr, status, args){
-         var xmlDoc = xhr.responseXML;
-         errorNodes = xmlDoc.getElementsByTagName('error-name');
-         if (errorNodes.length == 0) return;
-         errorName = errorNodes[0].childNodes[0].nodeValue;
-
-
-         alert(errorName);
-         
-         switch (errorName) {
-             case 'class javax.faces.application.ViewExpiredException': 
-                 alert ('Session expired, redirecting to login page!');                 
-             break;
-         }
-         window.location = '#{request.contextPath}/';
-     }    
-    </script>
+		<script>
+			//<![CDATA[
+			$(document).on("pfAjaxComplete", function(event, xhr, options) {
+			   	if(xhr && xhr.status == '403'){
+				   	alert("Sessão expirada. Você será redirecionado para a tela de login.");
+			   		window.location = '#{request.contextPath}/';
+				}
+			});		
+			//]]>
+	    </script>
+	    
 </h:head>
 <h:body>
 	<h:form id="menuForm" prependId="true">
