@@ -102,19 +102,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				/* Nega o acesso via /application/../pagina.jsf */
-				.antMatchers("/application/**").denyAll()
 				
 				.antMatchers("/resources/**").permitAll()
+				.antMatchers("/javax.faces.resource/**").permitAll()
 				
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/loopback").permitAll()
+				.antMatchers("/permissionDenied.jsf").authenticated()
 				
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
 //				.antMatchers("/app/usuario/role/**").hasRole("ADMIN")
 				.antMatchers("/app/usuario/role/**").hasAuthority("ROLE_ADMIN")
-				.anyRequest().authenticated()
+				.antMatchers("/home.jsf").authenticated()
+				/* Nega o acesso via /application/../pagina.jsf */
+//				.antMatchers("/application/**").denyAll()
+				.anyRequest().denyAll()
 				.and()
 			.formLogin()
 				.loginPage("/login").permitAll()

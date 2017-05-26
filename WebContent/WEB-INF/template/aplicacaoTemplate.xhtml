@@ -50,25 +50,6 @@
 				update="messageMonitor" />
 		</p:idleMonitor>
 
-		<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;"
-			widgetVar="status" onerror="handleAjaxRequest(xhr, status, args);">
-			<f:facet name="default">
-				<h:outputText value="Status: StandBy" />
-			</f:facet>
-
-			<f:facet name="start">
-				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
-			</f:facet>
-
-			<f:facet name="complete">
-				<h:outputText value="Status: Completed" />				
-			</f:facet>
-
-			<f:facet name="error">
-				<h:outputText value="Erro" />
-			</f:facet>
-		</p:ajaxStatus>
-
 		<p:menubar>
 			<p:submenu label="Usuário">
 				<p:menuitem value="Incluir" outcome="pretty:newUsuario" ajax="true"
@@ -131,6 +112,25 @@
 	<p:panel id="areaAplicacao">
 		<ui:insert name="aplicacao"></ui:insert>
 	</p:panel>
+	
+	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;"
+			widgetVar="status" onerror="handleAjaxRequest(xhr, status, args);">
+			<f:facet name="default">
+				<h:outputText value="Status: StandBy" />
+			</f:facet>
+
+			<f:facet name="start">
+				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="Status: Completed" />				
+			</f:facet>
+
+			<f:facet name="error">
+				<h:outputText value="Erro" />
+			</f:facet>
+		</p:ajaxStatus>
 	<ui:debug hotkey="k" rendered="true" />
 
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
