@@ -109,7 +109,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/loopback").permitAll()
 				.antMatchers("/permissionDenied.jsf").authenticated()
-				
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
 //				.antMatchers("/app/usuario/role/**").hasRole("ADMIN")
@@ -138,7 +137,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**");
+		web.ignoring().antMatchers("/resources/**")
+		.antMatchers("/javax.faces.resource/**");
 		super.configure(web);
 	}
 }

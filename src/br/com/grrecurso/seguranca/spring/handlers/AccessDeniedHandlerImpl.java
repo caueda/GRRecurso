@@ -22,7 +22,7 @@ public class AccessDeniedHandlerImpl implements org.springframework.security.web
 		@Override
 		public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exc) throws IOException, ServletException {
 			logger.info(exc.getMessage());
-			
+			logger.info(request.getRequestURI());
 			redirectStrategy.sendRedirect(request, response, "/permissionDenied.jsf");
 			
 		}
