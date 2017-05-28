@@ -11,6 +11,7 @@ import br.com.grrecurso.seguranca.spring.user.GRRecursoUser;
 
 @RequestScoped
 public class GRRecursoProducer {	
+	
 	@Produces
 	public DominioAtivoInativo[] listaAtivoInativo(){
 		return DominioAtivoInativo.values();

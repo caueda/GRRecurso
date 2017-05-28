@@ -3,7 +3,6 @@ package br.com.grrecurso.managed.usuario;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -15,10 +14,8 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.core.managed.SearchEngine;
-import br.com.grrecurso.entities.usuario.Modulo;
 import br.com.grrecurso.entities.usuario.Role;
 import br.com.grrecurso.service.login.RoleService;
-import br.com.grrecurso.service.modulo.ModuloService;
 
 @Named
 @URLBeanName("roleConsultaAction")
@@ -41,18 +38,11 @@ public class RoleConsultaAction extends SearchEngine {
 	@EJB
 	private RoleService roleService;
 	
-	@EJB
-	private ModuloService moduloService;
-	
 	@URLAction(mappingId="roleConsulta", onPostback=false)
 	@Override
 	public void preInit() {
 		logger.info("[RolePesquisaConsulta.init] " + this.toString());
 		setClazzEntity(Role.class);
-	}
-
-	public List<Modulo> getListaModulos(){
-		return moduloService.listaModulos();
 	}
 	
 	@PreDestroy

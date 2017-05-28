@@ -77,7 +77,7 @@ public class Role extends BaseEntity implements IRole {
 	private DominioAtivoInativo status;
 	
 	@ResultGrid(label="Módulo", ordem=6, align="left")
-	@FieldComboSelectFilter(label="Módulo", campo="modulo", sourceValues="#{moduloService.listaModulos}", obrigatorio=false)
+	@FieldComboSelectFilter(label="Módulo", campo="modulo", sourceValues="#{rolePesquisaAction.listaModulos}", obrigatorio=false)
 	@JoinColumn(name="id_modulo")
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Modulo modulo;

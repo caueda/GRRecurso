@@ -3,6 +3,7 @@ package br.com.grrecurso.core.managed;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.SelectItem;
 
+import org.ocpsoft.shade.org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.message.Message;
@@ -188,7 +190,7 @@ public class SearchEngine extends AbstractManagedBean {
 	public String pesquisar(){
 		@SuppressWarnings({ "rawtypes"})		
 		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		Set<Map.Entry> entries = requestParameters.entrySet();
+		Set<Map.Entry<?,?>> entries = (Set<Map.Entry<?,?>>)requestParameters.entrySet();
 		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
 		
 		for(String campo : filtros){
@@ -199,7 +201,6 @@ public class SearchEngine extends AbstractManagedBean {
 					try {
 						filter.put(campo, new CriteriaBean(campo, value, traduzivel.traduzir(operacao) ));
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -338,23 +339,22 @@ public class SearchEngine extends AbstractManagedBean {
 					} else if(!filter.sourceValues().isEmpty()){
 						try {
 							String expressionSourceValue = filter.sourceValues();
-							Object obj = null;
 							
-//							FacesContext context = FacesContext.getCurrentInstance();
-//						    ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
-//						    ELContext elContext = context.getELContext();
-//						    ValueExpression vex = expressionFactory.createValueExpression(elContext, "#{roleConsultaAction.listaModulos}", Object.class);
-//						    Object result = vex.getValue(elContext);
+							FacesContext context = FacesContext.getCurrentInstance();
+						    ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
+						    ELContext elContext = context.getELContext();
+						    ValueExpression vex = expressionFactory.createValueExpression(elContext, expressionSourceValue, Object.class);
+						    Collection<?> result = (Collection<?>)vex.getValue(elContext);
 							
-							if(obj != null) return null;
+							if(result == null) return null;
 							
-//							SelectItem selecione = new SelectItem();
-//							selecione.setLabel("Selecione");
-//							selecione.setNoSelectionOption(true);
-//							itemsOpcoes.add(selecione);
-//							for(Enum e : values){
-//								itemsOpcoes.add(new SelectItem(e.getClass().getName() + "#" + e, e.toString()));
-//							}
+							SelectItem selecione = new SelectItem();
+							selecione.setLabel("Selecione");
+							selecione.setNoSelectionOption(true);
+							itemsOpcoes.add(selecione);
+							for(Object bean : result){
+								itemsOpcoes.add(new SelectItem(bean.getClass().getName() + "#" + BeanUtils.getProperty(bean, "id"), BeanUtils.getProperty(bean, "descricao")));
+							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

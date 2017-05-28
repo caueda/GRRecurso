@@ -12,12 +12,13 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
+import br.com.grrecurso.core.persistence.IComboSelect;
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @Table(name="modulo")
-public class Modulo extends BaseEntity {
+public class Modulo extends BaseEntity implements IComboSelect {
 
 	/**
 	 * 
@@ -103,5 +104,10 @@ public class Modulo extends BaseEntity {
 	
 	public void setId(Long id){
 		setIdModulo(id);
+	}
+
+	@Override
+	public String getDescricao() {
+		return getNome();
 	}
 }

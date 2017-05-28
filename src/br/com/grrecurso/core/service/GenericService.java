@@ -16,6 +16,7 @@ import org.hibernate.jdbc.ReturningWork;
 
 import br.com.grrecurso.core.managed.CriteriaBean;
 import br.com.grrecurso.core.persistence.GenericEntity;
+import br.com.grrecurso.core.persistence.IComboSelect;
 import br.com.grrecurso.core.security.annotation.IgnorarPermissoes;
 
 @Stateless
@@ -92,6 +93,17 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		return count.intValue() > 0;
 	}
 	
+	private boolean isIComboSelect(Class<?> clazz){
+		Class<?>[] interfaces = clazz.getInterfaces();
+		for(Class<?> i : interfaces){
+			if(i.getClass().getName().equals(IComboSelect.class.getName())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity){
 		List<T> result = null;
@@ -109,6 +121,8 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 				Class<Enum> enumerator = (Class<Enum>) bean.getClazz();
 				Enum value = Enum.valueOf(enumerator, bean.getSingleValue().toString());
 				parameters.put(parameterName, value);
+			} else if(isIComboSelect(bean.getClazz())){
+				//TODO
 			}
 		}
 		Query query = getSession().createQuery(hql.toString());
