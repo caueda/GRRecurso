@@ -16,7 +16,7 @@
 			<p:remoteCommand name="updatePermissoes" actionListener="#{roleAction.updatePermissoes()}" 
 				update="idPermissoes" immediate="true"/>			
 			
-			<p:button value="Incluir" onclick="openPopup('/app/usuario/role/criteria/popup');return false"/>
+			<p:button value="Incluir" onclick="openPopup('/app/permissao/criteria/popup');return false"/>
 			
 			<p:dataTable value="#{roleAction.role.permissoes}" var="permissao" emptyMessage="Role sem permissões" id="idPermissoes">
 				<f:facet name="header">

@@ -24,6 +24,7 @@ import br.com.grrecurso.service.login.PermissaoService;
 @URLBeanName("permissaoPesquisaAction")
 @URLMappings( mappings= {
 		@URLMapping(id="permissaoPesquisa", pattern="/app/permissao/criteria/pesquisa", viewId="/application/permissao/permissaoPesquisa.jsf"),
+		@URLMapping(id="permissaoPesquisaPopup", pattern="/app/permissao/criteria/popup", viewId="/application/permissao/permissaoPesquisaPopup.jsf"),
 })
 public class PermissaoPesquisaAction extends AbstractManagedBean {	
 	/**

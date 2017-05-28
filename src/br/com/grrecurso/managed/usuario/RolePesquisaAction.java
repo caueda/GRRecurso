@@ -23,8 +23,8 @@ import br.com.grrecurso.service.modulo.ModuloService;
 @Named
 @ViewScoped
 @URLMappings( mappings= {
-		@URLMapping(id="rolePesquisa", pattern="/app/usuario/role/criteria/pesquisa", viewId="/application/user/rolePesquisa.jsf"),		
-		@URLMapping(id="rolePesquisaPopup", pattern="/app/usuario/role/criteria/popup", viewId="/application/user/rolePesquisaPopup.jsf"),
+		@URLMapping(id="rolePesquisa", pattern="/app/usuario/role/criteria/pesquisa", viewId="/application/user/rolePesquisa.jsf"),	
+		
 })
 @WebAccess
 public class RolePesquisaAction extends AbstractManagedBean {	

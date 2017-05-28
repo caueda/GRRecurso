@@ -110,12 +110,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/permissionDenied.jsf").authenticated()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
-//				.antMatchers("/app/usuario/role/**").hasRole("ADMIN")
-				.antMatchers("/app/usuario/role/**").hasAuthority("ROLE_ADMIN")
-				.antMatchers("/home.jsf").authenticated()
+				.antMatchers("/home.jsf").authenticated();
+		
+				AcessoWebConfig acesso = new AcessoWebConfig(http);
+				acesso.aplicar();
+				
 				/* Nega o acesso via /application/../pagina.jsf */
 //				.antMatchers("/application/**").denyAll()
-				.anyRequest().denyAll()
+			http.authorizeRequests()			
+			    .anyRequest().denyAll()
 				.and()
 			.formLogin()
 				.loginPage("/login").permitAll()
