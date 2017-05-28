@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:my="http://myown/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<meta http-equiv="Cache-Control"
+		content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="_csrf" content="#{_csrf.token}" />
+
+	<!-- Bootstrap -->
+	<h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet library="bootstrap"
+		name="css/bootstrap-responsive.css"></h:outputStylesheet>
+
+
+	<title><ui:insert name="titulo">#{initParam['Sistema.NOME']}</ui:insert></title>
+
+		<script>
+			//<![CDATA[
+			$(document).on("pfAjaxComplete", function(event, xhr, options) {
+			   	if(xhr && xhr.status == '403'){
+				   	alert("Sessão expirada. Você será redirecionado para a tela de login.");
+			   		window.location = '#{request.contextPath}/';
+				}
+			});		
+
+			function openPopup(url){
+				window.open("#{request.contextPath}" + url,'popup','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=580,height=400');
+			}
+			//]]>
+	    </script>
+</h:head>
+<h:body>
+
+	<p:messages id="messages" autoUpdate="true" closable="true" />
+	<p:panel id="areaAplicacao">
+		<ui:insert name="aplicacao"></ui:insert>
+		<h:button value="Fechar"  onclick="self.close();return false" styleClass="btn btn-secondary"/>
+	</p:panel>
+	
+	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;" widgetVar="status">
+			<f:facet name="default">
+				<h:outputText value="Status: StandBy" />
+			</f:facet>
+
+			<f:facet name="start">
+				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="Status: Completed" />				
+			</f:facet>
+
+			<f:facet name="error">
+				<h:outputText value="Erro" />
+			</f:facet>
+		</p:ajaxStatus>
+	<ui:debug hotkey="k" rendered="true" />
+
+	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
+</h:body>
+
+</html>

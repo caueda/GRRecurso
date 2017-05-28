@@ -32,6 +32,10 @@
 			   		window.location = '#{request.contextPath}/';
 				}
 			});		
+
+			function openPopup(url){
+				window.open("#{request.contextPath}" + url,'popup','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=580,height=400');
+			}
 			//]]>
 	    </script>
 	    
@@ -114,7 +118,7 @@
 	</p:panel>
 	
 	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;"
-			widgetVar="status" onerror="handleAjaxRequest(xhr, status, args);">
+			widgetVar="status">
 			<f:facet name="default">
 				<h:outputText value="Status: StandBy" />
 			</f:facet>

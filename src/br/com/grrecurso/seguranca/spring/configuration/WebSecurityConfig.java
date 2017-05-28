@@ -107,7 +107,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/javax.faces.resource/**").permitAll()
 				
 				.antMatchers("/loginFailed").permitAll()
-				.antMatchers("/loopback").permitAll()
 				.antMatchers("/permissionDenied.jsf").authenticated()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()

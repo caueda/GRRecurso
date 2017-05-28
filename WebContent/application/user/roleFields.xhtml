@@ -6,14 +6,19 @@
   xmlns:p="http://primefaces.org/ui" 
   xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:comp="http://grrecurso.com.br/comp">				
-		<p:panel id="panelRole" header="Role">	
+		<p:panel id="panelRole" header="Manter Role">	
 			
 			<comp:inputText id="nomeRole" label="Papel" value="#{roleAction.role.nome}" required="true" requiredMessage="O papel é obrigatório." placeholder="Nome do papel..."/>
 			<comp:inputTextarea id="descricaoRole" label="Descrição" value="#{roleAction.role.descricao}" cols="100" rows="4" required="false"/>
 			
 			<br/><br/>
 			
-			<p:dataTable value="#{roleAction.role.permissoes}" var="permissao" emptyMessage="Role sem permissões">
+			<p:remoteCommand name="updatePermissoes" actionListener="#{roleAction.updatePermissoes()}" 
+				update="idPermissoes" immediate="true"/>			
+			
+			<p:button value="Incluir" onclick="openPopup('/app/usuario/role/criteria/popup');return false"/>
+			
+			<p:dataTable value="#{roleAction.role.permissoes}" var="permissao" emptyMessage="Role sem permissões" id="idPermissoes">
 				<f:facet name="header">
 					<h:outputText value="Lista de Permissões"/>
 				</f:facet>

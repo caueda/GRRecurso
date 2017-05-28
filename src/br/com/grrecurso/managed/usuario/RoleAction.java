@@ -1,21 +1,28 @@
 package br.com.grrecurso.managed.usuario;
 
+import java.util.HashSet;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import javax.faces.view.ViewScoped;
-
+import com.ocpsoft.pretty.faces.annotation.URLAction;
+import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.grrecurso.core.managed.AbstractManagedBean;
+import br.com.grrecurso.entities.usuario.Permissao;
 import br.com.grrecurso.entities.usuario.Role;
+import br.com.grrecurso.service.login.PermissaoService;
 import br.com.grrecurso.service.login.RoleService;
 
 @Named
 @ViewScoped
+@URLBeanName("roleAction")
 @URLMappings( mappings= {
 		@URLMapping(id="newRole", pattern="/app/usuario/role/#{tipoOperacao : roleAction.tipoOperacao}", viewId="/application/user/role.jsf"),
 		@URLMapping(id="editRole", pattern="/app/usuario/role/#{tipoOperacao : roleAction.tipoOperacao}/id/#{idRole : roleAction.idRole}", 
@@ -32,9 +39,28 @@ public class RoleAction extends AbstractManagedBean {
 	@EJB
 	private RoleService roleService;
 	
+	@EJB
+	private PermissaoService permissaoService;
+	
 	@PostConstruct
 	public void init() {
 		logger.info("[RoleAction.init] " + this.toString());
+	}
+	
+	public void updatePermissoes(){
+		String idPermissao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idPermissao");
+		if(idPermissao != null && !idPermissao.isEmpty()){
+			Permissao p = permissaoService.loadById(Long.valueOf(idPermissao));
+			if(role == null){
+				role = new Role();
+			}
+			if(role.getPermissoes() == null){
+				role.setPermissoes(new HashSet<Permissao>());
+			}
+			if(p != null){
+				role.getPermissoes().add(p);
+			}
+		}
 	}
 	
 	@PreDestroy
@@ -42,6 +68,7 @@ public class RoleAction extends AbstractManagedBean {
 		logger.info("[RoleAction.destroy] " + this.toString());
 	}
 	
+	@URLAction(mappingId="editRole", onPostback=false)
 	public void exibirEdicao(){
 		if(!isIncluir() && getIdRole() != null) {
 			setTipoOperacao(ALTERAR);
