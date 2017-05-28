@@ -42,30 +42,12 @@
 <h:body>
 
 	<p:messages id="messages" autoUpdate="true" closable="true" />
+	
 	<p:panel id="areaAplicacao">
 		<ui:insert name="aplicacao"></ui:insert>
 		<h:button value="Fechar"  onclick="self.close();return false" styleClass="btn btn-secondary"/>
 	</p:panel>
 	
-	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;" widgetVar="status">
-			<f:facet name="default">
-				<h:outputText value="Status: StandBy" />
-			</f:facet>
-
-			<f:facet name="start">
-				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
-			</f:facet>
-
-			<f:facet name="complete">
-				<h:outputText value="Status: Completed" />				
-			</f:facet>
-
-			<f:facet name="error">
-				<h:outputText value="Erro" />
-			</f:facet>
-		</p:ajaxStatus>
-	<ui:debug hotkey="k" rendered="true" />
-
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"></h:outputScript>
 </h:body>
 

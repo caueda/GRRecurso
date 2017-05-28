@@ -17,6 +17,6 @@ public class AcessoWebConfig implements Serializable {
 	
 	public void aplicar() throws Exception{
 		http.authorizeRequests().antMatchers("/app/usuario/role/**").hasAuthority("ROLE_ADMIN");
-		http.authorizeRequests().antMatchers("/app/permissao/criteria/**").hasAuthority("ROLE_ADMIN");
+//		http.authorizeRequests().antMatchers("/app/permissao/criteria/**").hasAuthority("ROLE_ADMIN");
 	}
 }

@@ -108,6 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/permissionDenied.jsf").authenticated()
+				.antMatchers("/permissionDeniedPopup.jsf").authenticated()
 				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/public/**").permitAll()
 				.antMatchers("/home.jsf").authenticated();
