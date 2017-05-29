@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")
 	})
 @TituloPesquisa
-@ConfiguracaoPesquisa(rowsPerPageTemplate="5,10")
+@ConfiguracaoPesquisa(rowsPerPageTemplate="5")
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class Role extends BaseEntity implements IRole {	

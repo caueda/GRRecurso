@@ -105,7 +105,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity){
+	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
 		List<T> result = null;
 		
 		Criteria criteria = getSession().createCriteria(clazzEntity);
@@ -151,7 +151,11 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 			}
 		}
 		
+		criteria.setFirstResult(initStep);
+		criteria.setMaxResults(sizeStep);
+		
 		result = criteria.list();
+		
 		return result;
 	}
 }

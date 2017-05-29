@@ -61,6 +61,9 @@ public class SearchEngine extends AbstractManagedBean {
 	@EJB
 	private GenericService genericService;
 	
+	private Integer initStep = new Integer(0);
+	private Integer sizeStep = new Integer(3);
+	
 	private String tituloPesquisa="Pesquisa de ";
 	private String tituloResultado = "Resultado da pesquisa";
 	private String entidade = "Genérica";
@@ -87,6 +90,22 @@ public class SearchEngine extends AbstractManagedBean {
 		super();
 	}
 	
+	public Integer getInitStep() {
+		return initStep;
+	}
+	
+	public void setInitStep(Integer initStep) {
+		this.initStep = initStep;
+	}
+	
+	public Integer getSizeStep() {
+		return sizeStep;
+	}
+	
+	public void setSizeStep(Integer sizeStep) {
+		this.sizeStep = sizeStep;
+	}
+	
 	@PostConstruct
 	public void initBuild(){
 		preInit();
@@ -106,7 +125,7 @@ public class SearchEngine extends AbstractManagedBean {
 			if(clazzEntity.isAnnotationPresent(ConfiguracaoPesquisa.class)) {
 				ConfiguracaoPesquisa config = (ConfiguracaoPesquisa) clazzEntity.getAnnotation(ConfiguracaoPesquisa.class);
 				if(!config.rowsPerPageTemplate().isEmpty()) {
-					rowsPerPageTemplate = config.rowsPerPageTemplate();
+					setSizeStep(Integer.valueOf(config.rowsPerPageTemplate()));
 				}
 				if(!config.varAttr().isEmpty()) {
 					varAttr = config.varAttr();
@@ -134,9 +153,9 @@ public class SearchEngine extends AbstractManagedBean {
 		dataTable.setEmptyMessage("Nenhum resultado.");
 		dataTable.setValue(listaResultados);
 		dataTable.setVar(varAttr);
-		dataTable.setPaginator(true);
-		dataTable.setPaginatorPosition("bottom");
-		dataTable.setPaginatorTemplate("{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
+//		dataTable.setPaginator(true);
+//		dataTable.setPaginatorPosition("bottom");
+//		dataTable.setPaginatorTemplate("{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
 		dataTable.setRowsPerPageTemplate(rowsPerPageTemplate);
 		
 		Collections.sort(columnsLabelsGrid);
@@ -193,7 +212,6 @@ public class SearchEngine extends AbstractManagedBean {
 		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		Set<Map.Entry<?,?>> entries = (Set<Map.Entry<?,?>>)requestParameters.entrySet();
 		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
-		
 		for(String campo : filtros){
 			if(requestParameters.containsKey(EvalExpression.getIdCampo(campo))){
 				String value = (String)requestParameters.get(EvalExpression.getIdCampo(campo));
@@ -208,9 +226,12 @@ public class SearchEngine extends AbstractManagedBean {
 			}
 		}
 		
-		setListaResultados(genericService.list(filter, getClazzEntity()));
+		setListaResultados(genericService.list(filter, getClazzEntity(), Integer.valueOf(initStep), Integer.valueOf(sizeStep)));
+		
+		
 		
 		if(!listaResultados.isEmpty()){
+			initStep += listaResultados.size();
 		}
 		
 		return "";

@@ -9,6 +9,8 @@
 <ui:composition template="/WEB-INF/template/aplicacaoTemplate.xhtml">
 	<ui:define name="aplicacao">
 		<h:form id="formApp" styleClass="form-horizontal" prependId="false">
+			<h:inputHidden id="initStep" value="#{roleConsultaAction.initStep}" />
+			<h:inputHidden id="sizeStep" value="#{roleConsultaAction.sizeStep}"/>
 			<p:panel id="panelRole" binding="#{roleConsultaAction.mainPanel}">
 				<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
 				<p:dataTable binding="#{roleConsultaAction.dataTable}">
