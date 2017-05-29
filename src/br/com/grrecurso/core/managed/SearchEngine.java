@@ -125,6 +125,7 @@ public class SearchEngine extends AbstractManagedBean {
 	/**
 	 * Método utilizado para construir a tabela com o resultado da pesquisa.
 	 */
+	@SuppressWarnings("el-syntax")
 	private void buildDataTable(){
 		dataTable = new DataTable();
 		UIOutput header = new UIOutput();
@@ -368,7 +369,7 @@ public class SearchEngine extends AbstractManagedBean {
 					selectOneMenuOpcoes.setRequiredMessage("O " + campo + " deve ser informado.");
 					
 					listaComponentes.add(selectOneMenuOpcoes);					
-					listaComponentes.add(getMessage(campo));
+					listaComponentes.add(getMessage(EvalExpression.getIdCampo(campo)));
 					
 				UIOutput endTag = new UIOutput();
 				endTag.setValue("</div>");

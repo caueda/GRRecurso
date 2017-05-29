@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.ReturningWork;
 
 import br.com.grrecurso.core.managed.CriteriaBean;
@@ -96,7 +96,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 	private boolean isIComboSelect(Class<?> clazz){
 		Class<?>[] interfaces = clazz.getInterfaces();
 		for(Class<?> i : interfaces){
-			if(i.getClass().getName().equals(IComboSelect.class.getName())){
+			if(i.getName().equals(IComboSelect.class.getName())){
 				return true;
 			}
 		}
@@ -107,29 +107,51 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity){
 		List<T> result = null;
-		int cont = 0;
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		StringBuilder hql = new StringBuilder();
-		hql.append("SELECT vo FROM " + clazzEntity.getName() + " vo WHERE 1=1 ");
+		
+		Criteria criteria = getSession().createCriteria(clazzEntity);
+		
 		for(Map.Entry<String, CriteriaBean> entry : filter.entrySet()){
 			CriteriaBean bean = entry.getValue();
 			if(bean.getClazz() == null){
-				hql.append(" and lower(vo." + entry.getKey() + ")" + bean.getOperacao().replace(":value", bean.getSingleValue().toString()));
+				if(bean.getOperacao().startsWith("TEXT_")){
+					switch(bean.getOperacao()){
+						case "TEXT_START_WITH" :
+							criteria.add(Restrictions.ilike(entry.getKey(), bean.getSingleValue(), MatchMode.START));
+							break;
+						case "TEXT_ENDS_WITH":
+							criteria.add(Restrictions.ilike(entry.getKey(), bean.getSingleValue(), MatchMode.END));
+							break;
+						case "TEXT_IGUAL":
+							criteria.add(Restrictions.ilike(entry.getKey(), bean.getSingleValue(), MatchMode.EXACT));
+							break;
+					}
+				} else if(bean.getOperacao().startsWith("NUMBER_")){
+					//TODO
+				} else if(bean.getOperacao().startsWith("DATE_")){
+					
+				}
 			} else if(bean.getClazz().isEnum()) {
-				String parameterName = entry.getKey() + "" + ++cont;
-				hql.append(" and vo." + entry.getKey() + bean.getOperacao().replace(":value", ":" + parameterName));
 				Class<Enum> enumerator = (Class<Enum>) bean.getClazz();
-				Enum value = Enum.valueOf(enumerator, bean.getSingleValue().toString());
-				parameters.put(parameterName, value);
+				if(bean.getOperacao().startsWith("SELECT_")){
+					switch(bean.getOperacao()){
+						case "SELECT_IGUAL" :
+							criteria.add(Restrictions.eq(entry.getKey(), Enum.valueOf(enumerator, bean.getSingleValue().toString())));
+							break;						
+					}
+				} 
 			} else if(isIComboSelect(bean.getClazz())){
-				//TODO
+				if(bean.getOperacao().startsWith("SELECT_")){
+					
+					switch(bean.getOperacao()){
+						case "SELECT_IGUAL" :
+							criteria.add(Restrictions.eq(entry.getKey(), getSession().load(bean.getClazz(), Long.valueOf(bean.getSingleValue()))));
+							break;						
+					}
+				} 
 			}
 		}
-		Query query = getSession().createQuery(hql.toString());
-		for(Entry<String, Object> entry : parameters.entrySet()){
-			query.setParameter(entry.getKey(), entry.getValue());
-		}
-		result = query.list();
+		
+		result = criteria.list();
 		return result;
 	}
 }

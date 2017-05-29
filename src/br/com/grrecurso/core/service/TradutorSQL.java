@@ -16,27 +16,10 @@ public class TradutorSQL implements Serializable, Traduzivel {
 		String traducao=null;
 		if(operacao.startsWith("TEXT")){
 			FieldTextOperations e = Enum.valueOf(FieldTextOperations.class, operacao);
-			switch(e){
-				case TEXT_CONTAINS:
-					traducao = " LIKE LOWER('%:value%')";
-					break;
-				case TEXT_ENDS_WITH:
-					traducao = " LIKE LOWER('%:value')";
-					break;
-				case TEXT_START_WITH:
-					traducao = " LIKE LOWER(':value%')";
-					break;
-				case TEXT_IGUAL:
-					traducao = " = LOWER(':value')";
-					break;
-			}
+			traducao = e.toString();
 		} else if(operacao.startsWith("SELECT")){
 			FieldComboSelectOperations e = Enum.valueOf(FieldComboSelectOperations.class, operacao);
-			switch(e){
-				case SELECT_IGUAL:
-					traducao = " = :value ";
-					break;
-			}
+			traducao = e.toString();
 		}
 		return traducao;
 	}
