@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.ReturningWork;
 
@@ -103,11 +104,8 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		return false;
 	}
 	
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
-		List<T> result = null;
-		
+	private <T> Criteria getCriteria(Map<String, CriteriaBean> filter, Class<T> clazzEntity){
 		Criteria criteria = getSession().createCriteria(clazzEntity);
 		
 		for(Map.Entry<String, CriteriaBean> entry : filter.entrySet()){
@@ -150,11 +148,32 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 				} 
 			}
 		}
+		return criteria;
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public <T> List<T> list(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
+		List<T> result = null;
+		
+		Criteria criteria = getCriteria(filter, clazzEntity);
 		
 		criteria.setFirstResult(initStep);
 		criteria.setMaxResults(sizeStep);
 		
 		result = criteria.list();
+		
+		return result;
+	}
+	
+	public <T> Long count(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
+		Long result = null;
+		
+		Criteria criteria = getCriteria(filter, clazzEntity);
+		
+		criteria.setFirstResult(initStep);
+		criteria.setMaxResults(sizeStep);
+		
+		result = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 		
 		return result;
 	}

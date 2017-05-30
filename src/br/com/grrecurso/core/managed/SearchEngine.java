@@ -63,6 +63,7 @@ public class SearchEngine extends AbstractManagedBean {
 	
 	private Integer initStep = new Integer(0);
 	private Integer sizeStep = new Integer(3);
+	private Integer rowCount = new Integer(0);
 	
 	private String tituloPesquisa="Pesquisa de ";
 	private String tituloResultado = "Resultado da pesquisa";
@@ -180,15 +181,32 @@ public class SearchEngine extends AbstractManagedBean {
 				mainPanel.getChildren().add(comp);				
 			}
 			HtmlCommandButton buttonSearch = new HtmlCommandButton();
-			buttonSearch.setValue("Pesquisar");
-			buttonSearch.setStyleClass("btn btn-primary");
+				buttonSearch.setValue("Pesquisar");
+				buttonSearch.setStyleClass("btn btn-primary");
+			HtmlCommandButton buttonPrev = new HtmlCommandButton();
+				buttonPrev.setValue("Anterior");
+				buttonPrev.setStyleClass("btn btn-secondary");
+			HtmlCommandButton buttonNext = new HtmlCommandButton();
+				buttonNext.setValue("Próximo");
+				buttonNext.setStyleClass("btn btn-secondary");
+				
 			String actionClassName = this.getClass().getSimpleName();
 			actionClassName = actionClassName.substring(0,1).toLowerCase() + actionClassName.substring(1);
+			
+			buttonPrev.setActionExpression(createMethodExpression("#{" + actionClassName + ".pesquisarPrev}"));
+			
 			buttonSearch.setActionExpression(createMethodExpression("#{" + actionClassName + ".pesquisar}"));
+			
+			buttonNext.setActionExpression(createMethodExpression("#{" + actionClassName + ".pesquisarNext}"));
+			
 			UIOutput br = new UIOutput();
 			br.setValue("<br/>");
 			mainPanel.getChildren().add(br);
+			buttonPrev.setDisabled(initStep == 0);
+			mainPanel.getChildren().add(buttonPrev);
 			mainPanel.getChildren().add(buttonSearch);
+			mainPanel.getChildren().add(buttonNext);
+			buttonNext.setDisabled((initStep >= rowCount));
 			buildDataTable();
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
@@ -207,11 +225,11 @@ public class SearchEngine extends AbstractManagedBean {
 		this.listaResultados = listaResultados;
 	}
 
-	public String pesquisar(){
-		@SuppressWarnings({ "rawtypes"})		
-		Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		Set<Map.Entry<?,?>> entries = (Set<Map.Entry<?,?>>)requestParameters.entrySet();
+	private Map<String, CriteriaBean> getFilter(){
+		Map<String, String> requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
 		Map<String, CriteriaBean> filter = new HashMap<String, CriteriaBean>();
+		
 		for(String campo : filtros){
 			if(requestParameters.containsKey(EvalExpression.getIdCampo(campo))){
 				String value = (String)requestParameters.get(EvalExpression.getIdCampo(campo));
@@ -226,9 +244,16 @@ public class SearchEngine extends AbstractManagedBean {
 			}
 		}
 		
-		setListaResultados(genericService.list(filter, getClazzEntity(), Integer.valueOf(initStep), Integer.valueOf(sizeStep)));
+		return filter;
+	}
+	
+	public String pesquisar(){
 		
+		Map<String, CriteriaBean> filter = getFilter();
 		
+		initStep = 0;
+		rowCount = genericService.count(filter, getClazzEntity(), initStep, sizeStep).intValue();
+		setListaResultados(genericService.list(filter, getClazzEntity(), initStep, sizeStep));
 		
 		if(!listaResultados.isEmpty()){
 			initStep += listaResultados.size();
@@ -236,6 +261,46 @@ public class SearchEngine extends AbstractManagedBean {
 		
 		return "";
 	}
+	
+	public String pesquisarPrev(){
+		
+		Map<String, CriteriaBean> filter = getFilter();
+		
+		if(getInitStep().intValue() < getSizeStep().intValue()){
+			setInitStep(0);
+		} else {
+			setInitStep(this.initStep.intValue() - this.sizeStep.intValue());
+		}
+		setListaResultados(genericService.list(filter, getClazzEntity(), initStep, sizeStep));
+		
+		if(!listaResultados.isEmpty()){
+			initStep += listaResultados.size();
+		}
+		
+		return "";
+	}
+
+	public String pesquisarNext(){
+		
+		Map<String, CriteriaBean> filter = getFilter();
+		
+		rowCount = genericService.count(filter, getClazzEntity(), initStep, sizeStep);
+		
+		if((getInitStep().intValue() + getSizeStep().intValue()) < rowCount){
+			setInitStep(this.initStep.intValue() + this.sizeStep.intValue());
+		} else {
+			setInitStep(rowCount);
+		}
+		
+		setListaResultados(genericService.list(filter, getClazzEntity(), initStep, sizeStep));
+		
+		if(!listaResultados.isEmpty()){
+			initStep += listaResultados.size();
+		}
+		
+		return "";
+	}
+	
 
 	public DataTable getDataTable() {
 		return dataTable;
@@ -441,7 +506,7 @@ public class SearchEngine extends AbstractManagedBean {
 
 		return methodExpression;
 	}
-
+	
 	private ValueExpression createValueExpression(String binding, Class clazz) {
 		final ValueExpression ve = getExpressionFactory().createValueExpression(getELContext(), binding, clazz);
 		return ve;
