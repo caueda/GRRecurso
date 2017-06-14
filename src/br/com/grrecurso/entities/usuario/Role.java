@@ -18,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
@@ -34,7 +33,6 @@ import lombok.EqualsAndHashCode;
 
 
 @Entity
-@Audited
 @Table(name="role")
 @NamedQueries({@NamedQuery(name="Role.listAll", query="select r from Role r"),
 			   @NamedQuery(name="Role.loadById", query="select r from Role r where r.id = :idRole")

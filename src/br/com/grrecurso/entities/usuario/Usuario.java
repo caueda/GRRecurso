@@ -27,15 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 import org.hibernate.validator.constraints.Email;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 
 @Entity
-@Audited
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name="Usuario.findByEmailSenha", query="select u from Usuario u where u.email = :email and u.senha = :senha"),
@@ -121,7 +118,6 @@ public class Usuario implements Serializable {
 		this.sexo = sexo;
 	}
 
-	@NotAudited
 	@Column(name="senha", length=400)
 	public String getSenha() {
 		return senha;
@@ -131,7 +127,6 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 	
-	@NotAudited
 	@Column(name="data_login")	
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDataLogin() {

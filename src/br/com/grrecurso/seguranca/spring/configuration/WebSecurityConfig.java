@@ -110,7 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/permissionDenied.jsf").authenticated()
 				.antMatchers("/permissionDeniedPopup.jsf").authenticated()
 				.antMatchers("/maxSession").permitAll()
-				.antMatchers("/public/**").permitAll()
+				.antMatchers("/public/**").anonymous()
 				.antMatchers("/home.jsf").authenticated();
 		
 				AcessoWebConfig acesso = new AcessoWebConfig(http);

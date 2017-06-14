@@ -13,11 +13,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
 
 
 @Entity
-@Audited
 @Table(name="endereco")
 @NamedQueries({@NamedQuery(name="Endereco.listAll", query="select e from Endereco e"),
 			   @NamedQuery(name="Endereco.loadById", query="select e from Endereco e where e.idEndereco = :idEndereco")

@@ -165,7 +165,7 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		return result;
 	}
 	
-	public <T> Long count(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
+	public <T> Integer count(Map<String, CriteriaBean> filter, Class<T> clazzEntity, Integer initStep, Integer sizeStep){
 		Long result = null;
 		
 		Criteria criteria = getCriteria(filter, clazzEntity);
@@ -175,6 +175,6 @@ public class GenericService extends AbstractService<GenericEntity, Long> {
 		
 		result = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 		
-		return result;
+		return result.intValue();
 	}
 }

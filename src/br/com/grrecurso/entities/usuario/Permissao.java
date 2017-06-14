@@ -10,7 +10,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
 
 import br.com.grrecurso.core.persistence.BaseEntity;
 import br.com.grrecurso.core.search.FieldTextOperations;
@@ -25,7 +24,6 @@ import lombok.EqualsAndHashCode;
 
 
 @Entity
-@Audited
 @Table(name="permissao")
 @NamedQueries({@NamedQuery(name="Permissao.listAll", query="select r from Permissao r"),
 			   @NamedQuery(name="Permissao.loadById", query="select r from Permissao r where r.id = :idPermissao")

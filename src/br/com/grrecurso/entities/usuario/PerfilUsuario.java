@@ -21,13 +21,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.envers.Audited;
 
 import br.com.grrecurso.dominio.DominioAtivoInativo;
 
 @Entity
 @Table(name="perfil_usuario")
-@Audited
 @NamedQueries({
 	@NamedQuery(name="PerfilUsuario.listAll", query="select vo from PerfilUsuario vo order by vo.nome "),
 	@NamedQuery(name="PerfilUsuario.loadById",query="select vo from PerfilUsuario vo where vo.idPerfilUsuario = :idPerfilUsuario")
