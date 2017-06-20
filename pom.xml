@@ -9,8 +9,8 @@
 	<description>GRRecurso</description>
 
 	<properties>
-		<springframework.version>4.1.6.RELEASE</springframework.version>
-		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
+		<springframework.version>4.3.9.RELEASE</springframework.version>
+		<springsecurity.version>5.0.0.M2</springsecurity.version>
 		<weld.version>2.0.3.Final</weld.version>
 		<juel.version>2.2.6</juel.version>
 	</properties>
@@ -150,6 +150,12 @@
 
 		<!-- Spring -->
 		<dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-context</artifactId>
+	        <version>${springframework.version}</version>
+    	</dependency>
+		
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${springframework.version}</version>
@@ -168,12 +174,8 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>4.0.1.RELEASE</version>
-		</dependency>
-		-->
+			<dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-taglibs</artifactId> 
+			<version>4.0.1.RELEASE</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -183,13 +185,13 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>4.1.0.RELEASE</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>4.1.0.RELEASE</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
 
 		<dependency>
@@ -205,7 +207,16 @@
 		</dependency>
 
 	</dependencies>
-
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -216,6 +227,7 @@
 				</excludes>
 			</resource>
 		</resources>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>

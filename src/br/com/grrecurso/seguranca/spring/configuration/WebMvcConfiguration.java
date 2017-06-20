@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -32,6 +33,11 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 	
+    @Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**");
+	}
+    
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

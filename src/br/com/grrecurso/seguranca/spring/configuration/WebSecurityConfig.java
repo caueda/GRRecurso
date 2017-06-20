@@ -1,5 +1,7 @@
 package br.com.grrecurso.seguranca.spring.configuration;
 
+import java.util.Arrays;
+
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -16,6 +18,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.grrecurso.seguranca.spring.CustomAuthenticationEntryPointHandler;
 import br.com.grrecurso.seguranca.spring.handlers.AccessDeniedHandlerImpl;
@@ -101,8 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				
+		http.cors().and()
+				.authorizeRequests()				
 				.antMatchers("/resources/**").permitAll()
 				.antMatchers("/javax.faces.resource/**").permitAll()
 				
@@ -110,7 +115,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/permissionDenied.jsf").authenticated()
 				.antMatchers("/permissionDeniedPopup.jsf").authenticated()
 				.antMatchers("/maxSession").permitAll()
-				.antMatchers("/public/**").anonymous()
+				.antMatchers("/public/api/**").permitAll()
 				.antMatchers("/home.jsf").authenticated();
 		
 				AcessoWebConfig acesso = new AcessoWebConfig(http);
@@ -126,7 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email").passwordParameter("senha")				
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
-				//.and().csrf().ignoringAntMatchers("/public/api/**")
+				.and().csrf().ignoringAntMatchers("/public/api/**")
 				.and()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
@@ -137,7 +142,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout().deleteCookies("JSESSIONID");
 	}
 
-
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();		
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));		
+		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**")
