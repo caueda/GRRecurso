@@ -10,7 +10,7 @@
 
 	<properties>
 		<springframework.version>4.3.9.RELEASE</springframework.version>
-		<springsecurity.version>5.0.0.M2</springsecurity.version>
+		<springsecurity.version>4.2.3.RELEASE</springsecurity.version>
 		<weld.version>2.0.3.Final</weld.version>
 		<juel.version>2.2.6</juel.version>
 	</properties>
