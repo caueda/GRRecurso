@@ -1,5 +1,7 @@
 package br.com.grrecurso.producer;
 
+import java.security.Principal;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 
@@ -23,7 +25,12 @@ public class GRRecursoProducer {
 		GRRecursoUser user = null;
 		
 		if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null) {
-			user = (GRRecursoUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			
+			if(principal instanceof String) return user;
+			
+			if(principal instanceof GRRecursoUser)
+				user = (GRRecursoUser) principal;
 		}
 		
 		return user;

@@ -100,7 +100,7 @@
 					update="#{p:component('areaAplicacao')}" />
 			</p:submenu>
 			<p:submenu label="Sistema">
-				<p:menuitem value="Logout" url="/logout" icon="ui-icon-power"
+				<p:menuitem value="Logout" url="http://localhost:8180/auth/realms/MTI/protocol/openid-connect/logout?redirect_uri=http://localhost:8080/GRRecurso" icon="ui-icon-power"
 					update="#{p:component('areaAplicacao')}" />
 			</p:submenu>
 			<f:facet name="options">

@@ -1,0 +1,7 @@
+{
+  "realm": "MTI",
+  "auth-server-url": "http://localhost:8180/auth",
+  "ssl-required": "none",
+  "resource": "grrecurso",
+  "public-client": true
+}

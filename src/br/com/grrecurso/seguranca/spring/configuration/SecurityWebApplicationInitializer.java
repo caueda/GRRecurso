@@ -11,21 +11,21 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author 
  *
  */
-public class SecurityWebApplicationInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SecurityWebApplicationInitializer /*  extends AbstractAnnotationConfigDispatcherServletInitializer */ {
  
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { WebSecurityConfig.class, WebMvcConfiguration.class };
-    }
-  
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return null;
-    }
-  
-    @Override
-    protected String[] getServletMappings() {
-        return new String[] { "/" };
-    }
+//    @Override
+//    protected Class<?>[] getRootConfigClasses() {
+//        return new Class[] { WebSecurityConfig.class};
+//    }
+//  
+//    @Override
+//    protected Class<?>[] getServletConfigClasses() {
+//        return null;
+//    }
+//  
+//    @Override
+//    protected String[] getServletMappings() {
+//        return new String[] { "/" };
+//    }
  
 }
