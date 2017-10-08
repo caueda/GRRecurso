@@ -67,10 +67,11 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 				   .append(" set data_login=? ")
 				   .append(" where id_usuario=? ")
 				;
-				PreparedStatement ps = conn.prepareStatement(sql.toString());
-				ps.setTimestamp(1,  null);				
-				ps.setLong(2, entity.getIdUsuario());
-				ps.executeUpdate();
+				try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {					
+					ps.setTimestamp(1,  null);				
+					ps.setLong(2, entity.getIdUsuario());
+					ps.executeUpdate();
+				}
 			}
 			
 		});
@@ -89,10 +90,11 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 				   .append(" set data_login=? ")
 				   .append(" where id_usuario=? ")
 				;
-				PreparedStatement ps = conn.prepareStatement(sql.toString());
-				ps.setTimestamp(1,  new Timestamp(new Date().getTime()));				
-				ps.setLong(2, entity.getIdUsuario());
-				ps.executeUpdate();
+				try (PreparedStatement ps = conn.prepareStatement(sql.toString())){
+					ps.setTimestamp(1,  new Timestamp(new Date().getTime()));				
+					ps.setLong(2, entity.getIdUsuario());
+					ps.executeUpdate();
+				}
 			}
 			
 		});
@@ -122,6 +124,7 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 		   .append(" where vo.email = :email ");
 		
 		Query query = getSession().createQuery(hql.toString());
+		
 		query.setParameter("email", email);
 		
 		query.list();

@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -109,13 +110,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and()
 				.authorizeRequests()				
 				.antMatchers("/resources/**").permitAll()
-				.antMatchers("/javax.faces.resource/**").permitAll()
-				
+				.antMatchers("/javax.faces.resource/**").permitAll()				
 				.antMatchers("/loginFailed").permitAll()
 				.antMatchers("/permissionDenied.jsf").authenticated()
 				.antMatchers("/permissionDeniedPopup.jsf").authenticated()
-				.antMatchers("/maxSession").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/public/api").permitAll()				
 				.antMatchers("/public/api/**").permitAll()
+				.antMatchers("/maxSession").permitAll()
 				.antMatchers("/home.jsf").authenticated();
 		
 				AcessoWebConfig acesso = new AcessoWebConfig(http);
@@ -124,7 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/* Nega o acesso via /application/../pagina.jsf */
 //				.antMatchers("/application/**").denyAll()
 			http.authorizeRequests()			
-			    .anyRequest().denyAll()
+			    .anyRequest().authenticated()
 				.and()
 			.formLogin()
 				.loginPage("/login").permitAll()
@@ -145,8 +146,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();		
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));		
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		configuration.addAllowedOrigin("*");		
+		configuration.setAllowedMethods(Arrays.asList("HEAD","GET","POST","PUT","DELETE","PATCH"));
+		configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
@@ -155,6 +157,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**")
+		.antMatchers(HttpMethod.OPTIONS, "/**")
 		.antMatchers("/javax.faces.resource/**");
 		super.configure(web);
 	}
