@@ -78,6 +78,26 @@ public class UsuarioService extends AbstractService<Usuario, Long> implements Us
 	}
 	
 	@IgnorarPermissoes
+	public void updateAllDataLoginNULL() {
+		getSession().doWork(new Work() {
+
+			@Override
+			public void execute(Connection conn) throws SQLException {
+				StringBuilder sql = new StringBuilder();
+				sql.append("update ")
+				   .append(" Usuario ")
+				   .append(" set data_login=? ")
+				;
+				try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {					
+					ps.setTimestamp(1,  null);				
+					ps.executeUpdate();
+				}
+			}
+			
+		});
+	}
+	
+	@IgnorarPermissoes
 	public void updateDataLogin(Usuario entity) {
 		getSession().evict(entity);
 		getSession().doWork(new Work() {
