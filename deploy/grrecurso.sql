@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 28-Abr-2017 às 21:50
+-- Generation Time: 15-Jun-2018 às 12:32
 -- Versão do servidor: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -1000,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `permissao` (
   `action` varchar(4000) DEFAULT NULL,
   `tipo_permissao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_permissao`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Extraindo dados da tabela `permissao`
@@ -1071,20 +1071,22 @@ CREATE TABLE IF NOT EXISTS `role` (
   `nome` varchar(200) NOT NULL,
   `status` int(11) DEFAULT NULL,
   `id_usuario` bigint(20) DEFAULT NULL,
+  `id_modulo` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_role`),
-  KEY `FKk6ea4m1syechgjskwykqqftam` (`id_usuario`)
+  KEY `FKk6ea4m1syechgjskwykqqftam` (`id_usuario`),
+  KEY `FK2jngsw4gfyvlmxy6p5uvki3w1` (`id_modulo`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Extraindo dados da tabela `role`
 --
 
-INSERT INTO `role` (`id_role`, `descricao`, `nome`, `status`, `id_usuario`) VALUES
-(1, 'Básico', 'ROLE_BASE', 1, 1),
-(2, 'Consulta de Solicitação', 'ROLE_SOLICITACAO', 1, 1),
-(8, 'Deployer', 'ROLE_DEPLOYER', 1, 1),
-(9, 'Administrador', 'ROLE_ADMIN', 1, NULL),
-(10, 'Cadastro de Usuário', 'ROLE_INCLUIR_USUARIO', 1, 1);
+INSERT INTO `role` (`id_role`, `descricao`, `nome`, `status`, `id_usuario`, `id_modulo`) VALUES
+(1, 'Básico', 'ROLE_BASE', 1, 1, NULL),
+(2, 'Consulta de Solicitação', 'ROLE_SOLICITACAO', 1, 1, NULL),
+(8, 'Deployer', 'ROLE_DEPLOYER', 1, 1, NULL),
+(9, 'Administrador', 'ROLE_ADMIN', 1, NULL, NULL),
+(10, 'Cadastro de Usuário', 'ROLE_INCLUIR_USUARIO', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1224,9 +1226,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `data_login`, `email`, `nome`, `senha`, `status`, `edicao`, `sexo`, `is_desenv`) VALUES
-(1, '2017-04-28 15:47:23', 'admin@admin.com', 'Administrador', '$2a$10$WjoNCUkQWA/kfIjdn/b1keAvXgNCKuT8.YTCQbxeSRfeHCAT4Z3rm', 1, b'0', 'M', 1),
-(6, '2017-04-28 14:59:28', 'weblogic@oracle.com', 'Weblogic', '$2a$10$NjiFjw1eSPdOaNTFf9byVuzz2xoe0/idUgEfnDm2UaPDG3Pw9SLXu', 1, b'0', 'M', 1),
-(8, NULL, 'oc4j@oracle.com', 'oc4j', '$2a$10$vs6oV6wlsxmjLKsFYx6HkOCYqdJe0vMOXorzKOzvHoszazKQ8wDLS', 1, b'0', 'M', 0);
+(1, '2018-06-15 06:29:14', 'admin@admin.com', 'Administrador', '$2a$10$WjoNCUkQWA/kfIjdn/b1keAvXgNCKuT8.YTCQbxeSRfeHCAT4Z3rm', 1, b'0', 'M', 1),
+(6, NULL, 'weblogic@oracle.com', 'Weblogic', '$2a$10$NjiFjw1eSPdOaNTFf9byVuzz2xoe0/idUgEfnDm2UaPDG3Pw9SLXu', 1, b'0', 'M', 1),
+(8, NULL, 'oc4j@oracle.com.br', 'oc4j', '$2a$10$vs6oV6wlsxmjLKsFYx6HkOCYqdJe0vMOXorzKOzvHoszazKQ8wDLS', 1, b'0', 'M', 0);
 
 -- --------------------------------------------------------
 
@@ -1552,6 +1554,7 @@ ALTER TABLE `perfil_usuario_aud`
 --
 ALTER TABLE `perfil_usuario_role`
   ADD CONSTRAINT `FKeqkwli5q42gpoaao4okjqmupg` FOREIGN KEY (`id_perfil_usuario`) REFERENCES `perfil_usuario` (`id_perfil_usuario`),
+  ADD CONSTRAINT `FKg85fc7i8fds5gprn8uqqke2sl` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
   ADD CONSTRAINT `FK_p5cox1o37p8a96dhvjr3xmq5h` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`);
 
 --
@@ -1576,6 +1579,7 @@ ALTER TABLE `recurso`
 -- Limitadores para a tabela `role`
 --
 ALTER TABLE `role`
+  ADD CONSTRAINT `FK2jngsw4gfyvlmxy6p5uvki3w1` FOREIGN KEY (`id_modulo`) REFERENCES `modulo` (`id_modulo`),
   ADD CONSTRAINT `FKk6ea4m1syechgjskwykqqftam` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
@@ -1588,6 +1592,8 @@ ALTER TABLE `role_aud`
 -- Limitadores para a tabela `role_permissao`
 --
 ALTER TABLE `role_permissao`
+  ADD CONSTRAINT `FK5b5m7nw3b6daj1tvpg0glxtc9` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
+  ADD CONSTRAINT `FKqlft3esjibh4q9ctt8nyslv0f` FOREIGN KEY (`id_permissao`) REFERENCES `permissao` (`id_permissao`),
   ADD CONSTRAINT `FK_5a5mw16unmgwhas5crw7t1xhf` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
   ADD CONSTRAINT `FK_fjg8sh1kvbangxv67026opq66` FOREIGN KEY (`id_permissao`) REFERENCES `permissao` (`id_permissao`);
 

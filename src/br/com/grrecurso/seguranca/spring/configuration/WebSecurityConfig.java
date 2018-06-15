@@ -112,7 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**").permitAll()
 				.antMatchers("/javax.faces.resource/**").permitAll()				
 				.antMatchers("/loginFailed").permitAll()
-				.antMatchers("/permissionDenied.jsf").authenticated()
+				.antMatchers("/permissionDenied.jsf","/angular/usuario").authenticated()
 				.antMatchers("/permissionDeniedPopup.jsf").authenticated()
 				.antMatchers(HttpMethod.OPTIONS, "/public/api").permitAll()				
 				.antMatchers("/public/api/**").permitAll()
@@ -156,9 +156,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**")
+		web.ignoring().antMatchers("/resources/**","/angular/**")
 		.antMatchers(HttpMethod.OPTIONS, "/**")
 		.antMatchers("/javax.faces.resource/**");
 		super.configure(web);
 	}
+	
+	
 }

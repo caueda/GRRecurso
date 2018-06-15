@@ -20,7 +20,8 @@ import br.com.grrecurso.service.login.UsuarioService;
 @SessionScoped
 @URLBeanName("homeAction")
 @URLMappings( mappings= {
-		@URLMapping(id="home", pattern="/home", viewId="/home.jsf")
+		@URLMapping(id="home", pattern="/home", viewId="/home.jsf"),
+		@URLMapping(id="homeAngular", pattern="/angular/usuario", viewId="/angular/index.jsp")
 })
 public class HomeAction extends AbstractManagedBean {	
 	
