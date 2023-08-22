@@ -1,6 +1,74 @@
-/build/
-.tern-project
-.packaging
-.xdoclet
+# Compiled class files
+*.class
 
-/target/
+# Log files
+*.log
+
+# IntelliJ IDEA
+.idea/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/private/
+build/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.mvn/timing.properties
+
+# Gradle
+build/
+out/
+
+# Mac OS
+.DS_Store
+
+# Compiled Java bytecode
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Maven #
+target/
+
+# Gradle #
+build/
+
+# IDEs #
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse #
+.settings/
+.classpath
+.project
+
+# NetBeans #
+nbproject/private/
+build/
+
+# IntelliJ IDEA #
+out/
+
+# Logs #
+*.log
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+
