@@ -51,8 +51,7 @@ public class SpringLoginConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email").passwordParameter("senha")				
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
-				.and().csrf()
-				.and()
+				.and().csrf().disable()
 			.sessionManagement()
 				.maximumSessions(1).maxSessionsPreventsLogin(false)
 				;
