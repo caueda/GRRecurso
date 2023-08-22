@@ -21,24 +21,18 @@
 		    <version>9.0.2.Final</version>
 		    <type>pom</type>
 		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.26</version>
 			<scope>provided</scope>
 		</dependency>
-
-
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
 		<dependency>
 		    <groupId>commons-beanutils</groupId>
 		    <artifactId>commons-beanutils</artifactId>
 		    <version>1.9.2</version>
 		</dependency>
-
-		
-		
 		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-spec-api -->
 		<!--  
 		<dependency>
@@ -87,28 +81,23 @@
 			<version>5.1.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.4.Final</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-envers</artifactId>
 		    <version>3.6.6.Final</version>
 		</dependency>
-
-		<!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.1.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
@@ -121,7 +110,6 @@
 			<artifactId>primefaces</artifactId>
 			<version>6.0</version>
 		</dependency>
-		
 		<!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
