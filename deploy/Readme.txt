@@ -18,6 +18,32 @@ Servidor de aplicação: Wilfly 9 ou 10.
 
 Configurar o modulo JDBC para MySQL
 
+Fazer o download do wildfly 10
+
+criar uma pasta em $WILDFLY_HOME/modules/system/layers/base/com/mysql/main
+
+Copiar o jar do driver do MySQL (deploy/mysql-connector-java-8.0.26.jar) para a pasta criada
+
+No arquivo standalone.xml,
+adicionar em <datasources>...</datasource>
+
+                <datasource jta="true" jndi-name="java:jboss/GRRecursoPool" pool-name="GRRecursoPool" enabled="true">
+                    <connection-url>jdbc:mysql://localhost:3306/grrecurso</connection-url>
+                    <driver>mysql</driver>
+                    <security>
+                        <user-name>grrecurso</user-name>
+                        <password>welcome1</password>
+                    </security>
+                </datasource>
+
+E em drivers, adicione:
+
+                    <driver name="mysql" module="com.mysql">
+                        <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
+                    </driver>
+
+Criar o arquivo deploy/module.xml na pasta criada.
+
 Configuração do pool de conexões (standalone.xml):
 
 				<datasource jndi-name="java:jboss/GRRecursoPool" pool-name="GRRecursoPool" enabled="true" use-java-context="true">
