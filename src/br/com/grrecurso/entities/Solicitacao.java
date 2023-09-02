@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.Filters;
@@ -28,6 +32,10 @@ import br.com.grrecurso.entities.usuario.Usuario;
 @Filters ({
     @Filter (name = "porModulo", condition = "id_modulo in (:idModulos)")
 })
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name="solicitacao")
 public class Solicitacao implements Serializable {
 
@@ -56,116 +64,4 @@ public class Solicitacao implements Serializable {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_modulo")
 	private Modulo modulo;
-	
-	public Solicitacao(){
-		super();
-	}
-
-	public Long getIdSolicitacao() {
-		return idSolicitacao;
-	}
-
-	public void setIdSolicitacao(Long idSolicitacao) {
-		this.idSolicitacao = idSolicitacao;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public String getChamado() {
-		return chamado;
-	}
-
-	public void setChamado(String chamado) {
-		this.chamado = chamado;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public GrupoRecurso getGrupoRecurso() {
-		return grupoRecurso;
-	}
-
-	public void setGrupoRecurso(GrupoRecurso grupoRecurso) {
-		this.grupoRecurso = grupoRecurso;
-	}
-
-	public DominioSituacaoSolicitacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(DominioSituacaoSolicitacao situacao) {
-		this.situacao = situacao;
-	}
-
-	public Modulo getModulo() {
-		return modulo;
-	}
-
-	public void setModulo(Modulo modulo) {
-		this.modulo = modulo;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((chamado == null) ? 0 : chamado.hashCode());
-		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
-		result = prime * result + ((grupoRecurso == null) ? 0 : grupoRecurso.hashCode());
-		result = prime * result + ((idSolicitacao == null) ? 0 : idSolicitacao.hashCode());
-		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Solicitacao other = (Solicitacao) obj;
-		if (chamado == null) {
-			if (other.chamado != null)
-				return false;
-		} else if (!chamado.equals(other.chamado))
-			return false;
-		if (descricao == null) {
-			if (other.descricao != null)
-				return false;
-		} else if (!descricao.equals(other.descricao))
-			return false;
-		if (grupoRecurso == null) {
-			if (other.grupoRecurso != null)
-				return false;
-		} else if (!grupoRecurso.equals(other.grupoRecurso))
-			return false;
-		if (idSolicitacao == null) {
-			if (other.idSolicitacao != null)
-				return false;
-		} else if (!idSolicitacao.equals(other.idSolicitacao))
-			return false;
-		if (situacao != other.situacao)
-			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
-		return true;
-	}
 }

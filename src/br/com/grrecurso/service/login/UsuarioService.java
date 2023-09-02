@@ -19,7 +19,7 @@ import org.primefaces.model.SortOrder;
 import br.com.grrecurso.core.service.AbstractService;
 import br.com.grrecurso.entities.usuario.Usuario;
 
-@Stateless
+@Stateless(mappedName = "java:app/GRRecurso/UsuarioService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UsuarioService extends AbstractService<Usuario, Long> implements UsuarioSvcLocal, UsuarioSvcRemote{
 

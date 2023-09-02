@@ -1,5 +1,10 @@
 package br.com.grrecurso.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -10,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name="categoria")
 public class Categoria implements Serializable {
 
@@ -17,37 +26,12 @@ public class Categoria implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 9170820345325014563L;
-	private Long idCategoria;
-	private Integer cdCategoria;
-	private String nome;
-	
-	public Categoria(){}
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_categoria")
-	public Long getIdCategoria() {
-		return idCategoria;
-	}
-
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
-	}
+	private Long idCategoria;
 	@Column(name="cd_categoria", nullable=false)
-	public Integer getCdCategoria() {
-		return cdCategoria;
-	}
-
-	public void setCdCategoria(Integer cdCategoria) {
-		this.cdCategoria = cdCategoria;
-	}
-
+	private Integer cdCategoria;
 	@Column(name="nome", length=50, nullable=false)
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	private String nome;
 }
