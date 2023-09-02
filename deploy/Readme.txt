@@ -23,6 +23,7 @@ Fazer o download do wildfly 10
 criar uma pasta em $WILDFLY_HOME/modules/system/layers/base/com/mysql/main
 
 Copiar o jar do driver do MySQL (deploy/mysql-connector-java-8.0.26.jar) para a pasta criada
+assim como o arquivo module.xml (deploy/module.xml)
 
 No arquivo standalone.xml,
 adicionar em <datasources>...</datasource>
