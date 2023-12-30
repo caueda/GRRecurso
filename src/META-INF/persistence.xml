@@ -12,7 +12,7 @@
 <!--			<property name="hibernate.hbm2ddl.auto" value="update" />-->
 
 			<!-- Envers -->
-			<property name="org.hibernate.envers.audit_table_suffix" value="_AUD"/>
+			<property name="org.hibernate.envers.audit_table_suffix" value="_aud"/>
 	</properties>
 	</persistence-unit>
 </persistence>

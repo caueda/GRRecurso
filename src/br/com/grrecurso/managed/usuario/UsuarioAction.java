@@ -3,7 +3,10 @@ package br.com.grrecurso.managed.usuario;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ocpsoft.pretty.faces.annotation.URLAction;
@@ -16,6 +19,9 @@ import br.com.grrecurso.dominio.DominioAtivoInativo;
 import br.com.grrecurso.dominio.DominioSexo;
 import br.com.grrecurso.entities.usuario.Usuario;
 import br.com.grrecurso.service.login.UsuarioSvcLocal;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Named
 @URLBeanName(value="usuarioAction")
@@ -27,6 +33,8 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 		@URLMapping(id="userpassword", pattern="/app/cpasswd", viewId="/application/user/usuarioPassword.jsf"),
 		@URLMapping(id="usermessage", pattern="/app/message/usuario", viewId="/application/msg/mensagem.jsf")
 })
+@Slf4j
+@Getter @Setter
 public class UsuarioAction extends AbstractManagedBean {	
 	/**
 	 * 
@@ -37,6 +45,9 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String novaSenha1;
 	private String novaSenha2;
 	private Long idUsuario;
+
+	@Inject
+	private Event<UsuarioEvent> usuarioEvent;
 	
 	@EJB
 	private UsuarioSvcLocal usuarioSvcLocal;
@@ -50,38 +61,7 @@ public class UsuarioAction extends AbstractManagedBean {
 	public void destroy() {
 		logger.info("[UsuarioAction.destroy] " + this.toString());
 	}
-	
-	public String getSenhaAtual() {
-		return senhaAtual;
-	}
 
-	public void setSenhaAtual(String senhaAtual) {
-		this.senhaAtual = senhaAtual;
-	}
-
-	public String getNovaSenha1() {
-		return novaSenha1;
-	}
-
-	public void setNovaSenha1(String novaSenha1) {
-		this.novaSenha1 = novaSenha1;
-	}
-
-	public String getNovaSenha2() {
-		return novaSenha2;
-	}
-
-	public void setNovaSenha2(String novaSenha2) {
-		this.novaSenha2 = novaSenha2;
-	}
-	
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 
 	public DominioAtivoInativo[] getListaStatus() {
 		return DominioAtivoInativo.values();
@@ -121,7 +101,7 @@ public class UsuarioAction extends AbstractManagedBean {
 			setUsuario(new Usuario());
 			return "pretty:usermessage";
 		} catch(Exception e){
-			e.printStackTrace();
+			log.error(e.getMessage());
 			incluirError(e.getMessage());
 		}
 		return "pretty:";
@@ -135,18 +115,19 @@ public class UsuarioAction extends AbstractManagedBean {
 				incluirInfo("Usuário incluído com sucesso.");
 				setUsuario(new Usuario());
 			} catch(Exception e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 				incluirError("Erro ao incluir usuário.", e.getMessage());
 			}
 			return "pretty:";
 		} else if(isAlterar()) {
 			try {			
-				usuarioSvcLocal.saveOrUpdate(this.usuario);			
+				usuarioSvcLocal.saveOrUpdate(this.usuario);
+				usuarioEvent.fire(new UsuarioEvent(usuario));
 				incluirInfo("Usuário alterado com sucesso.");
 				setUsuario(new Usuario());
 				return "pretty:userPesquisa";
 			} catch(Exception e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 				incluirError("Erro ao alterar usuário.", e.getMessage());
 			}
 		}
@@ -160,7 +141,8 @@ public class UsuarioAction extends AbstractManagedBean {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void notifyUsuarioEvent(@Observes UsuarioEvent event) {
+		logger.info("[UsuarioAction.notifyUsuarioEvent] " + event.getUsuario().getEmail());
 	}
 }
+

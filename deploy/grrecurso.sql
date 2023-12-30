@@ -364,7 +364,7 @@ INSERT INTO `usuario` (`id_usuario`, `data_login`, `email`, `nome`, `senha`, `st
 -- Table structure for table `usuario_aud`
 --
 
-CREATE TABLE IF NOT EXISTS `usuario_aud` (
+CREATE TABLE IF NOT EXISTS `usuario_AUD` (
   `id_usuario` bigint(20) NOT NULL,
   `REV` int(11) NOT NULL,
   `REVTYPE` tinyint(4) DEFAULT NULL,
