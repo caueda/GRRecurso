@@ -6,4 +6,7 @@
     <alternatives>
         <class>br.com.grrecurso.managed.publico.GreetingImpl2</class>
     </alternatives>
+    <decorators>
+        <class>br.com.grrecurso.managed.publico.GreetingDecorator</class>
+    </decorators>
 </beans>

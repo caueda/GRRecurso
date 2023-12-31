@@ -5,6 +5,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,6 +23,8 @@ import br.com.grrecurso.service.login.UsuarioSvcLocal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.security.Principal;
 
 @Named
 @URLBeanName(value="usuarioAction")
@@ -46,6 +49,8 @@ public class UsuarioAction extends AbstractManagedBean {
 	private String novaSenha2;
 	private Long idUsuario;
 
+	protected Principal principal;
+
 	@Inject
 	private Event<UsuarioEvent> usuarioEvent;
 	
@@ -54,6 +59,8 @@ public class UsuarioAction extends AbstractManagedBean {
 	
 	@PostConstruct
 	public void init() {
+		this.principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+		logger.info("Principal " + principal.getName());
 		logger.info("[UsuarioAction.init] " + this.toString());
 	}
 	

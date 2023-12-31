@@ -1,6 +1,7 @@
 package br.com.grrecurso.core.managed;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Conversation;
